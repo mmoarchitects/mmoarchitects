@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MMO ARCHITECTS — PROJECTS TEST PROTOTYPE</title>
+    <title>MMO ARCHITECTS — PROJECTS</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Pretendard', sans-serif; }
         body { background-color: #F5F4F0; color: #1a1a1a; overflow-x: hidden; min-height: 100vh; -webkit-font-smoothing: antialiased; }
@@ -124,13 +124,66 @@
         .croquis-lead-paragraph { font-size: 0.95rem; line-height: 1.75; color: #1a1a1a; text-align: justify; font-weight: 400; margin-bottom: 2rem; }
         .croquis-essay-paragraph { font-size: 0.85rem; line-height: 1.75; color: #666460; text-align: justify; font-weight: 300; }
         .croquis-issue-number { font-size: 9px; letter-spacing: 0.2em; color: #aaa; font-weight: 500; text-transform: uppercase; text-align: left; }
-        .detail-right-scroll { width: 65%; height: 100vh; overflow-y: auto; padding: 6rem 6.5% 12rem 0; box-sizing: border-box; scrollbar-gutter: stable; }
-        .croquis-gallery-stream { display: flex; flex-direction: column; gap: 140px; width: 100%; text-align: left; }
-        .croquis-media-block { width: 100%; display: flex; flex-direction: column; }
-        .croquis-image-frame { width: 100%; overflow: hidden; background-color: #e6e5df; aspect-ratio: 16/10; display: flex; align-items: center; justify-content: center; color: #999; font-size: 0.75rem; letter-spacing: 0.05em; }
-        .croquis-caption { font-size: 10px; color: #8c8a85; letter-spacing: 0.02em; margin-top: 14px; font-weight: 500; line-height: 1.5; }
-        .croquis-media-block.blueprint-style .croquis-image-frame { background-color: #f5f4f0; mix-blend-mode: multiply; border: 1px dashed #c4c2ba;}
-        .croquis-media-block.narrow-focus { max-width: 80%; margin-left: auto; }
+        /* [우측 65% 영역]: 주석과 이미지가 유기적으로 교차하는 매거진 독립 스크롤 트랙 */
+        .detail-right-scroll { 
+            width: 65%; 
+            height: 100vh; 
+            overflow-y: auto; 
+            padding: 6rem 6.5% 12rem 0; 
+            box-sizing: border-box; 
+            scrollbar-gutter: stable; 
+        }
+
+        .croquis-gallery-stream { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 140px; 
+            width: 100%; 
+        }
+
+        .croquis-media-block { 
+            width: 100%; 
+            display: flex; 
+            flex-direction: column; 
+        }
+
+        .croquis-image-frame { 
+            width: 100%; 
+            overflow: hidden; 
+            background-color: #e6e5df; 
+        }
+
+        .croquis-image-frame img { 
+            width: 100%; 
+            height: auto; 
+            display: block; 
+        }
+
+        .croquis-caption { 
+            font-size: 10px; 
+            color: #8c8a85; 
+            letter-spacing: 0.02em; 
+            margin-top: 14px; 
+            font-weight: 500; 
+            line-height: 1.5; 
+            text-align: left;
+        }
+
+        .croquis-media-block.blueprint-style .croquis-image-frame { 
+            background-color: #f5f4f0; 
+            mix-blend-mode: multiply; 
+        }
+
+        .croquis-media-block.blueprint-style .croquis-image-frame img { 
+            opacity: 0.85; 
+            border: 1px dashed #c4c2ba; 
+            padding: 30px; 
+        }
+
+        .croquis-media-block.narrow-focus { 
+            max-width: 80%; 
+            margin-left: auto; 
+        }
 
         /* 엘 크로키 프로젝트 교체 시 트랜지션 모션 */
         .detail-left-fixed, .detail-right-scroll {
@@ -143,6 +196,12 @@
         .project-detail-layer.switching-project .detail-right-scroll {
             opacity: 0;
             transform: translateY(30px);
+        }
+
+        /* GNB 스크롤 앵커 여백 보정 */
+        .project-card {
+            scroll-margin-top: 120px;
+            scroll-behavior: smooth;
         }
 
         /* FOOTER */
@@ -219,18 +278,7 @@
         </aside>
         <section class="detail-right-scroll" id="detailRightScroll">
             <div class="croquis-gallery-stream">
-                <div class="croquis-media-block">
-                    <div class="croquis-image-frame" style="aspect-ratio: 16/10; overflow:hidden;">
-                        <img id="detailImg" src="" style="width:100%; height:100%; object-fit:cover;">
-                    </div>
-                    <span class="croquis-caption">Fig 1. Architectural Cut - Site Context and Exterior Texture.</span>
-                </div>
-                <div class="croquis-media-block blueprint-style">
-                    <div class="croquis-image-frame" style="aspect-ratio: 16/10; overflow:hidden; background-color: #f5f4f0; mix-blend-mode: multiply; border: 1px dashed #c4c2ba; padding: 10px;">
-                        <img id="detailBlue" src="" style="width:100%; height:100%; object-fit:contain;">
-                    </div>
-                    <span class="croquis-caption">Drawing 1. Ground Floor Plan - Spatial sequence.</span>
-                </div>
+                <!-- Dynamically Build by JS -->
             </div>
         </section>
     </div>
@@ -366,11 +414,16 @@
                         });
                     });
 
-                    // Check URL parameter to jump directly to a project details modal
+                    // Check URL parameter to scroll directly to the target project card without opening the detail modal
                     const urlParams = new URLSearchParams(window.location.search);
                     const targetId = urlParams.get("id");
                     if (targetId) {
-                        openProjectDetail(targetId);
+                        setTimeout(() => {
+                            const targetCard = Array.from(document.querySelectorAll(".project-card")).find(c => c.getAttribute("data-id") === targetId);
+                            if (targetCard) {
+                                targetCard.scrollIntoView({ behavior: "smooth", block: "center" });
+                            }
+                        }, 300); // 돔이 가라앉고 레이아웃이 연산될 시간적 여백을 줌
                     }
 
                 } catch (error) {
@@ -389,8 +442,44 @@
                 detailTags.innerText = proj.category.toUpperCase();
                 detailDescription.innerText = proj.monograph || proj.description;
 
-                document.getElementById("detailImg").src = getAssetPath(proj.image || proj.thumbnail);
-                document.getElementById("detailBlue").src = getAssetPath(proj.blueprint);
+                const galleryStream = scrollTrack.querySelector(".croquis-gallery-stream");
+                const mainImg = getAssetPath(proj.image || proj.thumbnail);
+                const blueprintImg = getAssetPath(proj.blueprint);
+
+                // 제공받은 4단 매거진 레이아웃 마크업 동적 빌드
+                galleryStream.innerHTML = `
+                    <!-- 타입 A. 전면 와이드 시네마틱 컷 -->
+                    <div class="croquis-media-block">
+                        <div class="croquis-image-frame">
+                            <img src="${mainImg}" alt="${proj.title} Exterior Overview">
+                        </div>
+                        <span class="croquis-caption">Fig 1. Architectural Cut - Site Context and Exterior Concrete Texture.</span>
+                    </div>
+
+                    <!-- 타입 B. 정밀 설계 도면 전용 슬롯 (Multiply 그래픽 합성 모드 적용) -->
+                    <div class="croquis-media-block blueprint-style">
+                        <div class="croquis-image-frame">
+                            <img src="${blueprintImg}" alt="${proj.title} Floor Plan Section">
+                        </div>
+                        <span class="croquis-caption">Drawing 1. Ground Floor Plan - Spatial sequence and Circulation flow.</span>
+                    </div>
+
+                    <!-- 타입 C. 잡지식 인쇄물 레이아웃 느낌의 여백 강조형 좁은 컷 -->
+                    <div class="croquis-media-block narrow-focus">
+                        <div class="croquis-image-frame">
+                            <img src="${mainImg}" alt="${proj.title} Interior Detail">
+                        </div>
+                        <span class="croquis-caption">Fig 2. Interior Detail - Material transition between timber and raw mortar.</span>
+                    </div>
+
+                    <!-- 타입 A 반복. 빛과 음영 연구 일반 컷 -->
+                    <div class="croquis-media-block">
+                        <div class="croquis-image-frame">
+                            <img src="${blueprintImg}" alt="${proj.title} Shadow Flow">
+                        </div>
+                        <span class="croquis-caption">Fig 3. Light Study - Progression of afternoon shadow through the central void corridor.</span>
+                    </div>
+                `;
 
                 detailLayer.classList.add("is-active");
                 body.classList.add("modal-open");
@@ -451,21 +540,9 @@
                     const nextProj = projectsList[nextIndex];
 
                     // 3. Reset scroll and update dynamic values
-                    scrollTrack.scrollTop = 0;
-                    detailLayer.setAttribute("data-current-id", nextProj.id);
-                    detailTitle.innerText = nextProj.title;
-                    detailYear.innerText = nextProj.year;
-                    detailTags.innerText = nextProj.category.toUpperCase();
-                    detailDescription.innerText = nextProj.monograph || nextProj.description;
+                    openProjectDetail(nextProj.id);
 
-                    document.getElementById("detailImg").src = getAssetPath(nextProj.image || nextProj.thumbnail);
-                    document.getElementById("detailBlue").src = getAssetPath(nextProj.blueprint);
-
-                    // 4. Update history URL
-                    const newUrl = `${window.location.pathname}?id=${nextProj.id}`;
-                    window.history.replaceState({ id: nextProj.id }, "", newUrl);
-
-                    // 5. Fade back in
+                    // 4. Fade back in
                     setTimeout(() => {
                         detailLayer.classList.remove("switching-project");
                         
@@ -480,12 +557,21 @@
             fetchAndBuild();
 
             closeBtn.addEventListener("click", () => {
+                const currentId = detailLayer.getAttribute("data-current-id");
                 detailLayer.classList.remove("is-active");
                 body.classList.remove("modal-open");
                 
                 // Clear URL parameters on exit
                 const newUrl = window.location.pathname;
                 window.history.replaceState({}, "", newUrl);
+
+                // scroll back to the active card
+                if (currentId) {
+                    const targetCard = Array.from(document.querySelectorAll(".project-card")).find(c => c.getAttribute("data-id") === currentId);
+                    if (targetCard) {
+                        targetCard.scrollIntoView({ behavior: "smooth", block: "center" });
+                    }
+                }
             });
 
             // FILTER
