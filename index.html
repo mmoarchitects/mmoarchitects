@@ -126,13 +126,12 @@
             transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1); cursor: pointer;
         }
         .poetic-scroll-link:hover { color: #666; border-bottom: 1px solid #666; padding-right: 0.5rem; }
-
+        
         /* [SECTION 2] PHILOSOPHY & INTEGRATED DISCIPLINE BAR */
-        .philosophy-summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6%; padding-left: 0.5rem; }
+        .philosophy-summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; padding-left: 0.5rem; }
         .mmo-core-card { display: flex; flex-direction: column; }
         .mmo-core-card h3 { font-size: 1.5rem; font-weight: 500; margin-bottom: 1.2rem; letter-spacing: 0.02em; }
-        .mmo-core-card p { font-size: 0.9rem; color: #555; text-align: justify; line-height: 1.65; }
-
+        .mmo-core-card p { font-size: 0.9rem; color: #555; text-align: justify; line-height: 1.65; word-break: keep-all; }
         .integrated-services-bar {
             grid-column: span 3; 
             border-top: 1px solid #e5e4e0; 
@@ -217,15 +216,42 @@
         .mmo-footer { background-color: #F5F4F0; padding: 10rem 3rem 4rem 3rem; max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1.51fr 1fr; gap: 4rem; border-top: 1px solid #e5e4e0; }
 
         /* RESPONSIVE CONTROL */
+        @media (max-width: 1200px) {
+            .philosophy-summary-grid { grid-template-columns: 1fr; }
+            .integrated-services-bar { grid-column: span 1; }
+        }
         @media (max-width: 1100px) {
             section { padding-top: 8rem; }
-            .philosophy-summary-grid, .entropy-grid-track { grid-template-columns: 1fr; }
+            .entropy-grid-track { grid-template-columns: 1fr; }
             .integrated-services-bar { flex-direction: column; align-items: flex-start; gap: 1.5rem; padding: 1.5rem 1rem; margin-top: 2rem; }
             .service-tags-inline { flex-wrap: wrap; gap: 1rem 2rem; }
             .space-tight, .space-medium, .space-wide { margin-top: 0; }
             .project-card.colspan-2, .project-card.colspan-3 { grid-column: span 1 !important; }
             .grid-footer { grid-column: 1; justify-content: center; align-self: center; margin-top: 40px; }
             .mmo-footer { grid-template-columns: 1fr; padding: 6rem 4% 4rem 4%; }
+        }
+        @media (max-width: 768px) {
+            header {
+                padding: 1.5rem 2rem;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+            .logo {
+                order: 1;
+            }
+            .nav-right {
+                order: 2;
+                font-size: 0.65rem;
+            }
+            .nav-menu {
+                order: 3;
+                width: 100%;
+                position: static;
+                transform: none;
+                margin-top: 1.2rem;
+                justify-content: center;
+                gap: 1.8rem;
+            }
         }
     </style>
 </head>

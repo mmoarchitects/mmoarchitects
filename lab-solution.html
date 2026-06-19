@@ -101,6 +101,29 @@
             .solutions-split-container { grid-template-columns: 1fr; gap: 2rem; }
             .mmo-footer { grid-template-columns: 1fr; }
         }
+        @media (max-width: 768px) {
+            header {
+                padding: 1.5rem 2rem;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+            .logo {
+                order: 1;
+            }
+            .nav-right {
+                order: 2;
+                font-size: 0.65rem;
+            }
+            .nav-menu {
+                order: 3;
+                width: 100%;
+                position: static;
+                transform: none;
+                margin-top: 1.2rem;
+                justify-content: center;
+                gap: 1.8rem;
+            }
+        }
     </style>
 </head>
 <body>

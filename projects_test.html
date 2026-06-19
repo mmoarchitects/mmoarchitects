@@ -225,7 +225,30 @@
             .detail-right-scroll { width: 100%; height: auto; padding: 2rem 6% 6rem 6%; overflow-y: visible; }
             .mmo-footer { grid-template-columns: 1fr; padding: 6rem 4% 4rem 4%; }
         }
-        @media (max-width: 768px) { .grid-track { grid-template-columns: 1fr; row-gap: 80px; } }
+        @media (max-width: 768px) { 
+            .grid-track { grid-template-columns: 1fr; row-gap: 80px; } 
+            header {
+                padding: 1.5rem 2rem;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+            .logo {
+                order: 1;
+            }
+            .nav-right {
+                order: 2;
+                font-size: 0.65rem;
+            }
+            .nav-menu {
+                order: 3;
+                width: 100%;
+                position: static;
+                transform: none;
+                margin-top: 1.2rem;
+                justify-content: center;
+                gap: 1.8rem;
+            }
+        }
 
         /* 건축 개요 Spec 패널 스타일링 */
         .croquis-spec-panel {
