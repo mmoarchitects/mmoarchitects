@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MMO ARCHITECTS — PROJECTS TEST PROTOTYPE</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Pretendard', sans-serif; }
+        body { background-color: #F5F4F0; color: #1a1a1a; overflow-x: hidden; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+        body.modal-open { overflow: hidden; }
+        a { color: #000; text-decoration: none; }
+
+        header { position: fixed; top: 0; left: 0; width: 100%; padding: 2.5rem 3rem; display: flex; justify-content: space-between; align-items: center; background: rgba(245, 244, 240, 0.92); z-index: 1000; }
+        .logo { font-weight: bold; letter-spacing: 0.05em; font-size: 1.1rem; line-height: 1; }
+        .logo a { display: flex; align-items: center; line-height: 1; }
+        .nav-menu { display: flex; gap: 3rem; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); align-items: center; }
+        .nav-menu a { font-size: 0.85rem; letter-spacing: 0.1em; font-weight: 600; color: #888; display: flex; align-items: center; line-height: 1; }
+        .nav-menu a.active, .nav-menu a:hover { color: #000; }
+        .nav-right { font-size: 0.7rem; color: #ccc; letter-spacing: 0.1em; line-height: 1; display: flex; align-items: center; }
+
+        /* LNB HOVER SUBMENU STYLE */
+        .nav-item-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .nav-lab-link {
+            display: flex;
+            align-items: center;
+            line-height: 1;
+        }
+        .lnb-hover-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            display: flex;
+            gap: 1.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            white-space: nowrap;
+            padding-top: 1rem;
+            z-index: 1010;
+        }
+        .nav-item-wrapper:hover .lnb-hover-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+        .lnb-hover-item {
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+            color: #888 !important;
+            transition: color 0.3s;
+        }
+        .lnb-hover-item:hover, .lnb-hover-item.active {
+            color: #000 !important;
+        }
+
+        .portfolio-container { padding: 140px 4% 60px 4%; max-width: 1900px; margin: 0 auto; display: flex; position: relative; padding-left: 0; }
+
+        /* INVISIBLE BOOKMARK */
+        .filter-sidebar { width: 70px; height: 100vh; position: fixed; top: 0; left: 0; z-index: 990; background: transparent; display: flex; align-items: flex-start; padding-top: 140px; padding-left: 3rem; box-sizing: border-box; transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
+        .filter-sticky { opacity: 0; visibility: hidden; width: 140px; transition: opacity 0.4s ease, visibility 0.4s; }
+        .filter-sidebar:hover { width: 220px; }
+        .filter-sidebar:hover .filter-sticky { opacity: 1; visibility: visible; }
+        .filter-list { list-style: none; display: flex; flex-direction: column; gap: 22px; }
+        .filter-item { font-size: 10px; letter-spacing: 0.15em; color: #a3a19b; cursor: pointer; position: relative; padding-left: 18px; transition: color 0.4s ease; text-transform: uppercase; }
+        .filter-item::before { content: '—'; position: absolute; left: 0; color: #a3a19b; font-weight: 300; transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), color 0.4s ease; }
+        .filter-item:hover { color: #1a1a1a; }
+        .filter-item:hover::before { content: '>'; color: #1a1a1a; transform: translateX(2px); }
+        .filter-item.active { color: #1a1a1a; font-weight: 600; }
+        .filter-item.active::before { content: '>'; color: #1a1a1a; transform: translateX(2px); font-weight: 600; }
+
+        .masonry-infinite-wrapper { flex-grow: 1; margin-left: 70px; transition: margin-left 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
+        .filter-sidebar:hover + .masonry-infinite-wrapper { margin-left: 220px; }
+
+        /* ENTROPY GRID */
+        .grid-track { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-flow: dense; column-gap: 6%; row-gap: 180px; align-items: start; padding-bottom: 80px; }
+        #gridTrackClone { margin-top: 180px; }
+        .project-card { display: flex; flex-direction: column; box-sizing: border-box; transition: opacity 0.4s ease; cursor: pointer; }
+        .project-card.is-hidden { display: none !important; }
+        
+        .thumbnail-wrapper { width: 100%; overflow: hidden; background-color: #e6e5e0; margin-bottom: 24px; position: relative; }
+        .thumbnail-wrapper .placeholder-img { width: 100%; height: 100%; background-color: #dfded9; filter: grayscale(85%); opacity: 0.85; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), filter 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1); background-size: cover; background-position: center; }
+        .thumbnail-wrapper .blueprint-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #d0cfc9; display: flex; align-items: center; justify-content: center; color: #666; font-size: 0.75rem; border: 1px dashed #999; opacity: 0; transition: opacity 0.55s cubic-bezier(0.25, 1, 0.5, 1); z-index: 2; }
+        .project-card:hover .placeholder-img { transform: scale(1.02); filter: grayscale(0%); opacity: 1; }
+        .project-card:hover .blueprint-layer { opacity: 1; }
+
+        .size-standard .thumbnail-wrapper { aspect-ratio: 4/3; }
+        .size-tall .thumbnail-wrapper { aspect-ratio: 3/4; }
+        .size-square .thumbnail-wrapper { aspect-ratio: 1/1; }
+        .size-wide .thumbnail-wrapper { aspect-ratio: 16/10; }
+        .colspan-3 { grid-column: span 3 !important; }
+        .colspan-3 .thumbnail-wrapper { aspect-ratio: 21/9; }
+        .colspan-2 { grid-column: span 2; }
+        .colspan-2.size-wide .thumbnail-wrapper { aspect-ratio: 16/9; }
+
+        .space-tight { margin-top: -30px; padding: 0 2%; }
+        .space-medium { margin-top: 40px; padding: 0 4%; }
+        .space-wide { margin-top: 100px; padding: 0 6%; }
+
+        .project-metadata { display: flex; flex-direction: column; }
+        .meta-top-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+        .project-year { font-size: 10px; letter-spacing: 0.15em; color: #8c8a85; font-weight: 600; }
+        .project-tags { display: flex; gap: 8px; font-size: 9px; color: #a3a19b; letter-spacing: 0.05em; text-transform: uppercase; }
+        .project-title { font-size: 1.25rem; font-weight: 500; margin: 0 0 10px 0; letter-spacing: -0.02em; }
+        .project-summary { font-size: 0.9rem; line-height: 1.6; color: #666460; font-weight: 300; text-align: justify; }
+
+        /* EL CROQUIS OVERLAY */
+        .project-detail-layer { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #f5f4f0; z-index: 2000; display: flex; opacity: 0; visibility: hidden; transform: translateY(30px); transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.8s; }
+        .project-detail-layer.is-active { opacity: 1; visibility: visible; transform: translateY(0); }
+        .detail-left-fixed { width: 35%; height: 100vh; padding: 6rem 4% 4rem 4vw; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; }
+        .croquis-back-btn { background: none; border: none; font-size: 10px; letter-spacing: 0.15em; color: #1a1a1a; font-weight: 600; cursor: pointer; text-align: left; padding: 0; }
+        .croquis-back-btn:hover { color: #8c8a85; }
+        .detail-meta-wrapper { max-width: 360px; margin-top: 2rem; margin-bottom: auto; text-align: left; }
+        .croquis-meta-top { display: flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 600; color: #8c8a85; margin-bottom: 1.5rem; letter-spacing: 0.05em; }
+        .croquis-separator { font-weight: 300; color: #d1d0ca; }
+        .croquis-tags-inline { text-transform: uppercase; }
+        .croquis-main-title { font-size: 2.2rem; font-weight: 300; letter-spacing: -0.02em; line-height: 1.35; margin-bottom: 2.5rem; }
+        .croquis-divider-thin { width: 40px; height: 1px; background-color: #1a1a1a; margin-bottom: 2.5rem; }
+        .croquis-lead-paragraph { font-size: 0.95rem; line-height: 1.75; color: #1a1a1a; text-align: justify; font-weight: 400; margin-bottom: 2rem; }
+        .croquis-essay-paragraph { font-size: 0.85rem; line-height: 1.75; color: #666460; text-align: justify; font-weight: 300; }
+        .croquis-issue-number { font-size: 9px; letter-spacing: 0.2em; color: #aaa; font-weight: 500; text-transform: uppercase; text-align: left; }
+        .detail-right-scroll { width: 65%; height: 100vh; overflow-y: auto; padding: 6rem 6.5% 12rem 0; box-sizing: border-box; scrollbar-gutter: stable; }
+        .croquis-gallery-stream { display: flex; flex-direction: column; gap: 140px; width: 100%; text-align: left; }
+        .croquis-media-block { width: 100%; display: flex; flex-direction: column; }
+        .croquis-image-frame { width: 100%; overflow: hidden; background-color: #e6e5df; aspect-ratio: 16/10; display: flex; align-items: center; justify-content: center; color: #999; font-size: 0.75rem; letter-spacing: 0.05em; }
+        .croquis-caption { font-size: 10px; color: #8c8a85; letter-spacing: 0.02em; margin-top: 14px; font-weight: 500; line-height: 1.5; }
+        .croquis-media-block.blueprint-style .croquis-image-frame { background-color: #f5f4f0; mix-blend-mode: multiply; border: 1px dashed #c4c2ba;}
+        .croquis-media-block.narrow-focus { max-width: 80%; margin-left: auto; }
+
+        /* 엘 크로키 프로젝트 교체 시 트랜지션 모션 */
+        .detail-left-fixed, .detail-right-scroll {
+            transition: opacity 0.55s cubic-bezier(0.25, 1, 0.5, 1), transform 0.55s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .project-detail-layer.switching-project .detail-left-fixed {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+        .project-detail-layer.switching-project .detail-right-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        /* FOOTER */
+        .mmo-footer { background-color: #F5F4F0; padding: 10rem 4% 4rem 4%; max-width: 1900px; margin: 0 auto; display: grid; grid-template-columns: 1.51fr 1fr; gap: 4rem; border-top: 1px solid #e5e4e0; }
+
+        @media (max-width: 1100px) {
+            .portfolio-container { flex-direction: column; padding-top: 100px; padding-left: 4% !important; }
+            .filter-sidebar { width: 100% !important; position: relative; padding: 0; height: auto; margin-bottom: 50px; }
+            .filter-sticky { opacity: 1; visibility: visible; width: 100%; }
+            .filter-list { flex-direction: row; flex-wrap: wrap; gap: 20px; }
+            .filter-item::before { display: none; }
+            .filter-item { padding-left: 0; }
+            .masonry-infinite-wrapper { margin-left: 0 !important; }
+            .grid-track { grid-template-columns: repeat(2, 1fr); row-gap: 120px; }
+            .project-card.colspan-3, .project-card.colspan-2 { grid-column: span 1 !important; }
+            .space-tight, .space-medium, .space-wide { padding: 0; margin-top: 0; }
+            .project-detail-layer { flex-direction: column; overflow-y: auto; }
+            .detail-left-fixed { width: 100%; height: auto; padding: 4rem 6% 2rem 6%; }
+            .detail-right-scroll { width: 100%; height: auto; padding: 2rem 6% 6rem 6%; overflow-y: visible; }
+            .mmo-footer { grid-template-columns: 1fr; padding: 6rem 4% 4rem 4%; }
+        }
+        @media (max-width: 768px) { .grid-track { grid-template-columns: 1fr; row-gap: 80px; } }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo"><a href="/index.html">MMO ARCHITECTS</a></div>
+        <div class="nav-menu">
+            <a href="/projects.html" class="active">PROJECTS</a>
+            <div class="nav-item-wrapper">
+                <a href="/lab-modular.html" class="nav-lab-link">LAB — EDITIONS</a>
+                <div class="lnb-hover-menu">
+                    <a href="/lab-modular.html" class="lnb-hover-item">MODULAR</a>
+                    <a href="/lab-solution.html" class="lnb-hover-item">SOLUTION</a>
+                </div>
+            </div>
+            <a href="/about.html">ABOUT</a>
+        </div>
+        <div class="nav-right">SEOUL, KR</div>
+    </header>
+
+    <main class="portfolio-container">
+        <aside class="filter-sidebar">
+            <div class="filter-sticky">
+                <ul class="filter-list">
+                    <li class="filter-item active" data-filter="all">ALL</li>
+                    <li class="filter-item" data-filter="create">CREATE</li>
+                    <li class="filter-item" data-filter="value-up">VALUE-UP</li>
+                    <li class="filter-item" data-filter="brand">BRAND</li>
+                    <li class="filter-item" data-filter="research">RESEARCH</li>
+                    <li class="filter-item" data-filter="editions">EDITIONS</li>
+                </ul>
+            </div>
+        </aside>
+
+        <section class="masonry-infinite-wrapper" id="infiniteWrapper">
+            <div class="grid-track" id="gridTrack">
+                <!-- Dynamically Loaded by JS -->
+            </div>
+        </section>
+    </main>
+
+    <div class="project-detail-layer" id="projectDetailLayer" data-current-id="">
+        <aside class="detail-left-fixed">
+            <button class="croquis-back-btn" id="closeDetailBtn">← EXIT ARCHIVE</button>
+            <div class="detail-meta-wrapper">
+                <div class="croquis-meta-top"><span id="detailYear">—</span><span class="croquis-separator">/</span><div id="detailTags" class="croquis-tags-inline">—</div></div>
+                <h2 class="croquis-main-title" id="detailTitle">—</h2>
+                <div class="croquis-divider-thin"></div>
+                <p class="croquis-lead-paragraph" id="detailDescription">—</p>
+                <p class="croquis-essay-paragraph">설계의 시작점은 대지가 가진 비정형의 한계를 구조적 질서로 치환하는 것이었습니다. 우리는 형태적 기교를 배제하고, 재료 본연의 물성과 정교한 격자 비례의 반복을 통해 거주자의 시선을 내부 중정(Void)으로 침잠시킵니다.</p>
+            </div>
+            <div class="croquis-issue-number">MMO MONOGRAPH ARCHIVES</div>
+        </aside>
+        <section class="detail-right-scroll" id="detailRightScroll">
+            <div class="croquis-gallery-stream">
+                <div class="croquis-media-block">
+                    <div class="croquis-image-frame" style="aspect-ratio: 16/10; overflow:hidden;">
+                        <img id="detailImg" src="" style="width:100%; height:100%; object-fit:cover;">
+                    </div>
+                    <span class="croquis-caption">Fig 1. Architectural Cut - Site Context and Exterior Texture.</span>
+                </div>
+                <div class="croquis-media-block blueprint-style">
+                    <div class="croquis-image-frame" style="aspect-ratio: 16/10; overflow:hidden; background-color: #f5f4f0; mix-blend-mode: multiply; border: 1px dashed #c4c2ba; padding: 10px;">
+                        <img id="detailBlue" src="" style="width:100%; height:100%; object-fit:contain;">
+                    </div>
+                    <span class="croquis-caption">Drawing 1. Ground Floor Plan - Spatial sequence.</span>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="mmo-footer">
+        <div style="display: flex; flex-direction: column; gap: 1.2rem;">
+            <div>
+                <h4 style="font-size: 1.1rem; font-weight: bold; letter-spacing: 0.05em; margin-bottom: 1rem;">MMO ARCHITECTS</h4>
+                <p style="font-size: 0.9rem; color: #555; max-width: 480px; line-height: 1.7; word-break: keep-all;">엠엠오건축사사무소는 물질(Matter)과 방법론(Method)의 신도 있는 결합을 통해 공간의 최종적인 예술 질서(Order)를 확립합니다.</p>
+            </div>
+            <div style="font-size: 9px; color: #aaa; line-height: 1.6; letter-spacing: 0.02em; font-weight: 400;">
+                주식회사 엠엠오건축사사무소 <br>
+                서울특별시 강서구, 대한민국
+            </div>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 1.2rem; text-align: right;">
+            <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 0.8rem;">
+                <div style="font-size: 0.75rem; letter-spacing: 0.15em; color: #8c8a85; font-weight: 600; text-transform: uppercase;">Direct Contact</div>
+                <div style="font-size: 0.9rem; font-weight: 400; line-height: 1.6; display: flex; flex-direction: column; gap: 0.4rem; align-items: flex-end;">
+                    <a href="mailto:official@mmoarchitects.com" style="transition: color 0.4s;" onmouseover="this.style.color='#8c8a85'" onmouseout="this.style.color='#1a1a1a'">official@mmoarchitects.com</a>
+                    <a href="https://instagram.com/mmoarchitects" target="_blank" style="transition: color 0.4s;" onmouseover="this.style.color='#8c8a85'" onmouseout="this.style.color='#1a1a1a'">@mmoarchitects</a>
+                </div>
+            </div>
+            <div style="font-size: 9px; color: #888; letter-spacing: 0.02em;">
+                © 2026 MMO Architects. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            let projectsList = [];
+            const wrapper = document.getElementById("infiniteWrapper");
+            const track = document.getElementById("gridTrack");
+
+            const detailLayer = document.getElementById("projectDetailLayer");
+            const closeBtn = document.getElementById("closeDetailBtn");
+            const scrollTrack = document.getElementById("detailRightScroll");
+            const body = document.body;
+
+            const detailTitle = document.getElementById("detailTitle");
+            const detailYear = document.getElementById("detailYear");
+            const detailTags = document.getElementById("detailTags");
+            const detailDescription = document.getElementById("detailDescription");
+
+            const sizePresets = ["size-standard", "size-tall", "size-square", "size-wide"];
+            const spacePresets = ["space-tight", "space-medium", "space-wide"];
+
+            let isTransitioning = false;
+
+            // Helper to handle asset paths between local development server and Vercel
+            const getAssetPath = (path) => {
+                if (!path) return "";
+                if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+                    return path.startsWith("/public") ? path : "/public" + path;
+                }
+                return path;
+            };
+
+            // Fetch and build DOM dynamically
+            async function fetchAndBuild() {
+                try {
+                    const response = await fetch("/data/projects.json");
+                    projectsList = await response.json();
+                    
+                    let html = "";
+                    projectsList.forEach(proj => {
+                        html += `
+                            <article class="project-card" data-id="${proj.id}" data-tag="${proj.category}">
+                                <div class="thumbnail-wrapper">
+                                    <div class="placeholder-img" style="background-image: url('${getAssetPath(proj.image || proj.thumbnail)}');"></div>
+                                    <div class="blueprint-layer">[ BLUEPRINT ARCHIVE ]</div>
+                                </div>
+                                <div class="project-metadata">
+                                    <div class="meta-top-row">
+                                        <span class="project-year">${proj.year}</span>
+                                        <div class="project-tags">
+                                            <span class="tag-txt">${proj.category.toUpperCase()}</span>
+                                        </div>
+                                    </div>
+                                    <h3 class="project-title">${proj.title}</h3>
+                                    <p class="project-summary">${proj.description || proj.summary}</p>
+                                </div>
+                            </article>
+                        `;
+                    });
+                    track.innerHTML = html;
+
+                    // After inserting, apply layouts
+                    const cards = Array.from(track.querySelectorAll(".project-card"));
+                    const guaranteedSpan3Index = Math.floor(Math.random() * cards.length);
+                    let currentColumnSpace = 0;
+
+                    cards.forEach((card, index) => {
+                        if (index === guaranteedSpan3Index) {
+                            card.classList.add("colspan-3");
+                            currentColumnSpace = 0;
+                            return; 
+                        }
+                        const randomSize = sizePresets[Math.floor(Math.random() * sizePresets.length)];
+                        const randomSpace = spacePresets[Math.floor(Math.random() * spacePresets.length)];
+                        card.classList.add(randomSize, randomSpace);
+
+                        if (currentColumnSpace === 0 && Math.random() > 0.45 && index < cards.length - 1 && (index + 1 !== guaranteedSpan3Index)) {
+                            card.classList.add("colspan-2");
+                            card.classList.remove("size-tall", "size-standard");
+                            card.classList.add("size-wide");
+                            currentColumnSpace += 2;
+                        } else {
+                            currentColumnSpace += 1;
+                        }
+                        if (currentColumnSpace >= 3) { currentColumnSpace = 0; }
+                    });
+
+                    // Setup infinite loop track clone
+                    const cloneTrack = track.cloneNode(true);
+                    cloneTrack.id = "gridTrackClone";
+                    wrapper.appendChild(cloneTrack);
+
+                    let trackHeight = track.getBoundingClientRect().height;
+                    window.addEventListener("scroll", () => {
+                        const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+                        const rowGapOffset = 180;
+                        if (currentScroll >= (trackHeight + rowGapOffset)) { window.scrollTo(0, currentScroll - (trackHeight + rowGapOffset)); } 
+                        else if (currentScroll <= 0) { window.scrollTo(0, (trackHeight + rowGapOffset) + currentScroll); }
+                    });
+
+                    // Re-bind click for dynamic detailed modal overlay
+                    document.querySelectorAll(".project-card").forEach(card => {
+                        card.addEventListener("click", () => {
+                            const projId = card.getAttribute("data-id");
+                            openProjectDetail(projId);
+                        });
+                    });
+
+                    // Check URL parameter to jump directly to a project details modal
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const targetId = urlParams.get("id");
+                    if (targetId) {
+                        openProjectDetail(targetId);
+                    }
+
+                } catch (error) {
+                    console.error("Failed to fetch projects database:", error);
+                }
+            }
+
+            function openProjectDetail(projId) {
+                const proj = projectsList.find(p => p.id === projId);
+                if (!proj) return;
+
+                scrollTrack.scrollTop = 0; // Reset scroll position
+                detailLayer.setAttribute("data-current-id", proj.id);
+                detailTitle.innerText = proj.title;
+                detailYear.innerText = proj.year;
+                detailTags.innerText = proj.category.toUpperCase();
+                detailDescription.innerText = proj.monograph || proj.description;
+
+                document.getElementById("detailImg").src = getAssetPath(proj.image || proj.thumbnail);
+                document.getElementById("detailBlue").src = getAssetPath(proj.blueprint);
+
+                detailLayer.classList.add("is-active");
+                body.classList.add("modal-open");
+
+                // Update URL parameter
+                const newUrl = `${window.location.pathname}?id=${proj.id}`;
+                window.history.replaceState({ id: proj.id }, "", newUrl);
+            }
+
+            // AUTO-TRANSITION TO NEXT PROJECT ON WHEEL PAST BOTTOM
+            scrollTrack.addEventListener("wheel", (e) => {
+                if (isTransitioning) return;
+
+                // Check if scroll has hit the bottom
+                const isAtBottom = scrollTrack.scrollHeight - scrollTrack.scrollTop <= scrollTrack.clientHeight + 5;
+                
+                // If at bottom and scrolling down (deltaY > 0)
+                if (isAtBottom && e.deltaY > 0) {
+                    e.preventDefault();
+                    triggerNextProject();
+                }
+            });
+
+            // Touch support for mobile scroll past bottom
+            let touchStartY = 0;
+            scrollTrack.addEventListener("touchstart", (e) => {
+                touchStartY = e.touches[0].clientY;
+            }, { passive: true });
+
+            scrollTrack.addEventListener("touchmove", (e) => {
+                if (isTransitioning) return;
+                const touchEndY = e.touches[0].clientY;
+                const isAtBottom = scrollTrack.scrollHeight - scrollTrack.scrollTop <= scrollTrack.clientHeight + 5;
+
+                if (isAtBottom && (touchStartY - touchEndY) > 30) { // Swipe up (scroll down)
+                    triggerNextProject();
+                }
+            });
+
+            function triggerNextProject() {
+                if (isTransitioning) return;
+                isTransitioning = true;
+
+                // 1. Fade out and drop down animation
+                detailLayer.classList.add("switching-project");
+
+                setTimeout(() => {
+                    const currentId = detailLayer.getAttribute("data-current-id");
+                    const currentIndex = projectsList.findIndex(p => p.id === currentId);
+                    if (currentIndex === -1) {
+                        isTransitioning = false;
+                        detailLayer.classList.remove("switching-project");
+                        return;
+                    }
+
+                    // 2. Select next project (loop to start if at end)
+                    const nextIndex = (currentIndex + 1) % projectsList.length;
+                    const nextProj = projectsList[nextIndex];
+
+                    // 3. Reset scroll and update dynamic values
+                    scrollTrack.scrollTop = 0;
+                    detailLayer.setAttribute("data-current-id", nextProj.id);
+                    detailTitle.innerText = nextProj.title;
+                    detailYear.innerText = nextProj.year;
+                    detailTags.innerText = nextProj.category.toUpperCase();
+                    detailDescription.innerText = nextProj.monograph || nextProj.description;
+
+                    document.getElementById("detailImg").src = getAssetPath(nextProj.image || nextProj.thumbnail);
+                    document.getElementById("detailBlue").src = getAssetPath(nextProj.blueprint);
+
+                    // 4. Update history URL
+                    const newUrl = `${window.location.pathname}?id=${nextProj.id}`;
+                    window.history.replaceState({ id: nextProj.id }, "", newUrl);
+
+                    // 5. Fade back in
+                    setTimeout(() => {
+                        detailLayer.classList.remove("switching-project");
+                        
+                        // Prevent scroll events from triggering multiple changes rapidly
+                        setTimeout(() => {
+                            isTransitioning = false;
+                        }, 500);
+                    }, 50);
+                }, 550); // Matches the transition duration (0.55s)
+            }
+
+            fetchAndBuild();
+
+            closeBtn.addEventListener("click", () => {
+                detailLayer.classList.remove("is-active");
+                body.classList.remove("modal-open");
+                
+                // Clear URL parameters on exit
+                const newUrl = window.location.pathname;
+                window.history.replaceState({}, "", newUrl);
+            });
+
+            // FILTER
+            const filterItems = document.querySelectorAll(".filter-item");
+            filterItems.forEach(item => {
+                item.addEventListener("click", () => {
+                    filterItems.forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+                    const filterValue = item.getAttribute("data-filter");
+                    const allCards = document.querySelectorAll(".project-card");
+                    
+                    allCards.forEach(card => {
+                        if (filterValue === "all" || card.getAttribute("data-tag") === filterValue) { card.classList.remove("is-hidden"); } 
+                        else { card.classList.add("is-hidden"); }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
