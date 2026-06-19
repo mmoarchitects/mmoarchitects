@@ -581,12 +581,13 @@
                             `;
                         }
                     }
-                    // Photo 크레딧 추가
-                    if (proj.photo) {
+                    // 사진작가 크레딧 추가
+                    const photoCredit = proj.사진 || proj.photo;
+                    if (photoCredit) {
                         specHtml += `
                             <div class="spec-row" style="border-bottom: none; padding-bottom: 0;">
-                                <span class="spec-label">PHOTO</span>
-                                <span class="spec-value">${proj.photo}</span>
+                                <span class="spec-label">사진</span>
+                                <span class="spec-value">${photoCredit}</span>
                             </div>
                         `;
                     }
