@@ -337,10 +337,11 @@
             // 프로젝트 번호(ID) 폴더 경로 자동 조합 헬퍼
             const getProjectAssetPath = (projId, fileName) => {
                 if (!fileName) return "";
-                if (fileName.startsWith("/") || fileName.startsWith("http")) {
-                    return getAssetPath(fileName);
+                const normalizedFileName = fileName.normalize('NFC');
+                if (normalizedFileName.startsWith("/") || normalizedFileName.startsWith("http")) {
+                    return getAssetPath(normalizedFileName);
                 }
-                return getAssetPath(`/assets/projects/${projId}/${fileName}`);
+                return getAssetPath(`/assets/projects/${projId}/${normalizedFileName}`);
             };
 
             async function fetchAndBuildMain() {

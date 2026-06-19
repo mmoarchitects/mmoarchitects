@@ -116,7 +116,7 @@
         /* EL CROQUIS OVERLAY */
         .project-detail-layer { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #f5f4f0; z-index: 2000; display: flex; opacity: 0; visibility: hidden; transform: translateY(30px); transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.8s; }
         .project-detail-layer.is-active { opacity: 1; visibility: visible; transform: translateY(0); }
-        .detail-left-fixed { width: 35%; height: 100vh; padding: 6rem 4% 4rem 4vw; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; }
+        .detail-left-fixed { width: 35%; height: 100vh; padding: 6rem 4% 4rem 4vw; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; overflow-y: auto; }
         .croquis-back-btn { background: none; border: none; font-size: 10px; letter-spacing: 0.15em; color: #1a1a1a; font-weight: 600; cursor: pointer; text-align: left; padding: 0; }
         .croquis-back-btn:hover { color: #8c8a85; }
         .detail-meta-wrapper { max-width: 360px; margin-top: 2rem; margin-bottom: auto; text-align: left; }
@@ -366,10 +366,11 @@
             // 프로젝트 번호(ID) 폴더 경로 자동 조합 헬퍼
             const getProjectAssetPath = (projId, fileName) => {
                 if (!fileName) return "";
-                if (fileName.startsWith("/") || fileName.startsWith("http")) {
-                    return getAssetPath(fileName);
+                const normalizedFileName = fileName.normalize('NFC');
+                if (normalizedFileName.startsWith("/") || normalizedFileName.startsWith("http")) {
+                    return getAssetPath(normalizedFileName);
                 }
-                return getAssetPath(`/assets/projects/${projId}/${fileName}`);
+                return getAssetPath(`/assets/projects/${projId}/${normalizedFileName}`);
             };
 
             // 파일명(확장자 제외)으로부터 한글 자소분리 및 URL인코딩을 방어하여 각주 자동 복원
@@ -633,22 +634,49 @@
                 window.history.replaceState({ id: proj.id }, "", newUrl);
             }
 
-            // AUTO-TRANSITION TO NEXT PROJECT ON WHEEL PAST BOTTOM
+            // AUTO-TRANSITION TO NEXT/PREV PROJECT ON WHEEL PAST BOTTOM/TOP
+            let topScrollLocked = false;
+            let topScrollLockedTime = 0;
+
             scrollTrack.addEventListener("wheel", (e) => {
                 if (isTransitioning) return;
 
-                // Check if scroll has hit the bottom
+                // Check if scroll has hit the bottom or top
                 const isAtBottom = scrollTrack.scrollHeight - scrollTrack.scrollTop <= scrollTrack.clientHeight + 5;
+                const isAtTop = scrollTrack.scrollTop <= 2;
                 
                 // If at bottom and scrolling down (deltaY > 0)
                 if (isAtBottom && e.deltaY > 0) {
                     e.preventDefault();
                     triggerNextProject();
+                    topScrollLocked = false;
+                }
+                // If at top and scrolling up (deltaY < 0)
+                else if (isAtTop && e.deltaY < 0) {
+                    if (!topScrollLocked) {
+                        topScrollLocked = true;
+                        topScrollLockedTime = Date.now();
+                        e.preventDefault();
+                    } else {
+                        // If locked and user scrolls up again after 800ms
+                        if (Date.now() - topScrollLockedTime > 800) {
+                            e.preventDefault();
+                            triggerPrevProject();
+                            topScrollLocked = false;
+                        } else {
+                            e.preventDefault();
+                        }
+                    }
+                } else {
+                    topScrollLocked = false;
                 }
             });
 
-            // Touch support for mobile scroll past bottom
+            // Touch support for mobile scroll past bottom & top
             let touchStartY = 0;
+            let topTouchLocked = false;
+            let topTouchLockedTime = 0;
+
             scrollTrack.addEventListener("touchstart", (e) => {
                 touchStartY = e.touches[0].clientY;
             }, { passive: true });
@@ -657,9 +685,25 @@
                 if (isTransitioning) return;
                 const touchEndY = e.touches[0].clientY;
                 const isAtBottom = scrollTrack.scrollHeight - scrollTrack.scrollTop <= scrollTrack.clientHeight + 5;
+                const isAtTop = scrollTrack.scrollTop <= 2;
+                const swipeDiff = touchStartY - touchEndY;
 
-                if (isAtBottom && (touchStartY - touchEndY) > 30) { // Swipe up (scroll down)
+                if (isAtBottom && swipeDiff > 30) { // Swipe up (scroll down)
                     triggerNextProject();
+                    topTouchLocked = false;
+                }
+                else if (isAtTop && swipeDiff < -30) { // Swipe down (scroll up)
+                    if (!topTouchLocked) {
+                        topTouchLocked = true;
+                        topTouchLockedTime = Date.now();
+                    } else {
+                        if (Date.now() - topTouchLockedTime > 800) {
+                            triggerPrevProject();
+                            topTouchLocked = false;
+                        }
+                    }
+                } else if (Math.abs(swipeDiff) > 5) {
+                    topTouchLocked = false;
                 }
             });
 
@@ -685,6 +729,41 @@
 
                     // 3. Reset scroll and update dynamic values
                     openProjectDetail(nextProj.id);
+
+                    // 4. Fade back in
+                    setTimeout(() => {
+                        detailLayer.classList.remove("switching-project");
+                        
+                        // Prevent scroll events from triggering multiple changes rapidly
+                        setTimeout(() => {
+                            isTransitioning = false;
+                        }, 500);
+                    }, 50);
+                }, 550); // Matches the transition duration (0.55s)
+            }
+
+            function triggerPrevProject() {
+                if (isTransitioning) return;
+                isTransitioning = true;
+
+                // 1. Fade out and drop down animation
+                detailLayer.classList.add("switching-project");
+
+                setTimeout(() => {
+                    const currentId = detailLayer.getAttribute("data-current-id");
+                    const currentIndex = projectsList.findIndex(p => p.id === currentId);
+                    if (currentIndex === -1) {
+                        isTransitioning = false;
+                        detailLayer.classList.remove("switching-project");
+                        return;
+                    }
+
+                    // 2. Select prev project (loop to end if at start)
+                    const prevIndex = (currentIndex - 1 + projectsList.length) % projectsList.length;
+                    const prevProj = projectsList[prevIndex];
+
+                    // 3. Reset scroll and update dynamic values
+                    openProjectDetail(prevProj.id);
 
                     // 4. Fade back in
                     setTimeout(() => {
