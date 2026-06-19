@@ -367,10 +367,7 @@
             // Helper to handle asset paths between local development server and Vercel
             const getAssetPath = (path) => {
                 if (!path) return "";
-                if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
-                    return path.startsWith("/public") ? path : "/public" + path;
-                }
-                return path;
+                return path.startsWith("/public") ? path : "/public" + path;
             };
 
             // 프로젝트 번호(ID) 폴더 경로 자동 조합 헬퍼
