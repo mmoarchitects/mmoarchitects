@@ -224,6 +224,34 @@
             .mmo-footer { grid-template-columns: 1fr; padding: 6rem 4% 4rem 4%; }
         }
         @media (max-width: 768px) { .grid-track { grid-template-columns: 1fr; row-gap: 80px; } }
+
+        /* 건축 개요 Spec 패널 스타일링 */
+        .croquis-spec-panel {
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border-top: 1px solid #e5e4e0;
+            padding-top: 1.5rem;
+            font-size: 11px;
+            color: #666;
+        }
+        .spec-row {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed #e6e5df;
+            padding-bottom: 5px;
+        }
+        .spec-label {
+            font-weight: 600;
+            color: #8c8a85;
+            letter-spacing: 0.05em;
+        }
+        .spec-value {
+            color: #1a1a1a;
+            text-align: right;
+            font-weight: 400;
+        }
     </style>
 </head>
 <body>
@@ -246,13 +274,8 @@
     <main class="portfolio-container">
         <aside class="filter-sidebar">
             <div class="filter-sticky">
-                <ul class="filter-list">
+                <ul class="filter-list" id="filterList">
                     <li class="filter-item active" data-filter="all">ALL</li>
-                    <li class="filter-item" data-filter="create">CREATE</li>
-                    <li class="filter-item" data-filter="value-up">VALUE-UP</li>
-                    <li class="filter-item" data-filter="brand">BRAND</li>
-                    <li class="filter-item" data-filter="research">RESEARCH</li>
-                    <li class="filter-item" data-filter="editions">EDITIONS</li>
                 </ul>
             </div>
         </aside>
@@ -271,9 +294,10 @@
                 <div class="croquis-meta-top"><span id="detailYear">—</span><span class="croquis-separator">/</span><div id="detailTags" class="croquis-tags-inline">—</div></div>
                 <h2 class="croquis-main-title" id="detailTitle">—</h2>
                 <div class="croquis-divider-thin"></div>
-                <p class="croquis-lead-paragraph" id="detailDescription">—</p>
-                <p class="croquis-essay-paragraph">설계의 시작점은 대지가 가진 비정형의 한계를 구조적 질서로 치환하는 것이었습니다. 우리는 형태적 기교를 배제하고, 재료 본연의 물성과 정교한 격자 비례의 반복을 통해 거주자의 시선을 내부 중정(Void)으로 침잠시킵니다.</p>
+                <div class="croquis-spec-panel" id="detailSpecPanel"></div>
+                <p class="croquis-lead-paragraph" id="detailDescription" style="margin-top: 2rem;">—</p>
             </div>
+            <div id="detailAnnotation" style="font-size: 10px; color: #a3a19b; margin-top: auto; margin-bottom: 1.5rem; line-height: 1.6; word-break: keep-all; display: none;"></div>
             <div class="croquis-issue-number">MMO MONOGRAPH ARCHIVES</div>
         </aside>
         <section class="detail-right-scroll" id="detailRightScroll">
@@ -338,29 +362,95 @@
                 return path;
             };
 
+            // 프로젝트 번호(ID) 폴더 경로 자동 조합 헬퍼
+            const getProjectAssetPath = (projId, fileName) => {
+                if (!fileName) return "";
+                if (fileName.startsWith("/") || fileName.startsWith("http")) {
+                    return getAssetPath(fileName);
+                }
+                return getAssetPath(`/assets/projects/${projId}/${fileName}`);
+            };
+
+            // 파일명(확장자 제외)으로부터 한글 자소분리 및 URL인코딩을 방어하여 각주 자동 복원
+            const getCaptionFromPath = (path) => {
+                if (!path) return "";
+                const filenameWithExt = path.substring(path.lastIndexOf('/') + 1);
+                const filename = filenameWithExt.substring(0, filenameWithExt.lastIndexOf('.'));
+                return decodeURIComponent(filename).normalize('NFC');
+            };
+
+            // 카테고리 태그 웹 표준 정규화 헬퍼 (공백 및 특수문자 제거)
+            const normalizeTag = (str) => {
+                if (!str) return "";
+                return str.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-]/g, '').trim();
+            };
+
             // Fetch and build DOM dynamically
             async function fetchAndBuild() {
                 try {
                     const response = await fetch("/data/projects.json");
                     projectsList = await response.json();
                     
+                    // 1. 고유 카테고리(대분류) 목록 수집 및 필터바 동적 생성
+                    const categorySet = new Set();
+                    projectsList.forEach(proj => {
+                        if (proj.category) {
+                            const cats = Array.isArray(proj.category) ? proj.category : [proj.category];
+                            cats.forEach(c => {
+                                if (c) categorySet.add(c.trim());
+                            });
+                        }
+                    });
+
+                    const filterList = document.getElementById("filterList");
+                    if (filterList) {
+                        filterList.innerHTML = '<li class="filter-item active" data-filter="all">ALL</li>';
+                        categorySet.forEach(cat => {
+                            const filterVal = normalizeTag(cat);
+                            const li = document.createElement("li");
+                            li.className = "filter-item";
+                            li.setAttribute("data-filter", filterVal);
+                            li.innerText = cat.toUpperCase();
+                            filterList.appendChild(li);
+                        });
+                    }
+
                     let html = "";
                     projectsList.forEach(proj => {
+                        // 갤러리 이미지 목록 중 무작위 1개 추출하여 썸네일로 사용
+                        let selectedThumb = "";
+                        if (proj.gallery && proj.gallery.length > 0) {
+                            const randomIndex = Math.floor(Math.random() * proj.gallery.length);
+                            const thumbObj = proj.gallery[randomIndex];
+                            selectedThumb = typeof thumbObj === "object" ? thumbObj.src : thumbObj;
+                        }
+                        const thumbUrl = getProjectAssetPath(proj.id, selectedThumb);
+
+                        // maintext 75자 생략 요약
+                        const summaryText = proj.maintext && proj.maintext.length > 75 
+                            ? proj.maintext.substring(0, 75) + "..." 
+                            : (proj.maintext || "");
+
+                        // 카테고리 배열 파싱 및 태그 정규화 공백 구분자 병합
+                        const cats = Array.isArray(proj.category) ? proj.category : [proj.category];
+                        const normTags = cats.map(c => normalizeTag(c)).filter(Boolean).join(' ');
+                        const catString = cats.filter(Boolean).join(', ').toUpperCase();
+
                         html += `
-                            <article class="project-card" data-id="${proj.id}" data-tag="${proj.category}">
+                            <article class="project-card" data-id="${proj.id}" data-tag="${normTags}">
                                 <div class="thumbnail-wrapper">
-                                    <div class="placeholder-img" style="background-image: url('${getAssetPath(proj.image || proj.thumbnail)}');"></div>
+                                    <div class="placeholder-img" style="background-image: url('${thumbUrl}');"></div>
                                     <div class="blueprint-layer">[ BLUEPRINT ARCHIVE ]</div>
                                 </div>
                                 <div class="project-metadata">
-                                    <div class="meta-top-row">
-                                        <span class="project-year">${proj.year}</span>
+                                    <h3 class="project-title">${proj.title}</h3>
+                                    <p class="project-summary">${summaryText}</p>
+                                    <div class="meta-top-row" style="margin-top: 10px; margin-bottom: 0;">
+                                        <span class="project-year">${proj.year}${proj.status ? ` <span style="margin-left: 4px; font-weight: 400; color: #a3a19b;">(${proj.status.toUpperCase()})</span>` : ""}</span>
                                         <div class="project-tags">
-                                            <span class="tag-txt">${proj.category.toUpperCase()}</span>
+                                            <span class="tag-txt">${catString}</span>
                                         </div>
                                     </div>
-                                    <h3 class="project-title">${proj.title}</h3>
-                                    <p class="project-summary">${proj.description || proj.summary}</p>
                                 </div>
                             </article>
                         `;
@@ -414,6 +504,28 @@
                         });
                     });
 
+                    // 동적 필터 클릭 이벤트 바인딩
+                    if (filterList) {
+                        const filterItems = filterList.querySelectorAll(".filter-item");
+                        filterItems.forEach(item => {
+                            item.addEventListener("click", () => {
+                                filterItems.forEach(i => i.classList.remove('active'));
+                                item.classList.add('active');
+                                const filterValue = item.getAttribute("data-filter");
+                                const allCards = document.querySelectorAll(".project-card");
+                                
+                                allCards.forEach(card => {
+                                    const cardTags = (card.getAttribute("data-tag") || "").split(' ');
+                                    if (filterValue === "all" || cardTags.includes(filterValue)) { 
+                                        card.classList.remove("is-hidden"); 
+                                    } else { 
+                                        card.classList.add("is-hidden"); 
+                                    }
+                                });
+                            });
+                        });
+                    }
+
                     // Check URL parameter to scroll directly to the target project card without opening the detail modal
                     const urlParams = new URLSearchParams(window.location.search);
                     const targetId = urlParams.get("id");
@@ -438,48 +550,104 @@
                 scrollTrack.scrollTop = 0; // Reset scroll position
                 detailLayer.setAttribute("data-current-id", proj.id);
                 detailTitle.innerText = proj.title;
-                detailYear.innerText = proj.year;
-                detailTags.innerText = proj.category.toUpperCase();
-                detailDescription.innerText = proj.monograph || proj.description;
+                
+                // 연도 및 built/unbuilt status 태그
+                const statusTag = proj.status ? ` <span style="margin-left: 6px; font-weight: 400; color: #a3a19b; font-size: 10px; letter-spacing: 0.05em;">(${proj.status.toUpperCase()})</span>` : "";
+                detailYear.innerHTML = `${proj.year}${statusTag}`;
+                
+                detailTags.innerText = (proj.subCategory || "").toUpperCase();
+                detailDescription.innerText = proj.maintext || proj.monograph || proj.description || "";
+
+                // Spec panel 동적 렌더링
+                const specPanel = document.getElementById("detailSpecPanel");
+                if (specPanel) {
+                    let specHtml = "";
+                    if (proj.spec) {
+                        for (const [key, value] of Object.entries(proj.spec)) {
+                            specHtml += `
+                                <div class="spec-row">
+                                    <span class="spec-label">${key}</span>
+                                    <span class="spec-value">${value}</span>
+                                </div>
+                            `;
+                        }
+                    }
+                    // Photo 크레딧 추가
+                    if (proj.photo) {
+                        specHtml += `
+                            <div class="spec-row" style="border-bottom: none; padding-bottom: 0;">
+                                <span class="spec-label">PHOTO</span>
+                                <span class="spec-value">${proj.photo}</span>
+                            </div>
+                        `;
+                    }
+                    specPanel.innerHTML = specHtml;
+                }
+
+                // Annotation(하단 주석 문구) 동적 렌더링
+                const annotEl = document.getElementById("detailAnnotation");
+                if (annotEl) {
+                    if (proj.annotation) {
+                        annotEl.innerText = proj.annotation;
+                        annotEl.style.display = "block";
+                    } else {
+                        annotEl.innerText = "";
+                        annotEl.style.display = "none";
+                    }
+                }
 
                 const galleryStream = scrollTrack.querySelector(".croquis-gallery-stream");
-                const mainImg = getAssetPath(proj.image || proj.thumbnail);
-                const blueprintImg = getAssetPath(proj.blueprint);
 
-                // 제공받은 4단 매거진 레이아웃 마크업 동적 빌드
-                galleryStream.innerHTML = `
-                    <!-- 타입 A. 전면 와이드 시네마틱 컷 -->
-                    <div class="croquis-media-block">
-                        <div class="croquis-image-frame">
-                            <img src="${mainImg}" alt="${proj.title} Exterior Overview">
-                        </div>
-                        <span class="croquis-caption">Fig 1. Architectural Cut - Site Context and Exterior Concrete Texture.</span>
-                    </div>
+                // gallery 배열이 유효하면 그것을 사용하고, 그렇지 않으면 기본 4단으로 빌드
+                const imagesList = (proj.gallery && proj.gallery.length > 0)
+                    ? proj.gallery
+                    : [proj.blueprint].filter(Boolean); // fallback
 
-                    <!-- 타입 B. 정밀 설계 도면 전용 슬롯 (Multiply 그래픽 합성 모드 적용) -->
-                    <div class="croquis-media-block blueprint-style">
-                        <div class="croquis-image-frame">
-                            <img src="${blueprintImg}" alt="${proj.title} Floor Plan Section">
-                        </div>
-                        <span class="croquis-caption">Drawing 1. Ground Floor Plan - Spatial sequence and Circulation flow.</span>
-                    </div>
+                let streamHtml = "";
+                imagesList.forEach((imgSrc, index) => {
+                    const cleanSrc = getProjectAssetPath(proj.id, imgSrc);
+                    const captionText = getCaptionFromPath(imgSrc);
+                    const patternType = index % 3; // A, B, C 레이아웃 순환 패턴
+                    
+                    // 파일명에 blueprint/drawing이 포함되거나, 순환 패턴상 1번인 경우 도면 합성 스타일로 렌더링
+                    const isBlueprint = cleanSrc.toLowerCase().includes("blueprint") || 
+                                        cleanSrc.toLowerCase().includes("drawing") || 
+                                        patternType === 1;
 
-                    <!-- 타입 C. 잡지식 인쇄물 레이아웃 느낌의 여백 강조형 좁은 컷 -->
-                    <div class="croquis-media-block narrow-focus">
-                        <div class="croquis-image-frame">
-                            <img src="${mainImg}" alt="${proj.title} Interior Detail">
-                        </div>
-                        <span class="croquis-caption">Fig 2. Interior Detail - Material transition between timber and raw mortar.</span>
-                    </div>
+                    if (isBlueprint) {
+                        streamHtml += `
+                            <!-- 타입 B. 정밀 설계 도면 전용 슬롯 (Multiply 그래픽 합성 모드 적용) -->
+                            <div class="croquis-media-block blueprint-style">
+                                <div class="croquis-image-frame">
+                                    <img src="${cleanSrc}" alt="${captionText}">
+                                </div>
+                                <span class="croquis-caption">${captionText}</span>
+                            </div>
+                        `;
+                    } else if (patternType === 2) {
+                        streamHtml += `
+                            <!-- 타입 C. 잡지식 인쇄물 레이아웃 느낌의 여백 강조형 좁은 컷 -->
+                            <div class="croquis-media-block narrow-focus">
+                                <div class="croquis-image-frame">
+                                    <img src="${cleanSrc}" alt="${captionText}">
+                                </div>
+                                <span class="croquis-caption">${captionText}</span>
+                            </div>
+                        `;
+                    } else {
+                        streamHtml += `
+                            <!-- 타입 A. 전면 와이드 시네마틱 컷 -->
+                            <div class="croquis-media-block">
+                                <div class="croquis-image-frame">
+                                    <img src="${cleanSrc}" alt="${captionText}">
+                                </div>
+                                <span class="croquis-caption">${captionText}</span>
+                            </div>
+                        `;
+                    }
+                });
 
-                    <!-- 타입 A 반복. 빛과 음영 연구 일반 컷 -->
-                    <div class="croquis-media-block">
-                        <div class="croquis-image-frame">
-                            <img src="${blueprintImg}" alt="${proj.title} Shadow Flow">
-                        </div>
-                        <span class="croquis-caption">Fig 3. Light Study - Progression of afternoon shadow through the central void corridor.</span>
-                    </div>
-                `;
+                galleryStream.innerHTML = streamHtml;
 
                 detailLayer.classList.add("is-active");
                 body.classList.add("modal-open");
@@ -574,21 +742,6 @@
                 }
             });
 
-            // FILTER
-            const filterItems = document.querySelectorAll(".filter-item");
-            filterItems.forEach(item => {
-                item.addEventListener("click", () => {
-                    filterItems.forEach(i => i.classList.remove('active'));
-                    item.classList.add('active');
-                    const filterValue = item.getAttribute("data-filter");
-                    const allCards = document.querySelectorAll(".project-card");
-                    
-                    allCards.forEach(card => {
-                        if (filterValue === "all" || card.getAttribute("data-tag") === filterValue) { card.classList.remove("is-hidden"); } 
-                        else { card.classList.add("is-hidden"); }
-                    });
-                });
-            });
         });
     </script>
 </body>

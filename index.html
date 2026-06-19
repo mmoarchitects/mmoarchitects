@@ -281,67 +281,7 @@
     <section id="featured-works">
         <span class="section-label">Selected Works</span>
         <div class="entropy-grid-track" id="entropyGrid">
-            
-            <article class="project-card" data-id="p-01">
-                <div class="card-image-slot">
-                    <div class="photo-layer" style="background-image: url('/assets/images/project1.png');"></div>
-                    <div class="blueprint-layer">[ BLUEPRINT / AMBIGUOUS LINE ]</div>
-                </div>
-                <div class="meta-row"><span class="card-year">2026</span><span class="card-tag-text">Create / Housing</span></div>
-                <h3 class="project-title">집합주택; 반복으로 만들어진 정교한 일상</h3>
-                <p class="project-summary">비정형의 골목길 대지 안에서 격자 규칙의 반복을 통해 거주자의 균일하고 정교한 일상의 공간 질서를 확보합니다.</p>
-            </article>
-
-            <article class="project-card" data-id="p-02">
-                <div class="card-image-slot">
-                    <div class="photo-layer" style="background-image: url('/assets/images/project2.png');"></div>
-                    <div class="blueprint-layer">[ BLUEPRINT / STRUCTURAL FRAME ]</div>
-                </div>
-                <div class="meta-row"><span class="card-year">2026</span><span class="card-tag-text">Value-up / Apartment</span></div>
-                <h3 class="project-title">반복된 틀; 아파트 위 놓인 천장</h3>
-                <p class="project-summary">기존 내벽의 한계를 허물고, 구조 노출면에 비례감 있는 천장 보조 프레임을 주입해 아파트 공간에 새로운 차원의 깊이감을 생성합니다.</p>
-            </article>
-
-            <article class="project-card" data-id="p-03">
-                <div class="card-image-slot">
-                    <div class="photo-layer" style="background-image: url('/assets/images/project3.png');"></div>
-                    <div class="blueprint-layer">[ BLUEPRINT / GEOMETRIC MASS ]</div>
-                </div>
-                <div class="meta-row"><span class="card-year">2025</span><span class="card-tag-text">Create / Office</span></div>
-                <h3 class="project-title">업무시설; 이안그로우 HQ</h3>
-                <p class="project-summary">소규모 사옥 신축 프로젝트. 대지가 가진 형태적 제약을 기하학적 매스로 전환하여 기업 고유의 물질적 정체성을 외벽에 투영합니다.</p>
-            </article>
-
-            <article class="project-card" data-id="p-06">
-                <div class="card-image-slot">
-                    <div class="photo-layer" style="background-image: url('/assets/images/project3.png');"></div>
-                    <div class="blueprint-layer">[ BLUEPRINT / COLLAGE FRAME ]</div>
-                </div>
-                <div class="meta-row"><span class="card-year">2025</span><span class="card-tag-text">Value-up / F&B</span></div>
-                <h3 class="project-title">Amor Napoli 안국; doredore</h3>
-                <p class="project-summary">북촌 역사 보존 지구 내 대수선 및 용도변경. 한옥의 목구조 질서와 상업 브랜드의 레이어를 면 분할 기법으로 충돌 안착시켰습니다.</p>
-            </article>
-
-            <article class="project-card" data-id="p-04">
-                <div class="card-image-slot">
-                    <div class="photo-layer" style="background-image: url('/assets/images/project1.png');"></div>
-                    <div class="blueprint-layer">[ BLUEPRINT / EXPERIENTIAL FLOW ]</div>
-                </div>
-                <div class="meta-row"><span class="card-year">2024</span><span class="card-tag-text">Branding / Identity</span></div>
-                <h3 class="project-title">경계가 사라진; 신사 포르메</h3>
-                <p class="project-summary">베이커리 매장 내부 조리실과 외부 베이킹 트랙의 물리적 경계를 허물어 시각 언어부터 가구까지 통합 설계한 브랜드 컨설팅 실무.</p>
-            </article>
-
-            <article class="project-card" data-id="p-05">
-                <div class="card-image-slot">
-                    <div class="photo-layer" style="background-image: url('/assets/images/project2.png');"></div>
-                    <div class="blueprint-layer">[ BLUEPRINT / VOID ARCHIVE ]</div>
-                </div>
-                <div class="meta-row"><span class="card-year">2024</span><span class="card-tag-text">Create / Housing</span></div>
-                <h3 class="project-title">집합주택; 중정을 중심으로 교차되는 관계</h3>
-                <p class="project-summary">외부 시선 차단과 내부 커뮤니티 확보라는 양면적 문제를 중앙 보이드(Void) 구획 정리를 통해 명확히 증명해 낸 중정형 다가구 신축.</p>
-            </article>
-
+            <!-- Dynamically Loaded by JS -->
             <div class="grid-footer" id="gridFooter">
                 <a href="/projects.html" class="poetic-scroll-link">View All Projects ➔</a>
             </div>
@@ -378,65 +318,134 @@
         document.addEventListener("DOMContentLoaded", () => {
             const grid = document.getElementById("entropyGrid");
             const footer = document.getElementById("gridFooter");
-            const cards = Array.from(grid.querySelectorAll(".project-card"));
 
             const sizePresets = ["size-standard", "size-tall", "size-square", "size-wide"];
             const spacePresets = ["space-tight", "space-medium", "space-wide"];
 
-            // Helper to handle asset paths locally in inline styles
-            if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
-                document.querySelectorAll(".photo-layer").forEach(el => {
-                    let bg = el.style.backgroundImage;
-                    if (bg && bg.includes("url(\"/assets/")) {
-                        el.style.backgroundImage = bg.replace("url(\"/assets/", "url(\"/public/assets/");
+            const getAssetPath = (path) => {
+                if (!path) return "";
+                if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+                    return path.startsWith("/public") ? path : "/public" + path;
+                }
+                return path;
+            };
+
+            // 프로젝트 번호(ID) 폴더 경로 자동 조합 헬퍼
+            const getProjectAssetPath = (projId, fileName) => {
+                if (!fileName) return "";
+                if (fileName.startsWith("/") || fileName.startsWith("http")) {
+                    return getAssetPath(fileName);
+                }
+                return getAssetPath(`/assets/projects/${projId}/${fileName}`);
+            };
+
+            async function fetchAndBuildMain() {
+                try {
+                    const response = await fetch("/data/projects.json");
+                    const projectsList = await response.json();
+
+                    // 1. mainpjt === "y" 인 프로젝트 선 필터링
+                    let featured = projectsList.filter(p => p.mainpjt === "y" || p.mainpjt === true);
+                    
+                    // 2. 6개 미만 시, mainpjt가 y가 아닌 프로젝트들에서 랜덤으로 채워 6개 슬롯 확보
+                    if (featured.length < 6) {
+                        const remaining = projectsList.filter(p => !(p.mainpjt === "y" || p.mainpjt === true));
+                        // 무작위 셔플
+                        const shuffled = remaining.sort(() => 0.5 - Math.random());
+                        const needed = 6 - featured.length;
+                        featured = featured.concat(shuffled.slice(0, needed));
                     }
-                });
+                    
+                    // 최대 6개로 슬라이싱
+                    featured = featured.slice(0, 6);
+
+                    // 3. 카드 HTML 생성
+                    let html = "";
+                    featured.forEach(proj => {
+                        // 갤러리 이미지 중 무작위 1개 선택하여 썸네일로 표출
+                        let selectedThumb = "";
+                        if (proj.gallery && proj.gallery.length > 0) {
+                            const randomIndex = Math.floor(Math.random() * proj.gallery.length);
+                            const thumbObj = proj.gallery[randomIndex];
+                            selectedThumb = typeof thumbObj === "object" ? thumbObj.src : thumbObj;
+                        }
+                        const thumbUrl = getProjectAssetPath(proj.id, selectedThumb || proj.blueprint);
+
+                        // maintext 75자 생략 요약
+                        const summaryText = proj.maintext && proj.maintext.length > 75 
+                            ? proj.maintext.substring(0, 75) + "..." 
+                            : (proj.maintext || "");
+
+                        const catString = (Array.isArray(proj.category) ? proj.category : [proj.category]).filter(Boolean).join(', ');
+
+                        html += `
+                            <article class="project-card" data-id="${proj.id}">
+                                <div class="card-image-slot">
+                                    <div class="photo-layer" style="background-image: url('${thumbUrl}');"></div>
+                                    <div class="blueprint-layer">[ BLUEPRINT ARCHIVE ]</div>
+                                </div>
+                                <h3 class="project-title">${proj.title}</h3>
+                                <p class="project-summary">${summaryText}</p>
+                                <div class="meta-row" style="margin-top: 10px; margin-bottom: 0;">
+                                    <span class="card-year">${proj.year}${proj.status ? ` <span style="margin-left: 4px; font-weight: 400; color: #a3a19b;">(${proj.status.toUpperCase()})</span>` : ""}</span>
+                                    <span class="card-tag-text">${(proj.subCategory || "").toUpperCase()} / ${catString}</span>
+                                </div>
+                            </article>
+                        `;
+                    });
+
+                    // gridFooter(View All)를 떼어두었다가 렌더링 후 뒤에 붙임
+                    grid.innerHTML = html;
+                    grid.appendChild(footer);
+
+                    // 4. 엔트로피 난수 연산 적용
+                    const cards = Array.from(grid.querySelectorAll(".project-card"));
+                    const guaranteedSpan3Index = Math.floor(Math.random() * cards.length);
+                    let currentColumnSpace = 0;
+
+                    cards.forEach((card, index) => {
+                        if (index === guaranteedSpan3Index) {
+                            card.classList.add("colspan-3");
+                            currentColumnSpace = 0;
+                            return; 
+                        }
+
+                        const randomSize = sizePresets[Math.floor(Math.random() * sizePresets.length)];
+                        card.classList.add(randomSize);
+
+                        const randomSpace = spacePresets[Math.floor(Math.random() * spacePresets.length)];
+                        card.classList.add(randomSpace);
+
+                        // 빈 행 생성 방어
+                        if (currentColumnSpace === 0 && Math.random() > 0.45 && index < cards.length - 1 && (index + 1 !== guaranteedSpan3Index)) {
+                            card.classList.add("colspan-2");
+                            card.classList.remove("size-tall", "size-standard");
+                            card.classList.add("size-wide");
+                            currentColumnSpace += 2;
+                        } else {
+                            currentColumnSpace += 1;
+                        }
+
+                        if (currentColumnSpace >= 3) {
+                            currentColumnSpace = 0;
+                        }
+                    });
+
+                } catch (error) {
+                    console.error("Failed to load featured works:", error);
+                }
             }
 
-            // 1개의 마스터 타겟 선점 (시네마틱 와이드 뷰 전용)
-            const guaranteedSpan3Index = Math.floor(Math.random() * cards.length);
-            let currentColumnSpace = 0;
+            // 구동 시작
+            fetchAndBuildMain();
 
-            // 1. 행 유실 완전 방어형 엔트로피 난수 연산
-            cards.forEach((card, index) => {
-                if (index === guaranteedSpan3Index) {
-                    card.classList.add("colspan-3");
-                    currentColumnSpace = 0;
-                    return; 
-                }
-
-                const randomSize = sizePresets[Math.floor(Math.random() * sizePresets.length)];
-                card.classList.add(randomSize);
-
-                const randomSpace = spacePresets[Math.floor(Math.random() * spacePresets.length)];
-                card.classList.add(randomSpace);
-
-                // 빈 행 생성 차단: 첫 칸에서만 제한적 가로 확장 허용
-                if (currentColumnSpace === 0 && Math.random() > 0.45 && index < cards.length - 1 && (index + 1 !== guaranteedSpan3Index)) {
-                    card.classList.add("colspan-2");
-                    card.classList.remove("size-tall", "size-standard");
-                    card.classList.add("size-wide");
-                    currentColumnSpace += 2;
-                } else {
-                    currentColumnSpace += 1;
-                }
-
-                if (currentColumnSpace >= 3) {
-                    currentColumnSpace = 0;
-                }
-            });
-
-            // 연산 종료 후 푸터를 트랙 최후미에 밀어 넣어 우하단 결착 유지
-            grid.appendChild(footer);
-
-            // 2. 홈 화면 전용: 모달 대신 /projects 라우팅 연동 (UX 앵커 타겟팅)
-            document.addEventListener("click", (e) => {
+            // 5. 클릭 이벤트 위임
+            grid.addEventListener("click", (e) => {
                 const card = e.target.closest(".project-card");
                 if (!card) return;
 
-                // 클릭된 카드의 고유 ID를 가져와서 전체 포트폴리오 아카이브의 해당 위치로 다이렉트 랜딩
                 const projectId = card.getAttribute("data-id");
-                if(projectId) {
+                if (projectId) {
                     window.location.href = `/projects.html?id=${projectId}`;
                 } else {
                     window.location.href = `/projects.html`;

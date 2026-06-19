@@ -1,80 +1,177 @@
 [
   {
-    "id": "entropy-house",
-    "title": "ENTROPY HOUSE",
-    "titleKo": "엔트로피 하우스",
-    "category": "RESIDENTIAL",
-    "year": "2025",
-    "location": "SEOUL, KR",
-    "area": "245㎡",
-    "description": "물질의 자연스러운 흐름과 질서를 콘크리트 매스 속에 녹여낸 단독 주택 프로젝트입니다.",
-    "monograph": "Monograph No. 12 - 대지의 원초적인 지형과 콘크리트 무늬목 거푸집의 불완전한 텍스처가 조화를 이루는 주거 공간.",
-    "image": "assets/project1.png",
-    "blueprint": "assets/project1_blueprint.png"
+    "id": "p-001",
+    "year": "2026",
+    "status": "built",
+    "category": ["Housing"],
+    "subCategory": "create",
+    "title": "집합주택; 반복으로 만들어진 정교한 일상",
+    "mainpjt": "y",
+    "maintext": "비정형의 골목길 대지 안에서 격자 규칙의 반복을 통해 거주자의 균일하고 정교한 일상의 공간 질서를 확보합니다. 내부 중정(Void)을 중심으로 형성되는 빛의 통로와 raw concrete의 거친 텍스처는 매 순간 정적인 비례감을 선사합니다.",
+    "spec": {
+      "위치": "서울",
+      "용도": "집합주거, 다세대주택",
+      "구분": "신축",
+      "대지면적": "377.19㎡ (114평)",
+      "연면적": "853.61㎡ (258평)",
+      "규모": "지하1층 · 지상6층",
+      "세대": "주거 16세대 · 근린생활시설 2호",
+      "상태": "완공"
+    },
+    "photo": "노경",
+    "annotation": "ADO 재직 시 수행한 작업을 바탕으로, MMO Architects 포트폴리오에 맞게 재구성했습니다.",
+    "gallery": [
+      "Fig 1. 골목 대지 전경과 주동 진입부.png",
+      "Drawing 1. 1층 평면도 및 동선 흐름.png",
+      "Fig 2. 내부 중정의 선적 비례.png"
+    ]
   },
   {
-    "id": "concrete-pavilion",
-    "title": "CONCRETE PAVILION",
-    "titleKo": "콘크리트 파빌리온",
-    "category": "PAVILION",
+    "id": "p-01",
+    "year": "2026",
+    "status": "built",
+    "category": ["Housing"],
+    "subCategory": "create",
+    "title": "집합주택; 반복으로 만들어진 정교한 일상 (샘플)",
+    "mainpjt": "y",
+    "maintext": "비정형의 골목길 대지 안에서 격자 규칙의 반복을 통해 거주자의 균일하고 정교한 일상의 공간 질서를 확보합니다. 내부 중정(Void)을 중심으로 형성되는 빛의 통로와 raw concrete의 거친 텍스처는 매 순간 정적인 비례감을 선사합니다.",
+    "spec": {
+      "위치": "서울",
+      "용도": "집합주거, 다세대주택",
+      "구분": "신축",
+      "대지면적": "377.19㎡ (114평)",
+      "연면적": "853.61㎡ (258평)",
+      "규모": "지하1층 · 지상6층",
+      "세대": "주거 16세대 · 근린생활시설 2호",
+      "상태": "완공"
+    },
+    "photo": "노경",
+    "annotation": "ADO 재직 시 수행한 작업을 바탕으로, MMO Architects 포트폴리오에 맞게 재구성했습니다.",
+    "gallery": [
+      "Fig 1. 골목 대지 전경과 주동 진입부.png",
+      "Drawing 1. 1층 평면도 및 동선 흐름.png"
+    ]
+  },
+  {
+    "id": "p-02",
+    "year": "2026",
+    "status": "built",
+    "category": ["Apartment"],
+    "subCategory": "value-up",
+    "title": "반복된 틀; 아파트 위 놓인 천장",
+    "mainpjt": "y",
+    "maintext": "기존 내벽의 한계를 허물고, 구조 노출면에 비례감 있는 천장 보조 프레임을 주입해 아파트 공간에 새로운 차원의 깊이감을 생성합니다.",
+    "spec": {
+      "위치": "서울",
+      "용도": "아파트 리모델링",
+      "구분": "대수선",
+      "대지면적": "—",
+      "연면적": "84.9㎡ (25평)",
+      "규모": "지상15층 중 8층",
+      "세대": "주거 1세대",
+      "상태": "완공"
+    },
+    "photo": "노경",
+    "gallery": [
+      "Fig 1. 천장 보조 프레임과 내부 디테일.png",
+      "Drawing 1. 천장 구조 상세 도면.png"
+    ]
+  },
+  {
+    "id": "p-03",
+    "year": "2025",
+    "status": "built",
+    "category": ["Office HQ"],
+    "subCategory": "create",
+    "title": "업무시설; 이안그로우 HQ",
+    "mainpjt": "y",
+    "maintext": "소규모 사옥 신축 프로젝트. 대지가 가진 형태적 제약을 기하학적 매스로 전환하여 기업 고유의 물질적 정체성을 외벽에 투영합니다.",
+    "spec": {
+      "위치": "서울",
+      "용도": "업무시설 (사옥)",
+      "구분": "신축",
+      "대지면적": "198.50㎡ (60평)",
+      "연면적": "450.20㎡ (136평)",
+      "규모": "지하1층 · 지상5층",
+      "세대": "근린생활시설 및 사무실",
+      "상태": "완공"
+    },
+    "photo": "노경",
+    "gallery": [
+      "Fig 1. 외관 기하학적 매스 전경.png",
+      "Drawing 1. 정면도 및 단면 구성.png"
+    ]
+  },
+  {
+    "id": "p-04",
+    "year": "2025",
+    "status": "unbuilt",
+    "category": ["Branding", "Office HQ"],
+    "subCategory": "brand",
+    "title": "경계가 사라진; 신사 포르메",
+    "mainpjt": "n",
+    "maintext": "베이커리 매장 내부 조리실과 외부 베이킹 트랙의 물리적 경계를 허물어 시각 언어부터 가구까지 통합 설계한 브랜드 컨설팅 실무.",
+    "spec": {
+      "위치": "서울 신사동",
+      "용도": "제과점, 상업시설",
+      "구분": "인테리어 및 브랜딩",
+      "대지면적": "—",
+      "연면적": "120.50㎡ (36평)",
+      "규모": "지상1층",
+      "세대": "상업시설 1호",
+      "상태": "완공"
+    },
+    "gallery": [
+      "Fig 1. 베이킹 트랙과 가구 통합 설계.png",
+      "Drawing 1. 평면 레이아웃 및 가구 도면.png"
+    ]
+  },
+  {
+    "id": "p-05",
     "year": "2024",
-    "location": "GAPEONG, KR",
-    "area": "180㎡",
-    "description": "수면 위에 띄워진 날것 그대로의 노출 콘크리트 매스가 보여주는 정적인 비례감과 빛의 연출.",
-    "monograph": "Monograph No. 08 - 물의 반영과 콘크리트 매스가 만나는 지점에서 발생하는 빛과 그림자의 연속적인 대화.",
-    "image": "assets/project2.png",
-    "blueprint": "assets/project2_blueprint.png"
+    "status": "built",
+    "category": ["Housing"],
+    "subCategory": "create",
+    "title": "집합주택; 중정을 중심으로 교차되는 관계",
+    "mainpjt": "n",
+    "maintext": "외부 시선 차단과 내부 커뮤니티 확보라는 양면적 문제를 중앙 보이드(Void) 구획 정리를 통해 명확히 증명해 낸 중정형 다가구 신축.",
+    "spec": {
+      "위치": "경기",
+      "용도": "집합주거, 다가구주택",
+      "구분": "신축",
+      "대지면적": "310.20㎡ (94평)",
+      "연면적": "620.40㎡ (188평)",
+      "규모": "지상4층",
+      "세대": "주거 8세대",
+      "상태": "완공"
+    },
+    "gallery": [
+      "Fig 1. 중앙 보이드와 외부 시선 차단벽.png",
+      "Drawing 1. 중정 중심 단면 상세도.png"
+    ]
   },
   {
-    "id": "minimalist-villa",
-    "title": "MINIMALIST VILLA",
-    "titleKo": "미니멀리스트 빌라",
-    "category": "RESIDENTIAL",
+    "id": "p-06",
     "year": "2025",
-    "location": "JEJU, KR",
-    "area": "320㎡",
-    "description": "자연을 향해 극적으로 열린 전면 유리창과 선적인 프레임으로 완성된 미니멀 휴양용 단독 빌라.",
-    "monograph": "Monograph No. 15 - 내외부의 물리적 경계를 허물고 바다를 실내 조경의 일부로 끌어들이는 개방적 단면 계획.",
-    "image": "assets/project3.png",
-    "blueprint": "assets/project3_blueprint.png"
-  },
-  {
-    "id": "void-villa",
-    "title": "VOID VILLA",
-    "titleKo": "보이드 빌라",
-    "category": "RESIDENTIAL",
-    "year": "2023",
-    "location": "YONGIN, KR",
-    "area": "290㎡",
-    "description": "매스 중심을 관통하는 거대한 보이드(중정)를 통해 유입되는 빛과 바람의 음미.",
-    "monograph": "Monograph No. 04 - 외부로부터 완전히 닫혀있으나 내부 보이드를 통해 하늘을 완벽히 조망하는 중정형 주택.",
-    "image": "assets/project1.png",
-    "blueprint": "assets/project1_blueprint.png"
-  },
-  {
-    "id": "monolith-pavilion",
-    "title": "MONOLITH PAVILION",
-    "titleKo": "모놀리스 파빌리온",
-    "category": "COMMERCIAL",
-    "year": "2024",
-    "location": "SEOUL, KR",
-    "area": "410㎡",
-    "description": "도시적 맥락 안에서 고요한 침묵을 지키는 하나의 거대한 돌(Monolith)처럼 설계된 오피스 쇼룸.",
-    "monograph": "Monograph No. 07 - 장식적인 요소가 철저히 배제된 거친 텍스처의 외벽과 극도로 제한된 오프닝이 주는 침묵.",
-    "image": "assets/project2.png",
-    "blueprint": "assets/project2_blueprint.png"
-  },
-  {
-    "id": "structural-cabin",
-    "title": "STRUCTURAL CABIN",
-    "titleKo": "구조적 캐빈",
-    "category": "LAB - MODULAR",
-    "year": "2025",
-    "location": "YANGPYEONG, KR",
-    "area": "75㎡",
-    "description": "공장에서 고도로 통제되어 사전 제작되는 프리미엄 패시브하우스급 모듈러 주택 캐빈.",
-    "monograph": "Monograph No. 19 - 구조적 안정성과 단열 성능을 극대화하여 3일 이내 대지에 안착 가능한 고정밀 모듈러 에디션.",
-    "image": "assets/project3.png",
-    "blueprint": "assets/project3_blueprint.png"
+    "status": "built",
+    "category": ["Hanok Remodeling", "Café"],
+    "subCategory": "value-up",
+    "title": "Amor Napoli 안국; doredore",
+    "mainpjt": "n",
+    "maintext": "북촌 역사 보존 지구 내 대수선 및 용도변경. 한옥의 목구조 질서와 상업 브랜드의 레이어를 면 분할 기법으로 충돌 안착시켰습니다.",
+    "spec": {
+      "위치": "서울 안국동",
+      "용도": "근린생활시설 (카페)",
+      "구분": "대수선 및 리모델링",
+      "대지면적": "145.00㎡ (44평)",
+      "연면적": "110.00㎡ (33평)",
+      "규모": "지상1층",
+      "세대": "근린생활시설 1호",
+      "상태": "완공"
+    },
+    "gallery": [
+      "Fig 1. 한옥 목구조와 브랜드 레이어 충돌.png",
+      "Drawing 1. 목구조 보강 평면 상세도.png"
+    ]
   }
 ]

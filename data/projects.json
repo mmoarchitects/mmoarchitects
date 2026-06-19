@@ -1,92 +1,178 @@
 [
   {
+    "id": "p-001",
+    "year": "2026",
+    "status": "built",
+    "category": ["Housing"],
+    "subCategory": "create",
+    "title": "집합주택; 반복으로 만들어진 정교한 일상",
+    "mainpjt": "y",
+    "maintext": "비정형의 골목길 대지 안에서 격자 규칙의 반복을 통해 거주자의 균일하고 정교한 일상의 공간 질서를 확보합니다. 내부 중정(Void)을 중심으로 형성되는 빛의 통로와 raw concrete의 거친 텍스처는 매 순간 정적인 비례감을 선사합니다.",
+    "spec": {
+      "위치": "서울",
+      "용도": "집합주거, 다세대주택",
+      "구분": "신축",
+      "대지면적": "377.19㎡ (114평)",
+      "연면적": "853.61㎡ (258평)",
+      "규모": "지하1층 · 지상6층",
+      "세대": "주거 16세대 · 근린생활시설 2호",
+      "상태": "완공"
+    },
+    "photo": "노경",
+    "annotation": "ADO 재직 시 수행한 작업을 바탕으로, MMO Architects 포트폴리오에 맞게 재구성했습니다.",
+    "gallery": [
+      "Fig 1. 골목 대지 전경과 주동 진입부.png",
+      "Drawing 1. 1층 평면도 및 동선 흐름.png",
+      "Fig 2. 내부 중정의 선적 비례.png"
+    ]
+  },
+  {
     "id": "p-01",
     "year": "2026",
-    "category": "create",
-    "subCategory": "Housing",
-    "title": "집합주택; 반복으로 만들어진 정교한 일상",
-    "summary": "비정형의 골목길 대지 안에서 격자 규칙의 반복을 통해 거주자의 균일하고 정교한 일상의 공간 질서를 확보합니다.",
-    "thumbnail": "/assets/images/project1.png",
-    "blueprint": "/assets/images/project1_blueprint.png",
+    "status": "built",
+    "category": ["Housing"],
+    "subCategory": "create",
+    "title": "집합주택; 반복으로 만들어진 정교한 일상 (샘플)",
+    "mainpjt": "y",
+    "maintext": "비정형의 골목길 대지 안에서 격자 규칙의 반복을 통해 거주자의 균일하고 정교한 일상의 공간 질서를 확보합니다. 내부 중정(Void)을 중심으로 형성되는 빛의 통로와 raw concrete의 거친 텍스처는 매 순간 정적인 비례감을 선사합니다.",
+    "spec": {
+      "위치": "서울",
+      "용도": "집합주거, 다세대주택",
+      "구분": "신축",
+      "대지면적": "377.19㎡ (114평)",
+      "연면적": "853.61㎡ (258평)",
+      "규모": "지하1층 · 지상6층",
+      "세대": "주거 16세대 · 근린생활시설 2호",
+      "상태": "완공"
+    },
+    "photo": "노경",
+    "annotation": "ADO 재직 시 수행한 작업을 바탕으로, MMO Architects 포트폴리오에 맞게 재구성했습니다.",
     "gallery": [
-      "/assets/images/project1.png",
-      "/assets/images/project1_blueprint.png"
-    ],
-    "detailedPlan": "/assets/images/project1_blueprint.png"
+      "Fig 1. 골목 대지 전경과 주동 진입부.png",
+      "Drawing 1. 1층 평면도 및 동선 흐름.png"
+    ]
   },
   {
     "id": "p-02",
     "year": "2026",
-    "category": "value-up",
-    "subCategory": "Apartment",
+    "status": "built",
+    "category": ["Apartment"],
+    "subCategory": "value-up",
     "title": "반복된 틀; 아파트 위 놓인 천장",
-    "summary": "기존 내벽의 한계를 허물고, 구조 노출면에 비례감 있는 천장 보조 프레임을 주입해 아파트 공간에 새로운 차원의 깊이감을 생성합니다.",
-    "thumbnail": "/assets/images/project2.png",
-    "blueprint": "/assets/images/project2_blueprint.png",
+    "mainpjt": "y",
+    "maintext": "기존 내벽의 한계를 허물고, 구조 노출면에 비례감 있는 천장 보조 프레임을 주입해 아파트 공간에 새로운 차원의 깊이감을 생성합니다.",
+    "spec": {
+      "위치": "서울",
+      "용도": "아파트 리모델링",
+      "구분": "대수선",
+      "대지면적": "—",
+      "연면적": "84.9㎡ (25평)",
+      "규모": "지상15층 중 8층",
+      "세대": "주거 1세대",
+      "상태": "완공"
+    },
+    "photo": "노경",
     "gallery": [
-      "/assets/images/project2.png",
-      "/assets/images/project2_blueprint.png"
-    ],
-    "detailedPlan": "/assets/images/project2_blueprint.png"
+      "Fig 1. 천장 보조 프레임과 내부 디테일.png",
+      "Drawing 1. 천장 구조 상세 도면.png"
+    ]
   },
   {
     "id": "p-03",
     "year": "2025",
-    "category": "create",
-    "subCategory": "Office HQ",
+    "status": "built",
+    "category": ["Office HQ"],
+    "subCategory": "create",
     "title": "업무시설; 이안그로우 HQ",
-    "summary": "소규모 사옥 신축 프로젝트. 대지가 가진 형태적 제약을 기하학적 매스로 전환하여 기업 고유의 물질적 정체성을 외벽에 투영합니다.",
-    "thumbnail": "/assets/images/project3.png",
-    "blueprint": "/assets/images/project3_blueprint.png",
+    "mainpjt": "y",
+    "maintext": "소규모 사옥 신축 프로젝트. 대지가 가진 형태적 제약을 기하학적 매스로 전환하여 기업 고유의 물질적 정체성을 외벽에 투영합니다.",
+    "spec": {
+      "위치": "서울",
+      "용도": "업무시설 (사옥)",
+      "구분": "신축",
+      "대지면적": "198.50㎡ (60평)",
+      "연면적": "450.20㎡ (136평)",
+      "규모": "지하1층 · 지상5층",
+      "세대": "근린생활시설 및 사무실",
+      "상태": "완공"
+    },
+    "photo": "노경",
     "gallery": [
-      "/assets/images/project3.png",
-      "/assets/images/project3_blueprint.png"
-    ],
-    "detailedPlan": "/assets/images/project3_blueprint.png"
+      "Fig 1. 외관 기하학적 매스 전경.png",
+      "Drawing 1. 정면도 및 단면 구성.png"
+    ]
   },
   {
     "id": "p-04",
     "year": "2025",
-    "category": "brand",
-    "subCategory": "Branding",
+    "status": "unbuilt",
+    "category": ["Branding", "Office HQ"],
+    "subCategory": "brand",
     "title": "경계가 사라진; 신사 포르메",
-    "summary": "베이커리 매장 내부 조리실과 외부 베이킹 트랙의 물리적 경계를 허물어 시각 언어부터 가구까지 통합 설계한 브랜드 컨설팅 실무.",
-    "thumbnail": "/assets/images/project1.png",
-    "blueprint": "/assets/images/project1_blueprint.png",
+    "mainpjt": "n",
+    "maintext": "베이커리 매장 내부 조리실과 외부 베이킹 트랙의 물리적 경계를 허물어 시각 언어부터 가구까지 통합 설계한 브랜드 컨설팅 실무.",
+    "spec": {
+      "위치": "서울 신사동",
+      "용도": "제과점, 상업시설",
+      "구분": "인테리어 및 브랜딩",
+      "대지면적": "—",
+      "연면적": "120.50㎡ (36평)",
+      "규모": "지상1층",
+      "세대": "상업시설 1호",
+      "상태": "완공"
+    },
     "gallery": [
-      "/assets/images/project1.png",
-      "/assets/images/project1_blueprint.png"
-    ],
-    "detailedPlan": "/assets/images/project1_blueprint.png"
+      "Fig 1. 베이킹 트랙과 가구 통합 설계.png",
+      "Drawing 1. 평면 레이아웃 및 가구 도면.png"
+    ]
   },
   {
     "id": "p-05",
     "year": "2024",
-    "category": "create",
-    "subCategory": "Housing",
+    "status": "built",
+    "category": ["Housing"],
+    "subCategory": "create",
     "title": "집합주택; 중정을 중심으로 교차되는 관계",
-    "summary": "외부 시선 차단과 내부 커뮤니티 확보라는 양면적 문제를 중앙 보이드(Void) 구획 정리를 통해 명확히 증명해 낸 중정형 다가구 신축.",
-    "thumbnail": "/assets/images/project2.png",
-    "blueprint": "/assets/images/project2_blueprint.png",
+    "mainpjt": "n",
+    "maintext": "외부 시선 차단과 내부 커뮤니티 확보라는 양면적 문제를 중앙 보이드(Void) 구획 정리를 통해 명확히 증명해 낸 중정형 다가구 신축.",
+    "spec": {
+      "위치": "경기",
+      "용도": "집합주거, 다가구주택",
+      "구분": "신축",
+      "대지면적": "310.20㎡ (94평)",
+      "연면적": "620.40㎡ (188평)",
+      "규모": "지상4층",
+      "세대": "주거 8세대",
+      "상태": "완공"
+    },
+    "photo": "노경",
     "gallery": [
-      "/assets/images/project2.png",
-      "/assets/images/project2_blueprint.png"
-    ],
-    "detailedPlan": "/assets/images/project2_blueprint.png"
+      "Fig 1. 중앙 보이드와 외부 시선 차단벽.png",
+      "Drawing 1. 중정 중심 단면 상세도.png"
+    ]
   },
   {
     "id": "p-06",
     "year": "2025",
-    "category": "value-up",
-    "subCategory": "Hanok Remodeling",
+    "status": "built",
+    "category": ["Hanok Remodeling", "Café"],
+    "subCategory": "value-up",
     "title": "Amor Napoli 안국; doredore",
-    "summary": "북촌 역사 보존 지구 내 대수선 및 용도변경. 한옥의 목구조 질서와 상업 브랜드의 레이어를 면 분할 기법으로 충돌 안착시켰습니다.",
-    "thumbnail": "/assets/images/project3.png",
-    "blueprint": "/assets/images/project3_blueprint.png",
+    "mainpjt": "n",
+    "maintext": "북촌 역사 보존 지구 내 대수선 및 용도변경. 한옥의 목구조 질서와 상업 브랜드의 레이어를 면 분할 기법으로 충돌 안착시켰습니다.",
+    "spec": {
+      "위치": "서울 안국동",
+      "용도": "근린생활시설 (카페)",
+      "구분": "대수선 및 리모델링",
+      "대지면적": "145.00㎡ (44평)",
+      "연면적": "110.00㎡ (33평)",
+      "규모": "지상1층",
+      "세대": "근린생활시설 1호",
+      "상태": "완공"
+    },
     "gallery": [
-      "/assets/images/project3.png",
-      "/assets/images/project3_blueprint.png"
-    ],
-    "detailedPlan": "/assets/images/project3_blueprint.png"
+      "Fig 1. 한옥 목구조와 브랜드 레이어 충돌.png",
+      "Drawing 1. 목구조 보강 평면 상세도.png"
+    ]
   }
 ]
