@@ -669,6 +669,8 @@
             // AUTO-TRANSITION TO NEXT/PREV PROJECT ON WHEEL PAST BOTTOM/TOP
             let topScrollLocked = false;
             let topScrollLockedTime = 0;
+            let bottomScrollLocked = false;
+            let bottomScrollLockedTime = 0;
 
             scrollTrack.addEventListener("wheel", (e) => {
                 if (isTransitioning) return;
@@ -679,8 +681,20 @@
                 
                 // If at bottom and scrolling down (deltaY > 0)
                 if (isAtBottom && e.deltaY > 0) {
-                    e.preventDefault();
-                    triggerNextProject();
+                    if (!bottomScrollLocked) {
+                        bottomScrollLocked = true;
+                        bottomScrollLockedTime = Date.now();
+                        e.preventDefault();
+                    } else {
+                        // If locked and user scrolls down again after 800ms
+                        if (Date.now() - bottomScrollLockedTime > 800) {
+                            e.preventDefault();
+                            triggerNextProject();
+                            bottomScrollLocked = false;
+                        } else {
+                            e.preventDefault();
+                        }
+                    }
                     topScrollLocked = false;
                 }
                 // If at top and scrolling up (deltaY < 0)
@@ -699,8 +713,10 @@
                             e.preventDefault();
                         }
                     }
+                    bottomScrollLocked = false;
                 } else {
                     topScrollLocked = false;
+                    bottomScrollLocked = false;
                 }
             });
 
@@ -708,6 +724,8 @@
             let touchStartY = 0;
             let topTouchLocked = false;
             let topTouchLockedTime = 0;
+            let bottomTouchLocked = false;
+            let bottomTouchLockedTime = 0;
 
             scrollTrack.addEventListener("touchstart", (e) => {
                 touchStartY = e.touches[0].clientY;
@@ -721,7 +739,15 @@
                 const swipeDiff = touchStartY - touchEndY;
 
                 if (isAtBottom && swipeDiff > 30) { // Swipe up (scroll down)
-                    triggerNextProject();
+                    if (!bottomTouchLocked) {
+                        bottomTouchLocked = true;
+                        bottomTouchLockedTime = Date.now();
+                    } else {
+                        if (Date.now() - bottomTouchLockedTime > 800) {
+                            triggerNextProject();
+                            bottomTouchLocked = false;
+                        }
+                    }
                     topTouchLocked = false;
                 }
                 else if (isAtTop && swipeDiff < -30) { // Swipe down (scroll up)
@@ -734,8 +760,10 @@
                             topTouchLocked = false;
                         }
                     }
+                    bottomTouchLocked = false;
                 } else if (Math.abs(swipeDiff) > 5) {
                     topTouchLocked = false;
+                    bottomTouchLocked = false;
                 }
             });
 
