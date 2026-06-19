@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MMO ARCHITECTS | 주식회사 엠엠오건축사사무소</title>
+    <meta name="description" content="물질과 방법론의 심도 있는 결합을 통해 공간의 예술 질서를 확립하는 KIRA 인증 건축사사무소. Architecture, Value-up, Branding 총괄.">
+    
+    <meta name="naver-site-verification" content="네이버인증코드입력" />
+    <meta name="google-site-verification" content="구글인증코드입력" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ArchitecturalBusiness",
+      "name": "주식회사 엠엠오건축사사무소 (MMO ARCHITECTS)",
+      "description": "물질(Matter)과 방법론(Method)의 심도 있는 결합을 통해 공간의 최종적인 예술 질서(Order)를 확립하는 KIRA 인증 건축사사무소.",
+      "url": "https://mmoarchitects.com",
+      "logo": "https://mmoarchitects.com/assets/logo.png",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "법인 공식 등록 주소지 기입란",
+        "addressLocality": "Seoul",
+        "addressRegion": "Seoul",
+        "addressCountry": "KR"
+      },
+      "sameAs": [
+        "https://instagram.com/mmoarchitects"
+      ],
+      "knowsAbout": ["Architectural Design", "Interior Design", "Space Value-up", "Remodeling", "Branding"]
+    }
+    </script>
+
+    <style>
+        /* =================================================== */
+        /* 1. BRAND BASE STYLE & TONALITY                      */
+        /* =================================================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Pretendard', sans-serif; }
+        
+        body { 
+            background-color: #F5F4F0; color: #1a1a1a; 
+            overflow-x: hidden; min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+        a { color: #000; text-decoration: none; }
+
+        /* GNB AREA */
+        header {
+            position: fixed; top: 0; left: 0; width: 100%;
+            padding: 2.5rem 3rem; display: flex; justify-content: space-between; align-items: center;
+            background: rgba(245, 244, 240, 0.92); z-index: 1000;
+        }
+        .logo { font-weight: bold; letter-spacing: 0.05em; font-size: 1.1rem; line-height: 1; }
+        .logo a { display: flex; align-items: center; line-height: 1; }
+        .nav-menu { 
+            display: flex; gap: 3rem; position: absolute; left: 50%; top: 50%; 
+            transform: translate(-50%, -50%); align-items: center; 
+        }
+        .nav-menu a { 
+            font-size: 0.85rem; letter-spacing: 0.1em; font-weight: 600; color: #888; 
+            display: flex; align-items: center; line-height: 1; 
+        }
+        .nav-menu a:hover, .nav-menu a.active { color: #000; }
+        .nav-right { font-size: 0.7rem; color: #ccc; letter-spacing: 0.1em; line-height: 1; display: flex; align-items: center; }
+
+        /* LNB HOVER SUBMENU STYLE */
+        .nav-item-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .nav-lab-link {
+            display: flex;
+            align-items: center;
+            line-height: 1;
+        }
+        .lnb-hover-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            display: flex;
+            gap: 1.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            white-space: nowrap;
+            padding-top: 1rem;
+            z-index: 1010;
+        }
+        .nav-item-wrapper:hover .lnb-hover-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+        .lnb-hover-item {
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+            color: #888 !important;
+            transition: color 0.3s;
+        }
+        .lnb-hover-item:hover, .lnb-hover-item.active {
+            color: #000 !important;
+        }
+
+        /* 섹션 구조: 미니멀 여백으로 수직 깊이 가이드 최적화 */
+        section { 
+            padding: 8rem 3rem 4rem 3rem; 
+            max-width: 1400px; 
+            margin: 0 auto;
+            min-height: 75vh;
+            display: flex; flex-direction: column; justify-content: center;
+        }
+        .section-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.2em; color: #aaa; margin-bottom: 3rem; display: block; }
+
+        /* [SECTION 1] HERO SCREEN */
+        #hero { min-height: 85vh; text-align: center; align-items: center; justify-content: center; padding-top: 4rem; }
+        #hero h1 { font-size: 3.8rem; font-weight: 400; letter-spacing: -0.02em; line-height: 1.25; margin-bottom: 3rem; }
+        .poetic-scroll-link {
+            font-size: 0.85rem; letter-spacing: 0.05em; font-weight: 600; padding-bottom: 0.4rem; border-bottom: 1px solid #000;
+            transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1); cursor: pointer;
+        }
+        .poetic-scroll-link:hover { color: #666; border-bottom: 1px solid #666; padding-right: 0.5rem; }
+
+        /* [SECTION 2] PHILOSOPHY & INTEGRATED DISCIPLINE BAR */
+        .philosophy-summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6%; padding-left: 0.5rem; }
+        .mmo-core-card { display: flex; flex-direction: column; }
+        .mmo-core-card h3 { font-size: 1.5rem; font-weight: 500; margin-bottom: 1.2rem; letter-spacing: 0.02em; }
+        .mmo-core-card p { font-size: 0.9rem; color: #555; text-align: justify; line-height: 1.65; }
+
+        .integrated-services-bar {
+            grid-column: span 3; border-top: 1px solid #e5e4e0; border-bottom: 1px solid #e5e4e0;
+            padding: 1.6rem 1rem; margin-top: 3.5rem; display: flex; justify-content: space-between; align-items: center;
+            transition: background-color 0.55s cubic-bezier(0.25, 1, 0.5, 1), padding-left 0.55s cubic-bezier(0.25, 1, 0.5, 1), padding-right 0.55s cubic-bezier(0.25, 1, 0.5, 1);
+            cursor: pointer;
+        }
+        .integrated-services-bar:hover { background-color: rgba(26, 26, 26, 0.02); padding-left: 2rem; padding-right: 2rem; }
+        .service-bar-label { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.15em; color: #8c8a85; text-transform: uppercase; }
+        .service-tags-inline { display: flex; gap: 2.5rem; align-items: center; }
+        .service-inline-item { font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; color: #666; text-transform: uppercase; }
+        .integrated-services-bar:hover .service-inline-item { color: #1a1a1a; }
+        .service-bar-arrow { font-size: 1rem; font-weight: 300; color: #8c8a85; transition: transform 0.55s cubic-bezier(0.25, 1, 0.5, 1); }
+        .integrated-services-bar:hover .service-bar-arrow { transform: translateX(6px); color: #1a1a1a; }
+
+        /* =================================================== */
+        /* [SECTION 3] SELECTED WORKS (ENTROPY GRID MATRIX)    */
+        /* =================================================== */
+        #featured-works { max-width: 1500px; padding-top: 6rem; }
+        
+        .entropy-grid-track {
+            display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-flow: dense;
+            column-gap: 5%; row-gap: 130px; align-items: start; width: 100%;
+        }
+        .project-card { display: flex; flex-direction: column; box-sizing: border-box; cursor: pointer; }
+        
+        .card-image-slot { width: 100%; background-color: #dfded9; margin-bottom: 24px; position: relative; overflow: hidden; }
+        .photo-layer, .blueprint-layer {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center;
+            transition: opacity 0.55s cubic-bezier(0.25, 1, 0.5, 1), transform 0.55s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .blueprint-layer { 
+            opacity: 0; transform: scale(1.02); background-color: #d0cfc9; color: #666; font-size: 0.75rem; 
+            display: flex; align-items: center; justify-content: center; border: 1px dashed #999; z-index: 3;
+        }
+        .project-card:hover .photo-layer { opacity: 0; }
+        .project-card:hover .blueprint-layer { opacity: 1; transform: scale(1); }
+
+        .size-standard .card-image-slot { aspect-ratio: 4/3; }
+        .size-tall .card-image-slot { aspect-ratio: 3/4; }
+        .size-square .card-image-slot { aspect-ratio: 1/1; }
+        .size-wide .card-image-slot { aspect-ratio: 16/10; }
+        
+        .colspan-3 { grid-column: span 3 !important; }
+        .colspan-3 .card-image-slot { aspect-ratio: 21/9; }
+        .colspan-2 { grid-column: span 2; }
+        .colspan-2.size-wide .card-image-slot { aspect-ratio: 16/9; }
+        
+        .space-tight { margin-top: -20px; }
+        .space-medium { margin-top: 20px; }
+        .space-wide { margin-top: 45px; }
+
+        .meta-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; font-size: 10px; letter-spacing: 0.15em; color: #8c8a85; font-weight: 600; text-transform: uppercase; }
+        .project-title { font-size: 1.25rem; font-weight: 500; margin: 0 0 10px 0; letter-spacing: -0.02em; }
+        .project-summary { font-size: 0.9rem; line-height: 1.6; color: #666460; font-weight: 300; text-align: justify; }
+
+        /* 그리드 우하단 고정 결착 푸터 링크 */
+        .grid-footer { 
+            grid-column: 3; align-self: end; display: flex; justify-content: flex-end; 
+            margin-top: 40px; padding-bottom: 10px; 
+        }
+
+        /* =================================================== */
+        /* [SECTION 4] FOOTER (LEGEND & DIRECT CONTACT)        */
+        /* =================================================== */
+        .mmo-footer { background-color: #F5F4F0; padding: 10rem 3rem 4rem 3rem; max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1.51fr 1fr; gap: 4rem; border-top: 1px solid #e5e4e0; }
+
+        /* RESPONSIVE CONTROL */
+        @media (max-width: 1100px) {
+            section { padding-top: 8rem; }
+            .philosophy-summary-grid, .entropy-grid-track { grid-template-columns: 1fr; }
+            .integrated-services-bar { flex-direction: column; align-items: flex-start; gap: 1.5rem; padding: 1.5rem 1rem; margin-top: 2rem; }
+            .service-tags-inline { flex-wrap: wrap; gap: 1rem 2rem; }
+            .space-tight, .space-medium, .space-wide { margin-top: 0; }
+            .project-card.colspan-2, .project-card.colspan-3 { grid-column: span 1 !important; }
+            .grid-footer { grid-column: 1; justify-content: center; align-self: center; margin-top: 40px; }
+            .mmo-footer { grid-template-columns: 1fr; padding: 6rem 4% 4rem 4%; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo"><a href="/index.html">MMO ARCHITECTS</a></div>
+        <div class="nav-menu">
+            <a href="/projects.html">PROJECTS</a>
+            <div class="nav-item-wrapper">
+                <a href="/lab-modular.html" class="nav-lab-link">LAB — EDITIONS</a>
+                <div class="lnb-hover-menu">
+                    <a href="/lab-modular.html" class="lnb-hover-item">MODULAR</a>
+                    <a href="/lab-solution.html" class="lnb-hover-item">SOLUTION</a>
+                </div>
+            </div>
+            <a href="/about.html">ABOUT</a>
+        </div>
+        <div class="nav-right">SEOUL, KR</div>
+    </header>
+
+    <section id="hero">
+        <h1>Architecture from<br>nothing to nonfiction.</h1>
+        <a href="#philosophy" class="poetic-scroll-link">Explore MMO ➔</a>
+    </section>
+
+    <section id="philosophy">
+        <span class="section-label">Philosophy</span>
+        <div class="philosophy-summary-grid">
+            <div class="mmo-core-card">
+                <h3>Matter</h3>
+                <p>문제를 찾는 단계. 재료, 대지, 법적 제약과 같은 물리적 조건(공간이 직면한 핵심 문제)에서 영감과 실험적 질문을 얻습니다.</p>
+            </div>
+            <div class="mmo-core-card">
+                <h3>Method</h3>
+                <p>답을 만드는 단계. 설계·인허가·시공을 잇는 과정 전체를 가장 합리적이고 새로운 방법론으로 정밀하게 해결하려는 태도.</p>
+            </div>
+            <div class="mmo-core-card">
+                <h3>Order</h3>
+                <p>결과로 남는 단계. 도면의 모든 선과 면에 뚜렷한 구조적 이유가 존재하는, 쓰임새 명확하고 비례감이 살아있는 공간적 물리 질서.</p>
+            </div>
+
+            <a href="/about.html#services" class="integrated-services-bar">
+                <div class="service-bar-label">Core Disciplines</div>
+                <div class="service-tags-inline">
+                    <span class="service-inline-item">Architecture</span>
+                    <span class="service-inline-item">Value-up</span>
+                    <span class="service-inline-item">Development</span>
+                    <span class="service-inline-item">Branding</span>
+                    <span class="service-inline-item">Design Lab</span>
+                </div>
+                <div class="service-bar-arrow">➔</div>
+            </a>
+        </div>
+    </section>
+
+    <section id="featured-works">
+        <span class="section-label">Selected Works</span>
+        <div class="entropy-grid-track" id="entropyGrid">
+            
+            <article class="project-card" data-id="p-01">
+                <div class="card-image-slot">
+                    <div class="photo-layer" style="background-image: url('/assets/images/project1.png');"></div>
+                    <div class="blueprint-layer">[ BLUEPRINT / AMBIGUOUS LINE ]</div>
+                </div>
+                <div class="meta-row"><span class="card-year">2026</span><span class="card-tag-text">Create / Housing</span></div>
+                <h3 class="project-title">집합주택; 반복으로 만들어진 정교한 일상</h3>
+                <p class="project-summary">비정형의 골목길 대지 안에서 격자 규칙의 반복을 통해 거주자의 균일하고 정교한 일상의 공간 질서를 확보합니다.</p>
+            </article>
+
+            <article class="project-card" data-id="p-02">
+                <div class="card-image-slot">
+                    <div class="photo-layer" style="background-image: url('/assets/images/project2.png');"></div>
+                    <div class="blueprint-layer">[ BLUEPRINT / STRUCTURAL FRAME ]</div>
+                </div>
+                <div class="meta-row"><span class="card-year">2026</span><span class="card-tag-text">Value-up / Apartment</span></div>
+                <h3 class="project-title">반복된 틀; 아파트 위 놓인 천장</h3>
+                <p class="project-summary">기존 내벽의 한계를 허물고, 구조 노출면에 비례감 있는 천장 보조 프레임을 주입해 아파트 공간에 새로운 차원의 깊이감을 생성합니다.</p>
+            </article>
+
+            <article class="project-card" data-id="p-03">
+                <div class="card-image-slot">
+                    <div class="photo-layer" style="background-image: url('/assets/images/project3.png');"></div>
+                    <div class="blueprint-layer">[ BLUEPRINT / GEOMETRIC MASS ]</div>
+                </div>
+                <div class="meta-row"><span class="card-year">2025</span><span class="card-tag-text">Create / Office</span></div>
+                <h3 class="project-title">업무시설; 이안그로우 HQ</h3>
+                <p class="project-summary">소규모 사옥 신축 프로젝트. 대지가 가진 형태적 제약을 기하학적 매스로 전환하여 기업 고유의 물질적 정체성을 외벽에 투영합니다.</p>
+            </article>
+
+            <article class="project-card" data-id="p-06">
+                <div class="card-image-slot">
+                    <div class="photo-layer" style="background-image: url('/assets/images/project3.png');"></div>
+                    <div class="blueprint-layer">[ BLUEPRINT / COLLAGE FRAME ]</div>
+                </div>
+                <div class="meta-row"><span class="card-year">2025</span><span class="card-tag-text">Value-up / F&B</span></div>
+                <h3 class="project-title">Amor Napoli 안국; doredore</h3>
+                <p class="project-summary">북촌 역사 보존 지구 내 대수선 및 용도변경. 한옥의 목구조 질서와 상업 브랜드의 레이어를 면 분할 기법으로 충돌 안착시켰습니다.</p>
+            </article>
+
+            <article class="project-card" data-id="p-04">
+                <div class="card-image-slot">
+                    <div class="photo-layer" style="background-image: url('/assets/images/project1.png');"></div>
+                    <div class="blueprint-layer">[ BLUEPRINT / EXPERIENTIAL FLOW ]</div>
+                </div>
+                <div class="meta-row"><span class="card-year">2024</span><span class="card-tag-text">Branding / Identity</span></div>
+                <h3 class="project-title">경계가 사라진; 신사 포르메</h3>
+                <p class="project-summary">베이커리 매장 내부 조리실과 외부 베이킹 트랙의 물리적 경계를 허물어 시각 언어부터 가구까지 통합 설계한 브랜드 컨설팅 실무.</p>
+            </article>
+
+            <article class="project-card" data-id="p-05">
+                <div class="card-image-slot">
+                    <div class="photo-layer" style="background-image: url('/assets/images/project2.png');"></div>
+                    <div class="blueprint-layer">[ BLUEPRINT / VOID ARCHIVE ]</div>
+                </div>
+                <div class="meta-row"><span class="card-year">2024</span><span class="card-tag-text">Create / Housing</span></div>
+                <h3 class="project-title">집합주택; 중정을 중심으로 교차되는 관계</h3>
+                <p class="project-summary">외부 시선 차단과 내부 커뮤니티 확보라는 양면적 문제를 중앙 보이드(Void) 구획 정리를 통해 명확히 증명해 낸 중정형 다가구 신축.</p>
+            </article>
+
+            <div class="grid-footer" id="gridFooter">
+                <a href="/projects.html" class="poetic-scroll-link">View All Projects ➔</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="mmo-footer">
+        <div style="display: flex; flex-direction: column; gap: 1.2rem;">
+            <div>
+                <h4 style="font-size: 1.1rem; font-weight: bold; letter-spacing: 0.05em; margin-bottom: 1rem;">MMO ARCHITECTS</h4>
+                <p style="font-size: 0.9rem; color: #555; max-width: 480px; line-height: 1.7; word-break: keep-all;">엠엠오건축사사무소는 물질(Matter)과 방법론(Method)의 심도 있는 결합을 통해 공간의 최종적인 예술 질서(Order)를 확립합니다.</p>
+            </div>
+            
+            <div style="font-size: 9px; color: #aaa; line-height: 1.6; letter-spacing: 0.02em; font-weight: 400;">
+                주식회사 엠엠오건축사사무소 <br>
+                서울특별시 강서구, 대한민국
+            </div>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 1.2rem; text-align: right;">
+            <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 0.8rem;">
+                <div style="font-size: 0.75rem; letter-spacing: 0.15em; color: #8c8a85; font-weight: 600; text-transform: uppercase;">Direct Contact</div>
+                <div style="font-size: 0.9rem; font-weight: 400; line-height: 1.6; display: flex; flex-direction: column; gap: 0.4rem; align-items: flex-end;">
+                    <a href="mailto:official@mmoarchitects.com" style="transition: color 0.4s;" onmouseover="this.style.color='#8c8a85'" onmouseout="this.style.color='#1a1a1a'">official@mmoarchitects.com</a>
+                    <a href="https://instagram.com/mmoarchitects" target="_blank" style="transition: color 0.4s;" onmouseover="this.style.color='#8c8a85'" onmouseout="this.style.color='#1a1a1a'">@mmoarchitects</a>
+                </div>
+            </div>
+            <div style="font-size: 9px; color: #888; letter-spacing: 0.02em;">
+                © 2026 MMO Architects. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const grid = document.getElementById("entropyGrid");
+            const footer = document.getElementById("gridFooter");
+            const cards = Array.from(grid.querySelectorAll(".project-card"));
+
+            const sizePresets = ["size-standard", "size-tall", "size-square", "size-wide"];
+            const spacePresets = ["space-tight", "space-medium", "space-wide"];
+
+            // Helper to handle asset paths locally in inline styles
+            if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+                document.querySelectorAll(".photo-layer").forEach(el => {
+                    let bg = el.style.backgroundImage;
+                    if (bg && bg.includes("url(\"/assets/")) {
+                        el.style.backgroundImage = bg.replace("url(\"/assets/", "url(\"/public/assets/");
+                    }
+                });
+            }
+
+            // 1개의 마스터 타겟 선점 (시네마틱 와이드 뷰 전용)
+            const guaranteedSpan3Index = Math.floor(Math.random() * cards.length);
+            let currentColumnSpace = 0;
+
+            // 1. 행 유실 완전 방어형 엔트로피 난수 연산
+            cards.forEach((card, index) => {
+                if (index === guaranteedSpan3Index) {
+                    card.classList.add("colspan-3");
+                    currentColumnSpace = 0;
+                    return; 
+                }
+
+                const randomSize = sizePresets[Math.floor(Math.random() * sizePresets.length)];
+                card.classList.add(randomSize);
+
+                const randomSpace = spacePresets[Math.floor(Math.random() * spacePresets.length)];
+                card.classList.add(randomSpace);
+
+                // 빈 행 생성 차단: 첫 칸에서만 제한적 가로 확장 허용
+                if (currentColumnSpace === 0 && Math.random() > 0.45 && index < cards.length - 1 && (index + 1 !== guaranteedSpan3Index)) {
+                    card.classList.add("colspan-2");
+                    card.classList.remove("size-tall", "size-standard");
+                    card.classList.add("size-wide");
+                    currentColumnSpace += 2;
+                } else {
+                    currentColumnSpace += 1;
+                }
+
+                if (currentColumnSpace >= 3) {
+                    currentColumnSpace = 0;
+                }
+            });
+
+            // 연산 종료 후 푸터를 트랙 최후미에 밀어 넣어 우하단 결착 유지
+            grid.appendChild(footer);
+
+            // 2. 홈 화면 전용: 모달 대신 /projects 라우팅 연동 (UX 앵커 타겟팅)
+            document.addEventListener("click", (e) => {
+                const card = e.target.closest(".project-card");
+                if (!card) return;
+
+                // 클릭된 카드의 고유 ID를 가져와서 전체 포트폴리오 아카이브의 해당 위치로 다이렉트 랜딩
+                const projectId = card.getAttribute("data-id");
+                if(projectId) {
+                    window.location.href = `/projects.html?id=${projectId}`;
+                } else {
+                    window.location.href = `/projects.html`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

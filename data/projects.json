@@ -1,0 +1,92 @@
+[
+  {
+    "id": "p-01",
+    "year": "2026",
+    "category": "create",
+    "subCategory": "Housing",
+    "title": "집합주택; 반복으로 만들어진 정교한 일상",
+    "summary": "비정형의 골목길 대지 안에서 격자 규칙의 반복을 통해 거주자의 균일하고 정교한 일상의 공간 질서를 확보합니다.",
+    "thumbnail": "/assets/images/project1.png",
+    "blueprint": "/assets/images/project1_blueprint.png",
+    "gallery": [
+      "/assets/images/project1.png",
+      "/assets/images/project1_blueprint.png"
+    ],
+    "detailedPlan": "/assets/images/project1_blueprint.png"
+  },
+  {
+    "id": "p-02",
+    "year": "2026",
+    "category": "value-up",
+    "subCategory": "Apartment",
+    "title": "반복된 틀; 아파트 위 놓인 천장",
+    "summary": "기존 내벽의 한계를 허물고, 구조 노출면에 비례감 있는 천장 보조 프레임을 주입해 아파트 공간에 새로운 차원의 깊이감을 생성합니다.",
+    "thumbnail": "/assets/images/project2.png",
+    "blueprint": "/assets/images/project2_blueprint.png",
+    "gallery": [
+      "/assets/images/project2.png",
+      "/assets/images/project2_blueprint.png"
+    ],
+    "detailedPlan": "/assets/images/project2_blueprint.png"
+  },
+  {
+    "id": "p-03",
+    "year": "2025",
+    "category": "create",
+    "subCategory": "Office HQ",
+    "title": "업무시설; 이안그로우 HQ",
+    "summary": "소규모 사옥 신축 프로젝트. 대지가 가진 형태적 제약을 기하학적 매스로 전환하여 기업 고유의 물질적 정체성을 외벽에 투영합니다.",
+    "thumbnail": "/assets/images/project3.png",
+    "blueprint": "/assets/images/project3_blueprint.png",
+    "gallery": [
+      "/assets/images/project3.png",
+      "/assets/images/project3_blueprint.png"
+    ],
+    "detailedPlan": "/assets/images/project3_blueprint.png"
+  },
+  {
+    "id": "p-04",
+    "year": "2025",
+    "category": "brand",
+    "subCategory": "Branding",
+    "title": "경계가 사라진; 신사 포르메",
+    "summary": "베이커리 매장 내부 조리실과 외부 베이킹 트랙의 물리적 경계를 허물어 시각 언어부터 가구까지 통합 설계한 브랜드 컨설팅 실무.",
+    "thumbnail": "/assets/images/project1.png",
+    "blueprint": "/assets/images/project1_blueprint.png",
+    "gallery": [
+      "/assets/images/project1.png",
+      "/assets/images/project1_blueprint.png"
+    ],
+    "detailedPlan": "/assets/images/project1_blueprint.png"
+  },
+  {
+    "id": "p-05",
+    "year": "2024",
+    "category": "create",
+    "subCategory": "Housing",
+    "title": "집합주택; 중정을 중심으로 교차되는 관계",
+    "summary": "외부 시선 차단과 내부 커뮤니티 확보라는 양면적 문제를 중앙 보이드(Void) 구획 정리를 통해 명확히 증명해 낸 중정형 다가구 신축.",
+    "thumbnail": "/assets/images/project2.png",
+    "blueprint": "/assets/images/project2_blueprint.png",
+    "gallery": [
+      "/assets/images/project2.png",
+      "/assets/images/project2_blueprint.png"
+    ],
+    "detailedPlan": "/assets/images/project2_blueprint.png"
+  },
+  {
+    "id": "p-06",
+    "year": "2025",
+    "category": "value-up",
+    "subCategory": "Hanok Remodeling",
+    "title": "Amor Napoli 안국; doredore",
+    "summary": "북촌 역사 보존 지구 내 대수선 및 용도변경. 한옥의 목구조 질서와 상업 브랜드의 레이어를 면 분할 기법으로 충돌 안착시켰습니다.",
+    "thumbnail": "/assets/images/project3.png",
+    "blueprint": "/assets/images/project3_blueprint.png",
+    "gallery": [
+      "/assets/images/project3.png",
+      "/assets/images/project3_blueprint.png"
+    ],
+    "detailedPlan": "/assets/images/project3_blueprint.png"
+  }
+]

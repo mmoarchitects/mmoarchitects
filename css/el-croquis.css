@@ -1,0 +1,141 @@
+/* ----------------------------------------------------
+   EL CROQUIS SPLIT-VIEW OVERLAY (.project-detail-layer)
+---------------------------------------------------- */
+.project-detail-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-color);
+  z-index: 900;
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform var(--transition-speed) var(--transition-bezier),
+              opacity var(--transition-speed) var(--transition-bezier);
+  display: grid;
+  grid-template-columns: 35% 65%;
+  overflow: hidden;
+}
+
+.project-detail-layer.active {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Left Panel: 35% fixed height/width text & monographs */
+.detail-left-panel {
+  padding: 14rem 3.5rem 4rem 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  overflow-y: auto;
+  border-right: none; /* Void concept: no lines! */
+}
+
+.detail-project-title {
+  font-size: 2.2rem;
+  font-weight: 300;
+  margin-bottom: 2rem;
+}
+
+.detail-project-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-bottom: 4rem;
+}
+
+.detail-meta-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.detail-meta-label {
+  color: var(--text-muted);
+}
+
+.detail-meta-val {
+  font-weight: 500;
+}
+
+.detail-project-desc {
+  font-size: 14px;
+  line-height: 1.8;
+  color: #333333;
+}
+
+.detail-project-monograph {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-top: auto;
+  line-height: 1.7;
+}
+
+.detail-close-btn {
+  margin-top: 3rem;
+  background: none;
+  border: none;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  align-self: flex-start;
+}
+
+.detail-close-btn:hover {
+  opacity: 0.6;
+}
+
+/* Right Panel: 65% independent scroll stream */
+.detail-right-panel {
+  padding: 14rem 4rem 4rem 2rem;
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-gutter: stable; /* Prevent layout shift when scrollbars pop in */
+  display: flex;
+  flex-direction: column;
+  gap: 6rem;
+}
+
+.detail-stream-img-wrapper {
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.detail-stream-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.detail-stream-blueprint {
+  width: 100%;
+  height: auto;
+  display: block;
+  mix-blend-mode: multiply; /* Melt neatly into cream background */
+  opacity: 0.85; /* Opacity threshold */
+}
+
+@media (max-width: 900px) {
+  .project-detail-layer {
+    grid-template-columns: 1fr;
+  }
+  .detail-left-panel {
+    padding: 8rem 2rem 2rem 2rem;
+    height: auto;
+    overflow-y: visible;
+  }
+  .detail-right-panel {
+    padding: 2rem;
+    height: auto;
+    overflow-y: visible;
+  }
+}

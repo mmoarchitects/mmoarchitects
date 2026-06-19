@@ -1,0 +1,13 @@
+{
+  "name": "mmo-architects",
+  "version": "1.0.0",
+  "description": "MMO ARCHITECTS Website Portfolio",
+  "main": "app.js",
+  "scripts": {
+    "dev": "npx http-server -p 8080"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

@@ -1,0 +1,18 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+
+/* ----------------------------------------------------
+   DESIGN TOKENS & VARIABLES
+---------------------------------------------------- */
+:root {
+  --bg-color: #F5F4F0; /* Soft warm paper off-white */
+  --text-dark: #1A1A1A;
+  --text-muted: #8E8D8A;
+  --text-legal: #AAAAAA;
+  --accent-color: #000000;
+  --panel-bg: #FAFAFA;
+  
+  /* Motion & Timing Principle */
+  --transition-bezier: cubic-bezier(0.25, 1, 0.5, 1);
+  --transition-speed: 0.55s;
+  --main-transition: all var(--transition-speed) var(--transition-bezier);
+}

@@ -1,0 +1,230 @@
+/* ----------------------------------------------------
+   HERO & DISCIPLINE BAR
+---------------------------------------------------- */
+.hero-statement {
+  max-width: 900px;
+  margin-top: 2rem;
+  margin-bottom: 8rem;
+}
+
+.hero-title {
+  font-size: 2.8rem;
+  font-weight: 300;
+  line-height: 1.3;
+  margin-bottom: 2.5rem;
+  word-break: keep-all;
+}
+
+.hero-subtitle {
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--text-muted);
+  max-width: 600px;
+}
+
+/* 5-Discipline Index Bar */
+.discipline-container {
+  display: flex;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.02);
+  margin-bottom: 8rem;
+  cursor: pointer;
+}
+
+.discipline-item {
+  flex: 1;
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 160px;
+  transition: var(--main-transition);
+  position: relative;
+}
+
+.discipline-item:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.discipline-num {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.discipline-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.discipline-arrow {
+  display: inline-block;
+  transition: transform var(--transition-speed) var(--transition-bezier);
+}
+
+.discipline-item:hover .discipline-arrow {
+  transform: translateX(6px); /* Advance arrow ➔ by 6px */
+}
+
+/* ----------------------------------------------------
+   ENTROPY GRID MATRIX & RANDOM ENGINE CLASS STYLING
+---------------------------------------------------- */
+.entropy-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-flow: dense;
+  gap: 4rem 3rem;
+  width: 100%;
+}
+
+.entropy-card {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Size Classes */
+.entropy-card.size-standard {
+  grid-column: span 1;
+}
+
+.entropy-card.size-tall {
+  grid-column: span 1;
+  grid-row: span 2;
+}
+
+.entropy-card.size-square {
+  grid-column: span 1;
+  grid-row: span 1;
+}
+
+.entropy-card.size-wide {
+  grid-column: span 2;
+}
+
+.entropy-card.colspan-3 {
+  grid-column: span 3;
+}
+
+/* Asymmetric Padding spacing offsets */
+.entropy-card.space-tight {
+  padding: 1rem;
+}
+.entropy-card.space-medium {
+  padding: 2.5rem;
+}
+.entropy-card.space-wide {
+  padding: 4.5rem;
+}
+
+.entropy-img-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: #E2E1DD;
+  aspect-ratio: 4/3;
+}
+
+.entropy-card.size-tall .entropy-img-wrapper {
+  aspect-ratio: 3/4;
+}
+
+.entropy-card.size-square .entropy-img-wrapper {
+  aspect-ratio: 1/1;
+}
+
+.entropy-card.colspan-3 .entropy-img-wrapper {
+  aspect-ratio: 21/9;
+}
+
+.entropy-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--main-transition);
+}
+
+.entropy-blueprint {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(0.95);
+  transition: var(--main-transition);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+/* Blueprint Crossfade Hover */
+.entropy-card:hover .entropy-blueprint {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.entropy-card:hover .entropy-img {
+  opacity: 0.15;
+}
+
+.entropy-card-info {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.entropy-card-title {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.entropy-card-meta {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+/* View All Projects Anchor */
+.grid-footer {
+  grid-column: 3;
+  align-self: end;
+  text-align: right;
+  padding-top: 2rem;
+}
+
+.view-all-link {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.view-all-link:hover .arrow-move {
+  transform: translateX(6px);
+}
+
+.arrow-move {
+  display: inline-block;
+  transition: transform var(--transition-speed) var(--transition-bezier);
+}
+
+@media (max-width: 900px) {
+  .entropy-grid {
+    grid-template-columns: 1fr;
+  }
+  .entropy-card.size-wide, .entropy-card.colspan-3 {
+    grid-column: span 1;
+  }
+  .entropy-img-wrapper {
+    aspect-ratio: 4/3 !important;
+  }
+}

@@ -1,0 +1,80 @@
+[
+  {
+    "id": "entropy-house",
+    "title": "ENTROPY HOUSE",
+    "titleKo": "엔트로피 하우스",
+    "category": "RESIDENTIAL",
+    "year": "2025",
+    "location": "SEOUL, KR",
+    "area": "245㎡",
+    "description": "물질의 자연스러운 흐름과 질서를 콘크리트 매스 속에 녹여낸 단독 주택 프로젝트입니다.",
+    "monograph": "Monograph No. 12 - 대지의 원초적인 지형과 콘크리트 무늬목 거푸집의 불완전한 텍스처가 조화를 이루는 주거 공간.",
+    "image": "assets/project1.png",
+    "blueprint": "assets/project1_blueprint.png"
+  },
+  {
+    "id": "concrete-pavilion",
+    "title": "CONCRETE PAVILION",
+    "titleKo": "콘크리트 파빌리온",
+    "category": "PAVILION",
+    "year": "2024",
+    "location": "GAPEONG, KR",
+    "area": "180㎡",
+    "description": "수면 위에 띄워진 날것 그대로의 노출 콘크리트 매스가 보여주는 정적인 비례감과 빛의 연출.",
+    "monograph": "Monograph No. 08 - 물의 반영과 콘크리트 매스가 만나는 지점에서 발생하는 빛과 그림자의 연속적인 대화.",
+    "image": "assets/project2.png",
+    "blueprint": "assets/project2_blueprint.png"
+  },
+  {
+    "id": "minimalist-villa",
+    "title": "MINIMALIST VILLA",
+    "titleKo": "미니멀리스트 빌라",
+    "category": "RESIDENTIAL",
+    "year": "2025",
+    "location": "JEJU, KR",
+    "area": "320㎡",
+    "description": "자연을 향해 극적으로 열린 전면 유리창과 선적인 프레임으로 완성된 미니멀 휴양용 단독 빌라.",
+    "monograph": "Monograph No. 15 - 내외부의 물리적 경계를 허물고 바다를 실내 조경의 일부로 끌어들이는 개방적 단면 계획.",
+    "image": "assets/project3.png",
+    "blueprint": "assets/project3_blueprint.png"
+  },
+  {
+    "id": "void-villa",
+    "title": "VOID VILLA",
+    "titleKo": "보이드 빌라",
+    "category": "RESIDENTIAL",
+    "year": "2023",
+    "location": "YONGIN, KR",
+    "area": "290㎡",
+    "description": "매스 중심을 관통하는 거대한 보이드(중정)를 통해 유입되는 빛과 바람의 음미.",
+    "monograph": "Monograph No. 04 - 외부로부터 완전히 닫혀있으나 내부 보이드를 통해 하늘을 완벽히 조망하는 중정형 주택.",
+    "image": "assets/project1.png",
+    "blueprint": "assets/project1_blueprint.png"
+  },
+  {
+    "id": "monolith-pavilion",
+    "title": "MONOLITH PAVILION",
+    "titleKo": "모놀리스 파빌리온",
+    "category": "COMMERCIAL",
+    "year": "2024",
+    "location": "SEOUL, KR",
+    "area": "410㎡",
+    "description": "도시적 맥락 안에서 고요한 침묵을 지키는 하나의 거대한 돌(Monolith)처럼 설계된 오피스 쇼룸.",
+    "monograph": "Monograph No. 07 - 장식적인 요소가 철저히 배제된 거친 텍스처의 외벽과 극도로 제한된 오프닝이 주는 침묵.",
+    "image": "assets/project2.png",
+    "blueprint": "assets/project2_blueprint.png"
+  },
+  {
+    "id": "structural-cabin",
+    "title": "STRUCTURAL CABIN",
+    "titleKo": "구조적 캐빈",
+    "category": "LAB - MODULAR",
+    "year": "2025",
+    "location": "YANGPYEONG, KR",
+    "area": "75㎡",
+    "description": "공장에서 고도로 통제되어 사전 제작되는 프리미엄 패시브하우스급 모듈러 주택 캐빈.",
+    "monograph": "Monograph No. 19 - 구조적 안정성과 단열 성능을 극대화하여 3일 이내 대지에 안착 가능한 고정밀 모듈러 에디션.",
+    "image": "assets/project3.png",
+    "blueprint": "assets/project3_blueprint.png"
+  }
+]
