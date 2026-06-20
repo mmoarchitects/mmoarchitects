@@ -113,6 +113,50 @@
         }
 
         /* =================================================== */
+        /* [PART 0] ABOUT INTRO (MANIFESTO)                   */
+        /* =================================================== */
+        #about-intro {
+            padding-bottom: 2rem;
+        }
+        #services {
+            padding-top: 6rem;
+        }
+        .about-intro-container {
+            max-width: 680px; 
+            margin: 0 auto;
+            text-align: left;
+        }
+        .lead-text {
+            font-size: 1.4rem;
+            line-height: 1.8;
+            color: #1a1a1a;
+            margin-bottom: 5rem;
+            word-break: keep-all;
+        }
+        .lead-text strong {
+            display: block;
+            font-size: 1.9rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+            color: #000;
+        }
+        .body-text p {
+            font-size: 1.05rem;
+            line-height: 1.85;
+            color: #444;
+            margin-bottom: 2.5rem;
+            word-break: keep-all;
+        }
+        .body-text .conclusion-text {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #000;
+            margin-top: 4rem;
+            margin-bottom: 0;
+        }
+
+        /* =================================================== */
         /* [PART 1] PHILOSOPHY IN PRACTICE                     */
         /* =================================================== */
         .philosophy-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 8rem; }
@@ -205,6 +249,13 @@
         /* RESPONSIVE CONTROL */
         @media (max-width: 1100px) {
             section { padding-top: 8rem; }
+            #about-intro {
+                padding-top: 8rem;
+                padding-bottom: 2rem;
+            }
+            #services {
+                padding-top: 4rem;
+            }
             .philosophy-grid, .contact-flow, .mmo-footer { grid-template-columns: 1fr; gap: 4rem; }
             .grid-cols-2, .grid-cols-3 { grid-template-columns: 1fr; gap: 4rem; }
             .field-blank-container { width: 100% !important; margin: 0.5rem 0; }
@@ -233,6 +284,21 @@
                 justify-content: center;
                 gap: 1.8rem;
             }
+            .lead-text strong {
+                font-size: 1.6rem;
+            }
+            .lead-text {
+                font-size: 1.2rem;
+                margin-bottom: 3.5rem;
+            }
+            .body-text p {
+                font-size: 1rem;
+                margin-bottom: 2rem;
+            }
+            .body-text .conclusion-text {
+                font-size: 1.05rem;
+                margin-top: 3rem;
+            }
         }
     </style>
 </head>
@@ -253,6 +319,42 @@
         </div>
         <div class="nav-right">SEOUL, KR</div>
     </header>
+
+    <section id="about-intro">
+        <div class="about-intro-container">
+            <p class="lead-text">
+                <strong>MMO는 건축사사무소이자 랩입니다.</strong>
+                애매모호함은 '방향 없음'이 아닌 가능성이 열린 상태를 의미합니다.<br>
+                디자인 · 설계 · 인허가 · 시공의 과정에서<br>
+                결과는 질서로 남고, 시간은 의미를 더합니다.
+            </p>
+
+            <div class="body-text">
+                <p>
+                    시작은 언제나 애매모호함에서 출발합니다.<br>
+                    그것은 불확실함이 아니라, 모든 가능성이 열려 있는 0의 상태입니다.<br>
+                    우리가 다루는 것은 재료와 맥락, 땅과 시간, 그리고 사람입니다.<br>
+                    그 안에서 우리는 문제를 찾고, 질문을 던집니다.
+                </p>
+
+                <p>
+                    우리는 도면을 그리면서도, 과정을 중요시합니다.<br>
+                    건축, 인테리어, 대수선, 리모델링, 시공, 그리고 그 사이의 모든 일들.<br>
+                    MMO는 실험을 통해 더 나은 구조와 디테일을 찾는 ‘랩’(lab design)입니다.<br>
+                    매 프로젝트는 다르고, 그 다름은 우리의 방법론을 만듭니다.
+                </p>
+
+                <p>
+                    우리가 만든 것은 단지 건물이 아닙니다.<br>
+                    재료와 시간, 과정과 사람의 흔적이 쌓여 질서를 이룹니다.
+                </p>
+                
+                <p class="conclusion-text">
+                    그게 MMO가 만드는 건축의 ‘결과’입니다.
+                </p>
+            </div>
+        </div>
+    </section>
 
     <section id="services">
         <span class="section-label">Our Services & Framework</span>
