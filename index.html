@@ -177,14 +177,29 @@
         .card-image-slot { width: 100%; background-color: #dfded9; margin-bottom: 24px; position: relative; overflow: hidden; }
         .photo-layer, .blueprint-layer {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center;
-            transition: opacity 0.55s cubic-bezier(0.25, 1, 0.5, 1), transform 0.55s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: opacity 0.55s cubic-bezier(0.25, 1, 0.5, 1), transform 0.55s cubic-bezier(0.25, 1, 0.5, 1), filter 0.55s cubic-bezier(0.25, 1, 0.5, 1);
         }
         .blueprint-layer { 
-            opacity: 0; transform: scale(1.02); background-color: #d0cfc9; color: #666; font-size: 0.75rem; 
-            display: flex; align-items: center; justify-content: center; border: 1px dashed #999; z-index: 3;
+            opacity: 0; 
+            background-color: rgba(245, 244, 240, 0.35); 
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            color: #000; 
+            font-size: 0.85rem; 
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            z-index: 3;
         }
-        .project-card:hover .photo-layer { opacity: 0; }
-        .project-card:hover .blueprint-layer { opacity: 1; transform: scale(1); }
+        .project-card:hover .photo-layer { 
+            transform: scale(1.03); 
+            filter: blur(2px) brightness(0.9); 
+        }
+        .project-card:hover .blueprint-layer { 
+            opacity: 1; 
+        }
 
         .size-standard .card-image-slot { aspect-ratio: 4/3; }
         .size-tall .card-image-slot { aspect-ratio: 3/4; }
@@ -410,7 +425,7 @@
                             <article class="project-card" data-id="${proj.id}">
                                 <div class="card-image-slot">
                                     <div class="photo-layer" style="background-image: url('${thumbUrl}');"></div>
-                                    <div class="blueprint-layer">[ BLUEPRINT ARCHIVE ]</div>
+                                    <div class="blueprint-layer">[VIEW IN PROJECTS]</div>
                                 </div>
                                 <h3 class="project-title">${proj.title}</h3>
                                 <p class="project-summary">${summaryText}</p>
