@@ -152,29 +152,25 @@
             aspect-ratio: 21/9;
         }
 
-        /* [SECTION 2] PHILOSOPHY & INTEGRATED DISCIPLINE BAR */
-        #philosophy {
-            padding-top: 4rem;
-            padding-bottom: 4rem;
-            min-height: auto;
-        }
-        .philosophy-summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; padding-left: 0.5rem; }
-        .mmo-core-card {
+        /* [SECTION 2] PHILOSOPHY CARD INSIDE GRID */
+        .philosophy-box {
+            background-color: transparent;
+            border: 1px solid #e5e4e0;
+            padding: 2.5rem;
             display: flex;
             flex-direction: column;
-            border-top: 1px solid #e5e4e0;
-            padding-top: 2.2rem;
-            position: relative;
+            justify-content: space-between;
         }
-        .mmo-core-card h3 { font-size: 1.5rem; font-weight: 500; margin-bottom: 1.2rem; letter-spacing: 0.02em; }
-        .mmo-core-card p { font-size: 0.9rem; color: #555; text-align: justify; line-height: 1.65; word-break: keep-all; }
-        .philo-num {
-            font-family: Georgia, serif;
-            font-style: italic;
-            font-size: 1.6rem;
-            color: #b5b4ad;
-            margin-bottom: 0.5rem;
-            display: block;
+        .philosophy-box .integrated-services-bar {
+            grid-column: auto !important;
+            margin-top: auto !important;
+            border-bottom: none !important;
+            padding: 1.6rem 0 !important;
+            width: 100%;
+        }
+        .philosophy-box .integrated-services-bar:hover {
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
         }
         .integrated-services-bar {
             grid-column: span 3; 
@@ -275,10 +271,6 @@
         .mmo-footer { background-color: #F5F4F0; padding: 10rem 3rem 4rem 3rem; max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1.51fr 1fr; gap: 4rem; border-top: 1px solid #e5e4e0; }
 
         /* RESPONSIVE CONTROL */
-        @media (max-width: 1200px) {
-            .philosophy-summary-grid { grid-template-columns: 1fr; }
-            .integrated-services-bar { grid-column: span 1; }
-        }
         @media (max-width: 1100px) {
             section { padding-top: 8rem; }
             .entropy-grid-track { grid-template-columns: 1fr; }
@@ -291,6 +283,9 @@
             .hero-work-track .card-image-slot { aspect-ratio: 16/10; }
             .hero-sub-ko { font-size: 0.95rem; margin-bottom: 2rem; }
             #hero h1 { font-size: 2.5rem; }
+            .philosophy-card { grid-column: span 1 !important; }
+            .philosophy-box { aspect-ratio: auto !important; height: auto !important; min-height: 420px; padding: 2rem 1.5rem !important; }
+            .philosophy-box .integrated-services-bar:hover { padding-left: 0 !important; padding-right: 0 !important; }
         }
         @media (max-width: 768px) {
             header {
@@ -348,38 +343,6 @@
         </div>
     </section>
 
-    <section id="philosophy">
-        <span class="section-label">Philosophy</span>
-        <div class="philosophy-summary-grid">
-            <div class="mmo-core-card">
-                <span class="philo-num">01</span>
-                <h3>Matter</h3>
-                <p>문제를 찾는 단계. 재료, 대지, 법적 제약과 같은 물리적 조건(공간이 직면한 핵심 문제)에서 영감과 실험적 질문을 얻습니다.</p>
-            </div>
-            <div class="mmo-core-card">
-                <span class="philo-num">02</span>
-                <h3>Method</h3>
-                <p>답을 만드는 단계. 설계·인허가·시공을 잇는 과정 전체를 가장 합리적이고 새로운 방법론으로 정밀하게 해결하려는 태도.</p>
-            </div>
-            <div class="mmo-core-card">
-                <span class="philo-num">03</span>
-                <h3>Order</h3>
-                <p>결과로 남는 단계. 도면의 모든 선과 면에 뚜렷한 구조적 이유가 존재하는, 쓰임새 명확하고 비례감이 살아있는 공간적 물리 질서.</p>
-            </div>
-
-            <a href="/about.html#services" class="integrated-services-bar">
-                <div class="service-bar-label">Core Disciplines</div>
-                <div class="service-tags-inline">
-                    <span class="service-inline-item">Architecture</span>
-                    <span class="service-inline-item">Value-up</span>
-                    <span class="service-inline-item">Development</span>
-                    <span class="service-inline-item">Branding</span>
-                    <span class="service-inline-item">Design Lab</span>
-                </div>
-                <div class="service-bar-arrow">➔</div>
-            </a>
-        </div>
-    </section>
 
     <section id="featured-works">
         <span class="section-label">Selected Works</span>
@@ -492,8 +455,43 @@
                         </article>
                     `;
 
-                    // 4. 나머지 5개 카드 HTML 생성
-                    let html = "";
+                    // 4. 나머지 5개 카드 HTML 생성 및 Philosophy 카드 결합
+                    let html = `
+                        <article class="project-card philosophy-card colspan-2" style="cursor: default;">
+                            <div class="card-image-slot philosophy-box">
+                                <div class="philo-simplified-container">
+                                    <span class="section-label" style="margin-bottom: 2rem; font-size: 0.65rem; color: #a3a19b; text-transform: uppercase; letter-spacing: 0.2em; display: block;">Philosophy</span>
+                                    <div class="philo-simplified-list" style="display: flex; flex-direction: column; gap: 1.5rem;">
+                                        <div class="philo-simplified-row" style="display: flex; align-items: center; gap: 1rem;">
+                                            <span class="philo-num-small" style="font-family: Georgia, serif; font-style: italic; font-size: 1.25rem; color: #b5b4ad; width: 24px;">01</span>
+                                            <span class="philo-word" style="font-size: 0.95rem; color: #444; word-break: keep-all;"><strong style="color: #000; font-weight: 600; margin-right: 0.5rem; letter-spacing: 0.05em;">MATTER</strong> 문제를 찾는 단계 (물성, 대지, 제약조건)</span>
+                                        </div>
+                                        <div class="philo-simplified-row" style="display: flex; align-items: center; gap: 1rem;">
+                                            <span class="philo-num-small" style="font-family: Georgia, serif; font-style: italic; font-size: 1.25rem; color: #b5b4ad; width: 24px;">02</span>
+                                            <span class="philo-word" style="font-size: 0.95rem; color: #444; word-break: keep-all;"><strong style="color: #000; font-weight: 600; margin-right: 0.5rem; letter-spacing: 0.05em;">METHOD</strong> 답을 만드는 단계 (설계, 인허가, 시공)</span>
+                                        </div>
+                                        <div class="philo-simplified-row" style="display: flex; align-items: center; gap: 1rem;">
+                                            <span class="philo-num-small" style="font-family: Georgia, serif; font-style: italic; font-size: 1.25rem; color: #b5b4ad; width: 24px;">03</span>
+                                            <span class="philo-word" style="font-size: 0.95rem; color: #444; word-break: keep-all;"><strong style="color: #000; font-weight: 600; margin-right: 0.5rem; letter-spacing: 0.05em;">ORDER</strong> 결과로 남는 질서 (비례, 기능, 실재)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <a href="/about.html#services" class="integrated-services-bar">
+                                    <div class="service-bar-label">Core Disciplines</div>
+                                    <div class="service-tags-inline">
+                                        <span class="service-inline-item">Architecture</span>
+                                        <span class="service-inline-item">Value-up</span>
+                                        <span class="service-inline-item">Development</span>
+                                        <span class="service-inline-item">Branding</span>
+                                        <span class="service-inline-item">Design Lab</span>
+                                    </div>
+                                    <div class="service-bar-arrow">➔</div>
+                                </a>
+                            </div>
+                        </article>
+                    `;
+
                     remainingProjs.forEach(proj => {
                         // 갤러리 이미지 중 무작위 1개 선택하여 썸네일로 표출
                         let selectedThumb = "";
@@ -531,13 +529,23 @@
                     grid.innerHTML = html;
                     grid.appendChild(footer);
 
-                    // 5. 엔트로피 난수 연산 적용 (나머지 5개 카드 대상)
+                    // 5. 엔트로피 난수 연산 적용
                     const cards = Array.from(grid.querySelectorAll(".project-card"));
-                    const guaranteedSpan3Index = Math.floor(Math.random() * cards.length);
-                    let currentColumnSpace = 0;
+                    // philosophy-card가 아닌 카드 중에서 random colspan-3를 골라야 하므로 필터링
+                    const projectCardsOnly = cards.filter(c => !c.classList.contains("philosophy-card"));
+                    const guaranteedSpan3Index = Math.floor(Math.random() * projectCardsOnly.length);
+                    
+                    let currentColumnSpace = 2; // philosophy-card가 colspan-2이므로 첫 시작은 2칸 점유 상태로 계산
 
-                    cards.forEach((card, index) => {
-                        if (index === guaranteedSpan3Index) {
+                    cards.forEach((card) => {
+                        // philosophy-card는 크기와 공간 계산을 건너뛰고 그대로 유지
+                        if (card.classList.contains("philosophy-card")) {
+                            return; 
+                        }
+
+                        // random colspan-3 적용 대상 체크
+                        const projIndex = projectCardsOnly.indexOf(card);
+                        if (projIndex === guaranteedSpan3Index) {
                             card.classList.add("colspan-3");
                             currentColumnSpace = 0;
                             return; 
@@ -549,8 +557,8 @@
                         const randomSpace = spacePresets[Math.floor(Math.random() * spacePresets.length)];
                         card.classList.add(randomSpace);
 
-                        // 빈 행 생성 방어
-                        if (currentColumnSpace === 0 && Math.random() > 0.45 && index < cards.length - 1 && (index + 1 !== guaranteedSpan3Index)) {
+                        // 빈 행 생성 방어 및 열 점유 계산
+                        if (currentColumnSpace === 0 && Math.random() > 0.45 && projIndex < projectCardsOnly.length - 1 && (projIndex + 1 !== guaranteedSpan3Index)) {
                             card.classList.add("colspan-2");
                             card.classList.remove("size-tall", "size-standard");
                             card.classList.add("size-wide");
