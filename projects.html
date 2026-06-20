@@ -403,6 +403,22 @@
                 return getAssetPath(`/assets/projects/${projId}/${normalizedFileName}`);
             };
 
+            // Vimeo 임베드 비디오 파라미터 조립 및 UI 제어 도구 완전 차단
+            const getVimeoEmbedUrl = (vimeoInput, isDetail = false) => {
+                if (!vimeoInput) return "";
+                let videoId = vimeoInput.toString().trim();
+                const reg = /vimeo\.com\/(?:video\/)?([0-9]+)/;
+                const match = videoId.match(reg);
+                if (match && match[1]) {
+                    videoId = match[1];
+                }
+                if (isDetail) {
+                    return `https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&muted=1&playsinline=1&controls=0&title=0&byline=0&portrait=0&badge=0`;
+                } else {
+                    return `https://player.vimeo.com/video/${videoId}?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1`;
+                }
+            };
+
             // 파일명(확장자 제외)으로부터 한글 자소분리 및 URL인코딩을 방어하여 각주 자동 복원
             const getCaptionFromPath = (path) => {
                 if (!path) return "";
@@ -468,10 +484,17 @@
                         const normTags = cats.map(c => normalizeTag(c)).filter(Boolean).join(' ');
                         const catString = cats.filter(Boolean).join(', ').toUpperCase();
 
+                        const vimeoUrl = proj.vimeo ? getVimeoEmbedUrl(proj.vimeo) : "";
+                        const thumbMarkup = vimeoUrl 
+                            ? `<div class="placeholder-img" style="background: #e6e5df;">
+                                   <iframe src="${vimeoUrl}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+                               </div>`
+                            : `<div class="placeholder-img" style="background-image: url('${thumbUrl}');"></div>`;
+
                         html += `
                             <article class="project-card" data-id="${proj.id}" data-tag="${normTags}">
                                 <div class="thumbnail-wrapper">
-                                    <div class="placeholder-img" style="background-image: url('${thumbUrl}');"></div>
+                                    ${thumbMarkup}
                                     <div class="blueprint-layer">[ BLUEPRINT ARCHIVE ]</div>
                                 </div>
                                 <div class="project-metadata">
@@ -696,6 +719,21 @@
                         `;
                     }
                 });
+
+                // Vimeo 비디오가 존재할 경우 스트림 맨 아래에 임베드
+                if (proj.vimeo) {
+                    const videoUrl = getVimeoEmbedUrl(proj.vimeo, true);
+                    const videoIndex = imagesList.length + 1;
+                    streamHtml += `
+                        <!-- 타입 V. Vimeo 고화질 임베드 비디오 (맨 아래 배치) -->
+                        <div class="croquis-media-block">
+                            <div class="croquis-image-frame" style="aspect-ratio: 16/9; background-color: #000; position: relative;">
+                                <iframe src="${videoUrl}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                            <span class="croquis-caption">Fig ${videoIndex}. Cinematic Sketch (Vimeo Video)</span>
+                        </div>
+                    `;
+                }
 
                 galleryStream.innerHTML = streamHtml;
 
