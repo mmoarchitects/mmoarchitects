@@ -120,18 +120,62 @@
 
         /* [SECTION 1] HERO SCREEN */
         #hero { min-height: 85vh; text-align: center; align-items: center; justify-content: center; padding-top: 4rem; }
-        #hero h1 { font-size: 3.8rem; font-weight: 400; letter-spacing: -0.02em; line-height: 1.25; margin-bottom: 3rem; }
+        #hero h1 { font-size: 3.8rem; font-weight: 400; letter-spacing: -0.02em; line-height: 1.25; margin-bottom: 1.5rem; }
+        .hero-sub-ko {
+            font-size: 1.05rem;
+            font-weight: 400;
+            color: #888;
+            margin-top: 0;
+            margin-bottom: 3.2rem;
+            letter-spacing: -0.01em;
+            line-height: 1.6;
+            word-break: keep-all;
+        }
         .poetic-scroll-link {
             font-size: 0.85rem; letter-spacing: 0.05em; font-weight: 600; padding-bottom: 0.4rem; border-bottom: 1px solid #000;
             transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1); cursor: pointer;
         }
         .poetic-scroll-link:hover { color: #666; border-bottom: 1px solid #666; padding-right: 0.5rem; }
         
+        /* [SECTION 1.5] STANDALONE SHOWCASE WORK */
+        #featured-hero-work {
+            min-height: auto;
+            padding-bottom: 6rem;
+        }
+        .hero-work-track {
+            width: 100%;
+        }
+        .hero-work-track .project-card {
+            width: 100%;
+        }
+        .hero-work-track .card-image-slot {
+            aspect-ratio: 21/9;
+        }
+
         /* [SECTION 2] PHILOSOPHY & INTEGRATED DISCIPLINE BAR */
+        #philosophy {
+            padding-top: 4rem;
+            padding-bottom: 4rem;
+            min-height: auto;
+        }
         .philosophy-summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; padding-left: 0.5rem; }
-        .mmo-core-card { display: flex; flex-direction: column; }
+        .mmo-core-card {
+            display: flex;
+            flex-direction: column;
+            border-top: 1px solid #e5e4e0;
+            padding-top: 2.2rem;
+            position: relative;
+        }
         .mmo-core-card h3 { font-size: 1.5rem; font-weight: 500; margin-bottom: 1.2rem; letter-spacing: 0.02em; }
         .mmo-core-card p { font-size: 0.9rem; color: #555; text-align: justify; line-height: 1.65; word-break: keep-all; }
+        .philo-num {
+            font-family: Georgia, serif;
+            font-style: italic;
+            font-size: 1.6rem;
+            color: #b5b4ad;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
         .integrated-services-bar {
             grid-column: span 3; 
             border-top: 1px solid #e5e4e0; 
@@ -166,7 +210,7 @@
         /* =================================================== */
         /* [SECTION 3] SELECTED WORKS (ENTROPY GRID MATRIX)    */
         /* =================================================== */
-        #featured-works { max-width: 1500px; padding-top: 6rem; }
+        #featured-works { max-width: 1500px; padding-top: 4rem; }
         
         .entropy-grid-track {
             display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-flow: dense;
@@ -244,6 +288,9 @@
             .project-card.colspan-2, .project-card.colspan-3 { grid-column: span 1 !important; }
             .grid-footer { grid-column: 1; justify-content: center; align-self: center; margin-top: 40px; }
             .mmo-footer { grid-template-columns: 1fr; padding: 6rem 4% 4rem 4%; }
+            .hero-work-track .card-image-slot { aspect-ratio: 16/10; }
+            .hero-sub-ko { font-size: 0.95rem; margin-bottom: 2rem; }
+            #hero h1 { font-size: 2.5rem; }
         }
         @media (max-width: 768px) {
             header {
@@ -290,21 +337,32 @@
 
     <section id="hero">
         <h1>Architecture from<br>nothing to nonfiction.</h1>
-        <a href="#philosophy" class="poetic-scroll-link">Explore MMO ➔</a>
+        <p class="hero-sub-ko">무(無)의 상태에서 실존하는 질서로 나아가는 건축.</p>
+        <a href="#featured-hero-work" class="poetic-scroll-link">Explore MMO ➔</a>
+    </section>
+
+    <section id="featured-hero-work">
+        <span class="section-label">Featured Work</span>
+        <div class="hero-work-track" id="heroWorkGrid">
+            <!-- Dynamically Loaded by JS -->
+        </div>
     </section>
 
     <section id="philosophy">
         <span class="section-label">Philosophy</span>
         <div class="philosophy-summary-grid">
             <div class="mmo-core-card">
+                <span class="philo-num">01</span>
                 <h3>Matter</h3>
                 <p>문제를 찾는 단계. 재료, 대지, 법적 제약과 같은 물리적 조건(공간이 직면한 핵심 문제)에서 영감과 실험적 질문을 얻습니다.</p>
             </div>
             <div class="mmo-core-card">
+                <span class="philo-num">02</span>
                 <h3>Method</h3>
                 <p>답을 만드는 단계. 설계·인허가·시공을 잇는 과정 전체를 가장 합리적이고 새로운 방법론으로 정밀하게 해결하려는 태도.</p>
             </div>
             <div class="mmo-core-card">
+                <span class="philo-num">03</span>
                 <h3>Order</h3>
                 <p>결과로 남는 단계. 도면의 모든 선과 면에 뚜렷한 구조적 이유가 존재하는, 쓰임새 명확하고 비례감이 살아있는 공간적 물리 질서.</p>
             </div>
@@ -402,9 +460,41 @@
                     // 최대 6개로 슬라이싱
                     featured = featured.slice(0, 6);
 
-                    // 3. 카드 HTML 생성
+                    // 3. 첫 번째 프로젝트 분리 (Showcase Card)
+                    const topProj = featured[0];
+                    const remainingProjs = featured.slice(1);
+
+                    // Showcase Card 썸네일 랜덤 결정
+                    let topThumb = "";
+                    if (topProj.gallery && topProj.gallery.length > 0) {
+                        const randomIndex = Math.floor(Math.random() * topProj.gallery.length);
+                        const thumbObj = topProj.gallery[randomIndex];
+                        topThumb = typeof thumbObj === "object" ? thumbObj.src : thumbObj;
+                    }
+                    const topThumbUrl = getProjectAssetPath(topProj.id, topThumb || topProj.blueprint);
+                    const topSummary = topProj.maintext && topProj.maintext.length > 120 
+                        ? topProj.maintext.substring(0, 120) + "..." 
+                        : (topProj.maintext || "");
+                    const topCatString = (Array.isArray(topProj.category) ? topProj.category : [topProj.category]).filter(Boolean).join(', ').toUpperCase();
+
+                    document.getElementById("heroWorkGrid").innerHTML = `
+                        <article class="project-card" data-id="${topProj.id}">
+                            <div class="card-image-slot">
+                                <div class="photo-layer" style="background-image: url('${topThumbUrl}');"></div>
+                                <div class="blueprint-layer">[VIEW IN PROJECTS]</div>
+                            </div>
+                            <h3 class="project-title" style="font-size: 1.8rem; margin-top: 1rem; margin-bottom: 0.5rem;">${topProj.title}</h3>
+                            <p class="project-summary" style="max-width: 800px; font-size: 1.0rem; line-height: 1.7; color: #444; margin-top: 0.8rem; word-break: keep-all; text-align: justify; display: block; -webkit-line-clamp: unset; overflow: visible;">${topSummary}</p>
+                            <div class="meta-row" style="margin-top: 15px; margin-bottom: 0;">
+                                <span class="card-year">${topProj.year}${topProj.status ? ` <span style="margin-left: 4px; font-weight: 400; color: #a3a19b;">(${topProj.status.toUpperCase()})</span>` : ""}</span>
+                                <span class="card-tag-text">${(topProj.subCategory || "").toUpperCase()} / ${topCatString}</span>
+                            </div>
+                        </article>
+                    `;
+
+                    // 4. 나머지 5개 카드 HTML 생성
                     let html = "";
-                    featured.forEach(proj => {
+                    remainingProjs.forEach(proj => {
                         // 갤러리 이미지 중 무작위 1개 선택하여 썸네일로 표출
                         let selectedThumb = "";
                         if (proj.gallery && proj.gallery.length > 0) {
@@ -441,7 +531,7 @@
                     grid.innerHTML = html;
                     grid.appendChild(footer);
 
-                    // 4. 엔트로피 난수 연산 적용
+                    // 5. 엔트로피 난수 연산 적용 (나머지 5개 카드 대상)
                     const cards = Array.from(grid.querySelectorAll(".project-card"));
                     const guaranteedSpan3Index = Math.floor(Math.random() * cards.length);
                     let currentColumnSpace = 0;
@@ -482,7 +572,7 @@
             // 구동 시작
             fetchAndBuildMain();
 
-            // 5. 클릭 이벤트 위임
+            // 6. 클릭 이벤트 위임
             grid.addEventListener("click", (e) => {
                 const card = e.target.closest(".project-card");
                 if (!card) return;
@@ -494,6 +584,19 @@
                     window.location.href = `/projects.html`;
                 }
             });
+
+            // Showcase 클릭 이벤트 리스너 추가
+            const heroWorkGrid = document.getElementById("heroWorkGrid");
+            if (heroWorkGrid) {
+                heroWorkGrid.addEventListener("click", (e) => {
+                    const card = e.target.closest(".project-card");
+                    if (!card) return;
+                    const projectId = card.getAttribute("data-id");
+                    if (projectId) {
+                        window.location.href = `/projects.html?id=${projectId}`;
+                    }
+                });
+            }
         });
     </script>
 </body>
