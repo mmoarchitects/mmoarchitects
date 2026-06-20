@@ -10,3 +10,7 @@ Thumbs.db
 # Project dependency & Vercel
 node_modules/
 .vercel/
+
+# Large media files
+*.mp4
+*.mov
