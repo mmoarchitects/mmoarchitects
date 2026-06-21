@@ -132,25 +132,25 @@ const styledCards = cards.map((card, index) => {
       caption.classList.remove('step-show');
 
       // Step 1: initial blurry state is default CSS.
-      // Step 2: make clear at 0.1s
+      // Step 2: make clear at 0.15s (1.5x of 100ms)
       setTimeout(() => {
         flow.classList.add('step-clear');
-      }, 100);
+      }, 150);
 
-      // Step 3: collapse "fictio" to leave only "n" at 1.5s
+      // Step 3: collapse "fictio" to leave only "n" at 2.25s (1.5x of 1500ms)
       setTimeout(() => {
         flow.classList.add('step-collapse');
-      }, 1500);
+      }, 2250);
 
-      // Step 4: expand and fade-in "onfiction." at 2.3s (0.8s after collapse starts)
+      // Step 4: expand and fade-in "onfiction." at 3.45s (1.5x of 2300ms)
       setTimeout(() => {
         flow.classList.add('step-expand');
-      }, 2300);
+      }, 3450);
 
-      // Step 5: fade up Korean sub-caption at 2.9s (0.6s after expansion starts, ~0.4s after done)
+      // Step 5: fade up Korean sub-caption at 4.35s (1.5x of 2900ms)
       setTimeout(() => {
         caption.classList.add('step-show');
-      }, 2900);
+      }, 4350);
     }
 
     // Run on standard load & view transitions
@@ -265,17 +265,17 @@ const styledCards = cards.map((card, index) => {
     max-width: 8ch;
     opacity: 0.2;
     filter: blur(12px);
-    transition: max-width 0.9s cubic-bezier(0.25, 1, 0.5, 1), 
-                opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1), 
-                filter 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: max-width 1.35s cubic-bezier(0.25, 1, 0.5, 1), 
+                opacity 1.05s cubic-bezier(0.25, 1, 0.5, 1), 
+                filter 1.05s cubic-bezier(0.25, 1, 0.5, 1);
   }
   .char-n {
     display: inline-block;
     vertical-align: bottom;
     opacity: 0.2;
     filter: blur(12px);
-    transition: opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1), 
-                filter 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: opacity 1.05s cubic-bezier(0.25, 1, 0.5, 1), 
+                filter 1.05s cubic-bezier(0.25, 1, 0.5, 1);
   }
   .char-onfiction {
     display: inline-block;
@@ -284,8 +284,8 @@ const styledCards = cards.map((card, index) => {
     white-space: nowrap;
     max-width: 0;
     opacity: 0;
-    transition: max-width 0.9s cubic-bezier(0.25, 1, 0.5, 1), 
-                opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: max-width 1.35s cubic-bezier(0.25, 1, 0.5, 1), 
+                opacity 1.05s cubic-bezier(0.25, 1, 0.5, 1);
   }
 
   /* Animation states triggered by JS classes */
@@ -316,8 +316,8 @@ const styledCards = cards.map((card, index) => {
     /* Animation base */
     opacity: 0;
     transform: translateY(15px);
-    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), 
-                transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), 
+                transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
   }
   .hero-sub-ko.step-show {
     opacity: 1;

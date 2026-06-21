@@ -168,10 +168,17 @@ import Layout from '../layouts/Layout.astro';
         </div>
       </div>
     </div>
-  </section>
 
-  <section id="about-philosophy">
-    <!-- Rest of section left for visual structure, placeholder end of layout -->
+    <div class="about-footer-links">
+      <a href="/projects" class="about-action-link">
+        <span class="eng">Explore Projects ➔</span>
+        <span class="ko">작품 보러가기</span>
+      </a>
+      <a href="/contact" class="about-action-link">
+        <span class="eng">Start a Conversation ➔</span>
+        <span class="ko">연락 하러가기</span>
+      </a>
+    </div>
   </section>
 </Layout>
 
@@ -352,6 +359,52 @@ import Layout from '../layouts/Layout.astro';
   .service-eng-tags { font-size: 0.8rem; color: #888; margin-bottom: 1.5rem; letter-spacing: 0.05em; }
   .service-one-line { font-size: 0.95rem; font-weight: 600; color: #222; margin-bottom: 0.8rem; }
   .service-detail { font-size: 0.9rem; color: #666; line-height: 1.65; text-align: justify; }
+
+  /* ABOUT FOOTER ACTIONS */
+  .about-footer-links {
+    display: flex;
+    gap: 5rem;
+    margin-top: 8rem;
+    padding-top: 4rem;
+    border-top: 1px solid #e5e4e0;
+    width: 100%;
+  }
+  .about-action-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    transition: all 0.4s ease;
+  }
+  .about-action-link:hover {
+    opacity: 0.65;
+    padding-left: 0.3rem;
+  }
+  .about-action-link .eng {
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: #000;
+  }
+  .about-action-link .ko {
+    font-size: 0.8rem;
+    color: #8c8a85;
+    letter-spacing: -0.01em;
+  }
+
+  /* Responsive control */
+  @media (max-width: 1100px) {
+    .about-footer-links {
+      margin-top: 5rem;
+      padding-top: 3rem;
+      gap: 3rem;
+    }
+  }
+  @media (max-width: 768px) {
+    .about-footer-links {
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+  }
 
   /* Responsive control */
   @media (max-width: 1100px) {
