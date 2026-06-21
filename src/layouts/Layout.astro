@@ -4,7 +4,7 @@ import { ViewTransitions } from 'astro:transitions';
 interface Props {
   title?: string;
   description?: string;
-  activeTab?: 'projects' | 'about' | 'lab';
+  activeTab?: 'projects' | 'about' | 'lab' | 'contact';
   subTab?: 'modular' | 'solution';
   ogImage?: string;
 }
@@ -71,11 +71,14 @@ const locationText = isLab ? "LABORATORY" : "SEOUL, KR";
       display: flex; gap: 3rem; position: absolute; left: 50%; top: 50%; 
       transform: translate(-50%, -50%); align-items: center; 
     }
-    .nav-menu a { 
+    .nav-menu a, .nav-menu .nav-lab-link { 
       font-size: 0.85rem; letter-spacing: 0.1em; font-weight: 600; color: #888; 
       display: flex; align-items: center; line-height: 1; 
     }
-    .nav-menu a:hover, .nav-menu a.active { color: #000; }
+    .nav-menu span.nav-lab-link {
+      cursor: default;
+    }
+    .nav-menu a:hover, .nav-menu a.active, .nav-menu .nav-lab-link:hover, .nav-menu .nav-lab-link.active { color: #000; }
     .nav-right { font-size: 0.7rem; color: #ccc; letter-spacing: 0.1em; line-height: 1; display: flex; align-items: center; }
 
     /* LNB Hover dropdown */
@@ -156,13 +159,14 @@ const locationText = isLab ? "LABORATORY" : "SEOUL, KR";
     <div class="nav-menu">
       <a href="/projects" class={activeTab === 'projects' ? 'active' : ''}>PROJECTS</a>
       <div class="nav-item-wrapper">
-        <a href="/lab-modular" class={`nav-lab-link ${activeTab === 'lab' ? 'active' : ''}`}>LAB — EDITIONS</a>
+        <span class={`nav-lab-link ${activeTab === 'lab' ? 'active' : ''}`}>LAB — EDITIONS</span>
         <div class="lnb-hover-menu">
           <a href="/lab-modular" class={`lnb-hover-item ${subTab === 'modular' ? 'active' : ''}`}>MODULAR</a>
           <a href="/lab-solution" class={`lnb-hover-item ${subTab === 'solution' ? 'active' : ''}`}>SOLUTION</a>
         </div>
       </div>
       <a href="/about" class={activeTab === 'about' ? 'active' : ''}>ABOUT</a>
+      <a href="/contact" class={activeTab === 'contact' ? 'active' : ''}>CONTACT</a>
     </div>
     <div class="nav-right">{locationText}</div>
   </header>

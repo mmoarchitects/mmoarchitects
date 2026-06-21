@@ -116,10 +116,47 @@ const styledCards = cards.map((card, index) => {
 
 <Layout title="MMO ARCHITECTS | 주식회사 엠엠오건축사사무소">
   <section id="hero">
-    <h1>Architecture from<br>nothing to nonfiction.</h1>
-    <p class="hero-sub-ko">무(無)의 상태에서 실존하는 질서로 나아가는 건축.</p>
+    <h1>Architecture from<br>nothing to <span class="slogan-word-flow" id="slogan-flow"><span class="char-fictio">fictio</span><span class="char-n">n</span><span class="char-onfiction">onfiction.</span></span></h1>
+    <p class="hero-sub-ko" id="hero-caption">무(無)의 상태에서 실존하는 질서로 나아가는 건축.</p>
     <a href="#featured-hero-work" class="poetic-scroll-link">Explore MMO ➔</a>
   </section>
+
+  <script>
+    function runSloganAnimation() {
+      const flow = document.getElementById('slogan-flow');
+      const caption = document.getElementById('hero-caption');
+      if (!flow || !caption) return;
+
+      // Reset styles to ensure clean replay on page transitions (e.g. Astro View Transitions)
+      flow.className = 'slogan-word-flow';
+      caption.classList.remove('step-show');
+
+      // Step 1: initial blurry state is default CSS.
+      // Step 2: make clear at 0.1s
+      setTimeout(() => {
+        flow.classList.add('step-clear');
+      }, 100);
+
+      // Step 3: collapse "fictio" to leave only "n" at 1.5s
+      setTimeout(() => {
+        flow.classList.add('step-collapse');
+      }, 1500);
+
+      // Step 4: expand and fade-in "onfiction." at 2.3s (0.8s after collapse starts)
+      setTimeout(() => {
+        flow.classList.add('step-expand');
+      }, 2300);
+
+      // Step 5: fade up Korean sub-caption at 2.9s (0.6s after expansion starts, ~0.4s after done)
+      setTimeout(() => {
+        caption.classList.add('step-show');
+      }, 2900);
+    }
+
+    // Run on standard load & view transitions
+    document.addEventListener('DOMContentLoaded', runSloganAnimation);
+    document.addEventListener('astro:page-load', runSloganAnimation);
+  </script>
 
   <section id="featured-hero-work">
     <span class="section-label">Featured Work</span>
@@ -211,9 +248,61 @@ const styledCards = cards.map((card, index) => {
   }
   .section-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.2em; color: #aaa; margin-bottom: 3rem; display: block; }
 
-  /* HERO SCREEN */
+  /* HERO SCREEN WITH ANIMATION */
   #hero { min-height: 85vh; text-align: center; align-items: center; justify-content: center; padding-top: 4rem; }
   #hero h1 { font-size: 3.8rem; font-weight: 400; letter-spacing: -0.02em; line-height: 1.25; margin-bottom: 1.5rem; }
+  
+  .slogan-word-flow {
+    display: inline-flex;
+    align-items: baseline;
+    vertical-align: bottom;
+  }
+  .char-fictio {
+    display: inline-block;
+    vertical-align: bottom;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 8ch;
+    opacity: 0.2;
+    filter: blur(12px);
+    transition: max-width 0.9s cubic-bezier(0.25, 1, 0.5, 1), 
+                opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1), 
+                filter 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .char-n {
+    display: inline-block;
+    vertical-align: bottom;
+    opacity: 0.2;
+    filter: blur(12px);
+    transition: opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1), 
+                filter 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .char-onfiction {
+    display: inline-block;
+    vertical-align: bottom;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 0;
+    opacity: 0;
+    transition: max-width 0.9s cubic-bezier(0.25, 1, 0.5, 1), 
+                opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* Animation states triggered by JS classes */
+  .slogan-word-flow.step-clear .char-fictio,
+  .slogan-word-flow.step-clear .char-n {
+    opacity: 1;
+    filter: blur(0);
+  }
+  .slogan-word-flow.step-collapse .char-fictio {
+    max-width: 0;
+    opacity: 0;
+  }
+  .slogan-word-flow.step-expand .char-onfiction {
+    max-width: 12ch;
+    opacity: 1;
+  }
+
   .hero-sub-ko {
     font-size: 1.05rem;
     font-weight: 400;
@@ -223,6 +312,16 @@ const styledCards = cards.map((card, index) => {
     letter-spacing: -0.01em;
     line-height: 1.6;
     word-break: keep-all;
+    
+    /* Animation base */
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), 
+                transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .hero-sub-ko.step-show {
+    opacity: 1;
+    transform: translateY(0);
   }
   .poetic-scroll-link {
     font-size: 0.85rem; letter-spacing: 0.05em; font-weight: 600; padding-bottom: 0.4rem; border-bottom: 1px solid #000;

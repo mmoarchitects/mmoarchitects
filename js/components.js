@@ -9,6 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const isModular = pathname.includes("/lab-modular.html");
         const isSolution = pathname.includes("/lab-solution.html");
 
+        const isContact = pathname.includes("/contact.html");
+
         const navRightText = isLab ? "LABORATORY" : "SEOUL, KR";
 
         headerEl.innerHTML = `
@@ -16,13 +18,14 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="nav-menu">
                 <a href="/projects.html" class="${isProjects ? 'active' : ''}">PROJECTS</a>
                 <div class="nav-item-wrapper">
-                    <a href="/lab-modular.html" class="nav-lab-link ${isLab ? 'active' : ''}">LAB — EDITIONS</a>
+                    <span class="nav-lab-link ${isLab ? 'active' : ''}">LAB — EDITIONS</span>
                     <div class="lnb-hover-menu">
                         <a href="/lab-modular.html" class="lnb-hover-item ${isModular ? 'active' : ''}">MODULAR</a>
                         <a href="/lab-solution.html" class="lnb-hover-item ${isSolution ? 'active' : ''}">SOLUTION</a>
                     </div>
                 </div>
                 <a href="/about.html" class="${isAbout ? 'active' : ''}">ABOUT</a>
+                <a href="/contact.html" class="${isContact ? 'active' : ''}">CONTACT</a>
             </div>
             <div class="nav-right">${navRightText}</div>
         `;

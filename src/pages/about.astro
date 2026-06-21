@@ -3,6 +3,14 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="ABOUT — MMO ARCHITECTS" activeTab="about">
+  <div class="about-tab-nav-wrapper">
+    <nav class="about-tab-nav">
+      <a href="#about-intro" class="about-tab-link active">Philosophy</a>
+      <a href="#services" class="about-tab-link">Framework</a>
+      <a href="#about-philosophy" class="about-tab-link">How We Think</a>
+    </nav>
+  </div>
+
   <section id="about-intro">
     <div class="about-intro-container">
       <p class="lead-text">
@@ -118,7 +126,7 @@ import Layout from '../layouts/Layout.astro';
     <div class="philosophy-grid">
       <div class="philo-left-column">
         <div>
-          <h2>How MMO<br>architects Think</h2>
+          <h2>How MMO<br>Architects Think</h2>
           <p style="font-size: 1rem; color: #666; line-height: 1.8; margin-top: 2rem;">
             <strong style="color: #000; font-weight: 500; display: block; margin-bottom: 0.5rem;">생각을 시작하는 방식</strong>
             시작은 언제나 모호합니다.<br>새로운 시작은 항상 조금의 두려움과 기대감으로 시작합니다. 두려움과 불확실성은 질서와 완성도를 높이는 원동력으로 작동합니다.
@@ -162,139 +170,93 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </section>
 
-  <section id="about-contact">
-    <span class="section-label">Contact & Inquiry</span>
-    
-    <div class="contact-flow">
-      <div class="contact-meta">
-        <h3>Share Your Thoughts,<br>1시간의 이야기부터 시작합니다.</h3>
-        <div class="experience-text">
-          <p style="margin-bottom: 1rem; color: #1a1a1a; font-weight: 500;">10년의 프로젝트 경험을 가진 팀입니다.</p>
-          <p>어떠한 생각을 하고 계신지 명확하지 않아도 됩니다. 공간에 대한 모호한 상상이어도 좋습니다. 고민을 공유해주세요.</p>
-        </div>
-        <div class="contact-channels">
-          <p><strong>Email</strong> <a href="mailto:official@mmoarchitects.com">official@mmoarchitects.com</a></p>
-          <p><strong>Instagram</strong> <a href="https://instagram.com/mmoarchitects" target="_blank">@mmoarchitects</a></p>
-        </div>
-      </div>
-      
-      <div class="narrative-box">
-        <form id="poeticInquiryForm">
-          <div class="narrative-paragraph">
-            <p class="inquiry-welcome-desc">
-              안녕하세요. mmo architects입니다.<br>
-              우리는 새로운 관계의 시작을 위해 당신과 공간에 대한 최소한의 단서를 기록해 두려 합니다.
-            </p>
-            
-            저의 이름은 
-            <div class="field-blank-container" style="width: 200px;">
-              <input type="text" class="field-blank" id="formName" placeholder="이름 혹은 기업명" required>
-              <div class="line-trigger"></div>
-            </div>
-            이며, 현재 
-            <div class="field-blank-container" style="width: 260px;">
-              <input type="text" class="field-blank" id="formLocation" placeholder="마음속 장소나 대지위치">
-              <div class="line-trigger"></div>
-            </div>
-            에 관한 모호한 결의 공간을 그려보는 중입니다. 
-            그곳에서 실현하고 싶은 프로그램이나 형태는 
-            <div class="field-blank-container" style="width: 320px;">
-              <input type="text" class="field-blank" id="formProgram" placeholder="예: 밸류업을 위한 리모델링" required>
-              <div class="line-trigger"></div>
-            </div>
-            에 닿아 있습니다. 
-            아직 예산과 규모의 선은 
-            <div class="field-blank-container" style="width: 200px;">
-              <input type="text" class="field-blank" id="formScale" placeholder="느슨하게 열려있는 생각">
-              <div class="line-trigger"></div>
-            </div>
-            하지만, MMO ARCHITECTS와의 만남을 통해 명확한 답을 찾아가고 싶습니다. 
-            가벼운 첫 대화를 조율하기 위해, 저는 
-            <div class="field-blank-container" style="width: 260px;">
-              <input type="text" class="field-blank" id="formContact" placeholder="연락처 또는 이메일 주소" required>
-              <div class="line-trigger"></div>
-            </div>
-            로 이야기를 이어가고 싶습니다.
-          </div>
-          
-          <div class="free-discourse-area">
-            <label>+ 마지막으로, 이 공간에 담고 싶은 당신만의 이야기나, 규정되지 않은 자유로운 이야기가 있다면 편하게 남겨주셔도 좋습니다.</label>
-            <textarea class="free-textarea" id="formMessage" rows="3" placeholder="어떠한 형태의 고민이어도 좋습니다. 이곳에 편히 기록해 주세요."></textarea>
-          </div>
-
-          <div class="chamber-toggle-container">
-            <label class="chamber-label">
-              <input type="checkbox" class="chamber-checkbox" id="checkAgree" required>
-              <span class="chamber-box"></span>
-              에세이 형태로 정돈된 기획 데이터 송신에 동의합니다.
-            </label>
-          </div>
-          
-          <div class="form-footer">
-            <button type="submit" class="submit-text-link">상담 신청서 송신 ➔</button>
-          </div>
-        </form>
-        <div id="formFeedback"></div>
-      </div>
-    </div>
+  <section id="about-philosophy">
+    <!-- Rest of section left for visual structure, placeholder end of layout -->
   </section>
 </Layout>
 
 <script>
-  document.addEventListener("astro:page-load", () => {
-    const form = document.getElementById("poeticInquiryForm");
-    if (!form) return;
+  function initScrollSpy() {
+    const tabsWrapper = document.querySelector('.about-tab-nav-wrapper');
+    if (!tabsWrapper) return;
 
-    async function submitPoeticForm(e: Event) {
-      e.preventDefault();
-      const name = (document.getElementById("formName") as HTMLInputElement).value;
-      const location = (document.getElementById("formLocation") as HTMLInputElement).value;
-      const program = (document.getElementById("formProgram") as HTMLInputElement).value;
-      const scale = (document.getElementById("formScale") as HTMLInputElement).value;
-      const contact = (document.getElementById("formContact") as HTMLInputElement).value;
-      const message = (document.getElementById("formMessage") as HTMLTextAreaElement).value;
+    const sections = [
+      document.getElementById('about-intro'),
+      document.getElementById('services'),
+      document.getElementById('about-philosophy')
+    ];
+    const tabLinks = document.querySelectorAll('.about-tab-link');
+
+    function onScroll() {
+      // Offset for detection (GNB header + tab nav is about 160px on desktop)
+      const offset = 220; 
+      const scrollPos = window.scrollY + offset;
       
-      const feedback = document.getElementById("formFeedback");
-      if (!feedback) return;
-
-      feedback.style.display = "block";
-      feedback.innerText = "상담 신청서를 송신하는 중...";
-      feedback.style.color = "#111";
-
-      try {
-        const response = await fetch("/api/submit-inquiry", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ name, location, program, scale, contact, message })
-        });
-        const result = await response.json();
-        if (result.success || response.ok) {
-          feedback.innerText = result.message || "신청서가 성공적으로 송신되었습니다.";
-          feedback.style.color = "green";
-          (document.getElementById("poeticInquiryForm") as HTMLFormElement).reset();
-        } else {
-          feedback.innerText = "송신에 실패했습니다: " + (result.error || "알 수 없는 오류");
-          feedback.style.color = "red";
+      let activeId = '';
+      
+      sections.forEach(section => {
+        if (!section) return;
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+        
+        if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+          activeId = section.getAttribute('id') || '';
         }
-      } catch (err) {
-        // Fallback simulation
-        setTimeout(() => {
-          feedback.innerText = `신청서가 성공적으로 접수되었습니다 (로컬 시뮬레이션). (이름: ${name} / 위치: ${location} / 프로그램: ${program} / 연락처: ${contact}) official@mmoarchitects.com으로 이메일이 연동되었습니다.`;
-          feedback.style.color = "green";
-          (document.getElementById("poeticInquiryForm") as HTMLFormElement).reset();
-        }, 1000);
+      });
+
+      // Fallback boundaries
+      if (window.scrollY < 100) {
+        activeId = 'about-intro';
+      } else if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 80) {
+        activeId = 'about-philosophy';
+      }
+
+      if (activeId) {
+        tabLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === `#${activeId}`) {
+            link.classList.add('active');
+          }
+        });
       }
     }
 
-    form.addEventListener("submit", submitPoeticForm);
-  });
+    // Bind scroll listener
+    window.addEventListener('scroll', onScroll);
+    
+    // Run once on load to highlight correct tab
+    onScroll();
+
+    // Store cleanup function on window to remove listener on page navigation
+    if ((window as any)._cleanupAboutScroll) {
+      window.removeEventListener('scroll', (window as any)._cleanupAboutScroll);
+    }
+    (window as any)._cleanupAboutScroll = onScroll;
+  }
+
+  // Run on load and transitions
+  document.addEventListener('DOMContentLoaded', initScrollSpy);
+  document.addEventListener('astro:page-load', initScrollSpy);
 </script>
 
 <style>
+  html {
+    scroll-behavior: smooth;
+  }
+
   /* Page specific styles */
   section { padding: 12rem 3rem 4rem 3rem; max-width: 1400px; margin: 0 auto; }
+  
+  /* Scroll margin top to prevent elements getting hidden behind sticky navigation header */
+  #about-intro, #services, #about-philosophy {
+    scroll-margin-top: 10.5rem;
+  }
+  @media (max-width: 768px) {
+    #about-intro, #services, #about-philosophy {
+      scroll-margin-top: 12.5rem;
+    }
+  }
+
   .section-label { 
     font-size: 1.6rem; 
     font-weight: 700; 
@@ -305,6 +267,54 @@ import Layout from '../layouts/Layout.astro';
     display: block; 
     border-bottom: 1px solid #1a1a1a; 
     padding-bottom: 1rem; 
+  }
+
+  /* TAB NAVIGATION */
+  .about-tab-nav-wrapper {
+    position: sticky;
+    top: 6.1rem;
+    background: rgba(245, 244, 240, 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 99;
+    border-bottom: 1px solid #e5e4e0;
+    width: 100%;
+  }
+  .about-tab-nav {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1.2rem 3rem;
+    display: flex;
+    gap: 3rem;
+  }
+  .about-tab-link {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #888;
+    position: relative;
+    padding-bottom: 0.5rem;
+    transition: color 0.4s ease;
+  }
+  .about-tab-link:hover, .about-tab-link.active {
+    color: #000;
+  }
+  .about-tab-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: #000;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .about-tab-link.active::after {
+    transform: scaleX(1);
+    transform-origin: left;
   }
 
   /* ABOUT INTRO (MANIFESTO) */
@@ -343,48 +353,23 @@ import Layout from '../layouts/Layout.astro';
   .service-one-line { font-size: 0.95rem; font-weight: 600; color: #222; margin-bottom: 0.8rem; }
   .service-detail { font-size: 0.9rem; color: #666; line-height: 1.65; text-align: justify; }
 
-  /* CONTACT & INQUIRY (POETIC NARRATIVE FORM) */
-  .contact-flow { display: grid; grid-template-columns: 1fr 1.5fr; gap: 6rem; }
-  .contact-meta h3 { font-size: 1.8rem; font-weight: 500; line-height: 1.4; margin-bottom: 2rem; }
-  .contact-meta .experience-text { font-size: 0.95rem; color: #555; line-height: 1.7; margin-bottom: 4rem; }
-  .contact-channels { font-size: 0.9rem; line-height: 2; }
-  .contact-channels strong { display: inline-block; width: 80px; color: #888; font-weight: 400; }
-  .contact-channels a { border-bottom: 1px solid #ccc; transition: all 0.4s; }
-  .contact-channels a:hover { color: #888; border-bottom-color: #888; }
-  .narrative-box { background: transparent; }
-  .inquiry-welcome-desc { font-size: 1.05rem; color: #555; line-height: 1.8; margin-bottom: 3rem; font-weight: 400; }
-  .narrative-paragraph { font-size: 1.05rem; line-height: 2.4; color: #111; text-align: justify; }
-  .field-blank-container { display: inline-block; position: relative; margin: 0 0.2rem; }
-  .field-blank { background: transparent; border: none; font-size: 1.05rem; font-weight: 500; color: #000; padding: 0 0.3rem; text-align: center; outline: none; width: 100%; }
-  .line-trigger { position: absolute; bottom: 4px; left: 0; width: 100%; height: 1px; background: #ccc; transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1); }
-  .field-blank:focus + .line-trigger, .field-blank:hover + .line-trigger { height: 2px; background: #000; transform: scaleX(1.02); }
-  .field-blank::placeholder { color: #bbb; font-size: 1rem; font-weight: 400; font-style: italic; }
-  .free-discourse-area { margin-top: 4rem; display: flex; flex-direction: column; gap: 1.2rem; }
-  .free-discourse-area label { font-size: 0.95rem; color: #444; font-weight: 500; }
-  .free-textarea { width: 100%; border: none; border-bottom: 1px solid #ccc; font-size: 1.1rem; padding: 0.8rem 0; outline: none; resize: none; background: transparent; line-height: 1.8; transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1); }
-  .free-textarea:focus { border-bottom: 2px solid #000; }
-  .chamber-toggle-container { margin-top: 3rem; display: flex; align-items: center; gap: 1rem; }
-  .chamber-label { display: inline-flex; align-items: center; cursor: pointer; font-size: 0.9rem; color: #666; letter-spacing: 0.02em; }
-  .chamber-checkbox { display: none; }
-  .chamber-box { width: 14px; height: 14px; border: 1px solid #000; margin-right: 0.8rem; display: inline-block; position: relative; background: #fff; transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1); }
-  .chamber-checkbox:checked + .chamber-box { background: #000; transform: rotate(90deg); }
-  .form-footer { margin-top: 5rem; display: flex; justify-content: flex-end; }
-  .submit-text-link { background: transparent; border: none; color: #000; font-size: 1rem; font-weight: 600; cursor: pointer; letter-spacing: 0.05em; padding: 0 0 0.4rem 0; border-bottom: 1px solid #000; transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1); }
-  .submit-text-link:hover { color: #666; border-bottom: 1px solid #666; padding-right: 0.5rem; }
-  #formFeedback { margin-top: 2rem; font-size: 1rem; font-weight: 600; display: none; text-align: right; }
-
   /* Responsive control */
   @media (max-width: 1100px) {
-    section { padding-top: 8rem; }
+    section { padding: 8rem 3rem 4rem 3rem; }
     #about-intro { padding-top: 8rem; padding-bottom: 2rem; }
     #services { padding-top: 4rem; }
-    .philosophy-grid, .contact-flow { grid-template-columns: 1fr; gap: 4rem; }
+    .philosophy-grid { grid-template-columns: 1fr; gap: 4rem; }
     .grid-cols-2, .grid-cols-3 { grid-template-columns: 1fr; gap: 4rem; }
-    .field-blank-container { width: 100% !important; margin: 0.5rem 0; }
-    .narrative-paragraph { line-height: 2.2; }
-    .submit-text-link { float: none; display: inline-block; }
   }
   @media (max-width: 768px) {
+    .about-tab-nav-wrapper {
+      top: 8.5rem; /* Adjusted for mobile GNB layout */
+    }
+    .about-tab-nav {
+      padding: 1rem 2rem;
+      gap: 1.5rem;
+      justify-content: center;
+    }
     .lead-text strong { font-size: 1.6rem; }
     .lead-text { font-size: 1.2rem; margin-bottom: 3.5rem; }
     .body-text p { font-size: 1rem; margin-bottom: 2rem; }

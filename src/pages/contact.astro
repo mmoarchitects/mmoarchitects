@@ -1,0 +1,190 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="CONTACT — MMO ARCHITECTS" activeTab="contact">
+  <section id="contact-page-content">
+    <span class="section-label">Contact & Inquiry</span>
+    
+    <div class="contact-flow">
+      <div class="contact-meta">
+        <h3>Share Your Thoughts,<br>1시간의 이야기부터 시작합니다.</h3>
+        <div class="experience-text">
+          <p style="margin-bottom: 1rem; color: #1a1a1a; font-weight: 500;">10년의 프로젝트 경험을 가진 팀입니다.</p>
+          <p>어떠한 생각을 하고 계신지 명확하지 않아도 됩니다. 공간에 대한 모호한 상상이어도 좋습니다. 고민을 공유해주세요.</p>
+        </div>
+        <div class="contact-channels">
+          <p><strong>Email</strong> <a href="mailto:official@mmoarchitects.com">official@mmoarchitects.com</a></p>
+          <p><strong>Instagram</strong> <a href="https://instagram.com/mmoarchitects" target="_blank">@mmoarchitects</a></p>
+        </div>
+      </div>
+      
+      <div class="narrative-box">
+        <form id="poeticInquiryForm">
+          <div class="narrative-paragraph">
+            <p class="inquiry-welcome-desc">
+              안녕하세요. mmo architects입니다.<br>
+              우리는 새로운 관계의 시작을 위해 당신과 공간에 대한 최소한의 단서를 기록해 두려 합니다.
+            </p>
+            
+            저의 이름은 
+            <div class="field-blank-container" style="width: 200px;">
+              <input type="text" class="field-blank" id="formName" placeholder="이름 혹은 기업명" required />
+              <div class="line-trigger"></div>
+            </div>
+            이며, 현재 
+            <div class="field-blank-container" style="width: 260px;">
+              <input type="text" class="field-blank" id="formLocation" placeholder="마음속 장소나 대지위치" />
+              <div class="line-trigger"></div>
+            </div>
+            에 관한 모호한 결의 공간을 그려보는 중입니다. 
+            그곳에서 실현하고 싶은 프로그램이나 형태는 
+            <div class="field-blank-container" style="width: 320px;">
+              <input type="text" class="field-blank" id="formProgram" placeholder="예: 밸류업을 위한 리모델링" required />
+              <div class="line-trigger"></div>
+            </div>
+            에 닿아 있습니다. 
+            아직 예산과 규모의 선은 
+            <div class="field-blank-container" style="width: 200px;">
+              <input type="text" class="field-blank" id="formScale" placeholder="느슨하게 열려있는 생각" />
+              <div class="line-trigger"></div>
+            </div>
+            하지만, MMO ARCHITECTS와의 만남을 통해 명확한 답을 찾아가고 싶습니다. 
+            가벼운 첫 대화를 조율하기 위해, 저는 
+            <div class="field-blank-container" style="width: 260px;">
+              <input type="text" class="field-blank" id="formContact" placeholder="연락처 또는 이메일 주소" required />
+              <div class="line-trigger"></div>
+            </div>
+            로 이야기를 이어가고 싶습니다.
+          </div>
+          
+          <div class="free-discourse-area">
+            <label>+ 마지막으로, 이 공간에 담고 싶은 당신만의 이야기나, 규정되지 않은 자유로운 이야기가 있다면 편하게 남겨주셔도 좋습니다.</label>
+            <textarea class="free-textarea" id="formMessage" rows={3} placeholder="어떠한 형태의 고민이어도 좋습니다. 이곳에 편히 기록해 주세요."></textarea>
+          </div>
+
+          <div class="chamber-toggle-container">
+            <label class="chamber-label">
+              <input type="checkbox" class="chamber-checkbox" id="checkAgree" required />
+              <span class="chamber-box"></span>
+              에세이 형태로 정돈된 기획 데이터 송신에 동의합니다.
+            </label>
+          </div>
+          
+          <div class="form-footer">
+            <button type="submit" class="submit-text-link">상담 신청서 송신 ➔</button>
+          </div>
+        </form>
+        <div id="formFeedback"></div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const form = document.getElementById("poeticInquiryForm");
+    if (!form) return;
+
+    async function submitPoeticForm(e: Event) {
+      e.preventDefault();
+      const name = (document.getElementById("formName") as HTMLInputElement).value;
+      const location = (document.getElementById("formLocation") as HTMLInputElement).value;
+      const program = (document.getElementById("formProgram") as HTMLInputElement).value;
+      const scale = (document.getElementById("formScale") as HTMLInputElement).value;
+      const contact = (document.getElementById("formContact") as HTMLInputElement).value;
+      const message = (document.getElementById("formMessage") as HTMLTextAreaElement).value;
+      
+      const feedback = document.getElementById("formFeedback");
+      if (!feedback) return;
+
+      feedback.style.display = "block";
+      feedback.innerText = "상담 신청서를 송신하는 중...";
+      feedback.style.color = "#111";
+
+      try {
+        const response = await fetch("/api/submit-inquiry", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ name, location, program, scale, contact, message })
+        });
+        const result = await response.json();
+        if (result.success || response.ok) {
+          feedback.innerText = result.message || "신청서가 성공적으로 송신되었습니다.";
+          feedback.style.color = "green";
+          (document.getElementById("poeticInquiryForm") as HTMLFormElement).reset();
+        } else {
+          feedback.innerText = "송신에 실패했습니다: " + (result.error || "알 수 없는 오류");
+          feedback.style.color = "red";
+        }
+      } catch (err) {
+        // Fallback simulation
+        setTimeout(() => {
+          feedback.innerText = `신청서가 성공적으로 접수되었습니다 (로컬 시뮬레이션). (이름: ${name} / 위치: ${location} / 프로그램: ${program} / 연락처: ${contact}) official@mmoarchitects.com으로 이메일이 연동되었습니다.`;
+          feedback.style.color = "green";
+          (document.getElementById("poeticInquiryForm") as HTMLFormElement).reset();
+        }, 1000);
+      }
+    }
+
+    form.addEventListener("submit", submitPoeticForm);
+  });
+</script>
+
+<style>
+  /* Page specific styles */
+  #contact-page-content { padding: 12rem 3rem 4rem 3rem; max-width: 1400px; margin: 0 auto; min-height: 80vh; }
+  
+  .section-label { 
+    font-size: 1.6rem; 
+    font-weight: 700; 
+    text-transform: uppercase; 
+    letter-spacing: -0.01em; 
+    color: #1a1a1a; 
+    margin-bottom: 4rem; 
+    display: block; 
+    border-bottom: 1px solid #1a1a1a; 
+    padding-bottom: 1rem; 
+  }
+
+  /* CONTACT & INQUIRY (POETIC NARRATIVE FORM) */
+  .contact-flow { display: grid; grid-template-columns: 1fr 1.5fr; gap: 6rem; }
+  .contact-meta h3 { font-size: 1.8rem; font-weight: 500; line-height: 1.4; margin-bottom: 2rem; }
+  .contact-meta .experience-text { font-size: 0.95rem; color: #555; line-height: 1.7; margin-bottom: 4rem; }
+  .contact-channels { font-size: 0.9rem; line-height: 2; }
+  .contact-channels strong { display: inline-block; width: 80px; color: #888; font-weight: 400; }
+  .contact-channels a { border-bottom: 1px solid #ccc; transition: all 0.4s; }
+  .contact-channels a:hover { color: #888; border-bottom-color: #888; }
+  .narrative-box { background: transparent; }
+  .inquiry-welcome-desc { font-size: 1.05rem; color: #555; line-height: 1.8; margin-bottom: 3rem; font-weight: 400; }
+  .narrative-paragraph { font-size: 1.05rem; line-height: 2.4; color: #111; text-align: justify; }
+  .field-blank-container { display: inline-block; position: relative; margin: 0 0.2rem; }
+  .field-blank { background: transparent; border: none; font-size: 1.05rem; font-weight: 500; color: #000; padding: 0 0.3rem; text-align: center; outline: none; width: 100%; }
+  .line-trigger { position: absolute; bottom: 4px; left: 0; width: 100%; height: 1px; background: #ccc; transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1); }
+  .field-blank:focus + .line-trigger, .field-blank:hover + .line-trigger { height: 2px; background: #000; transform: scaleX(1.02); }
+  .field-blank::placeholder { color: #bbb; font-size: 1rem; font-weight: 400; font-style: italic; }
+  .free-discourse-area { margin-top: 4rem; display: flex; flex-direction: column; gap: 1.2rem; }
+  .free-discourse-area label { font-size: 0.95rem; color: #444; font-weight: 500; }
+  .free-textarea { width: 100%; border: none; border-bottom: 1px solid #ccc; font-size: 1.1rem; padding: 0.8rem 0; outline: none; resize: none; background: transparent; line-height: 1.8; transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1); }
+  .free-textarea:focus { border-bottom: 2px solid #000; }
+  .chamber-toggle-container { margin-top: 3rem; display: flex; align-items: center; gap: 1rem; }
+  .chamber-label { display: inline-flex; align-items: center; cursor: pointer; font-size: 0.9rem; color: #666; letter-spacing: 0.02em; }
+  .chamber-checkbox { display: none; }
+  .chamber-box { width: 14px; height: 14px; border: 1px solid #000; margin-right: 0.8rem; display: inline-block; position: relative; background: #fff; transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1); }
+  .chamber-checkbox:checked + .chamber-box { background: #000; transform: rotate(90deg); }
+  .form-footer { margin-top: 5rem; display: flex; justify-content: flex-end; }
+  .submit-text-link { background: transparent; border: none; color: #000; font-size: 1rem; font-weight: 600; cursor: pointer; letter-spacing: 0.05em; padding: 0 0 0.4rem 0; border-bottom: 1px solid #000; transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1); }
+  .submit-text-link:hover { color: #666; border-bottom: 1px solid #666; padding-right: 0.5rem; }
+  #formFeedback { margin-top: 2rem; font-size: 1rem; font-weight: 600; display: none; text-align: right; }
+
+  /* Responsive control */
+  @media (max-width: 1100px) {
+    #contact-page-content { padding-top: 8rem; }
+    .contact-flow { grid-template-columns: 1fr; gap: 4rem; }
+    .field-blank-container { width: 100% !important; margin: 0.5rem 0; }
+    .narrative-paragraph { line-height: 2.2; }
+    .submit-text-link { float: none; display: inline-block; }
+  }
+</style>
