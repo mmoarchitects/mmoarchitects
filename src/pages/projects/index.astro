@@ -48,7 +48,18 @@ projectsData.forEach(proj => {
     });
   }
 });
-const categories = Array.from(categorySet);
+
+// Custom preferred sort order for categories
+const preferredOrder = ["Architecture", "Housing", "Commercial", "F&B", "Office", "Interior", "Industrial"];
+
+const categories = Array.from(categorySet).sort((a, b) => {
+  const indexA = preferredOrder.indexOf(a);
+  const indexB = preferredOrder.indexOf(b);
+  if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+  if (indexA !== -1) return -1;
+  if (indexB !== -1) return 1;
+  return a.localeCompare(b);
+});
 
 // Prepare project cards
 let currentColumnSpace = 0;
