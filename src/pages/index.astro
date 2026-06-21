@@ -142,15 +142,15 @@ const styledCards = cards.map((card, index) => {
         flow.classList.add('step-collapse');
       }, 1500);
 
-      // Step 4: expand and fade-in "onfiction." at 2.7s (1.2s after collapse starts - 1.5x slower transition)
+      // Step 4: expand and fade-in "onfiction." at 2.1s (0.6s after collapse starts - 2x faster than previous timing)
       setTimeout(() => {
         flow.classList.add('step-expand');
-      }, 2700);
+      }, 2100);
 
-      // Step 5: fade up Korean sub-caption at 3.6s (0.9s after expansion starts - 1.5x slower transition)
+      // Step 5: fade up Korean sub-caption at 3.0s (0.9s after expansion starts)
       setTimeout(() => {
         caption.classList.add('step-show');
-      }, 3600);
+      }, 3000);
     }
 
     // Run on standard load & view transitions
@@ -297,6 +297,8 @@ const styledCards = cards.map((card, index) => {
   .slogan-word-flow.step-collapse .char-fictio {
     max-width: 0;
     opacity: 0;
+    transition: max-width 0.68s cubic-bezier(0.25, 1, 0.5, 1), 
+                opacity 0.53s cubic-bezier(0.25, 1, 0.5, 1);
   }
   .slogan-word-flow.step-expand .char-onfiction {
     max-width: 12ch;

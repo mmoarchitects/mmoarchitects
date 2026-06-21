@@ -49,8 +49,8 @@ projectsData.forEach(proj => {
   }
 });
 
-// Custom preferred sort order for categories
-const preferredOrder = ["Architecture", "Housing", "Commercial", "F&B", "Office", "Interior", "Industrial"];
+// Custom preferred sort order for categories (Architecture 1st, Interior 2nd, others alphabetical)
+const preferredOrder = ["Architecture", "Interior"];
 
 const categories = Array.from(categorySet).sort((a, b) => {
   const indexA = preferredOrder.indexOf(a);
