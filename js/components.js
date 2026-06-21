@@ -14,7 +14,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const navRightText = isLab ? "LABORATORY" : "SEOUL, KR";
 
         headerEl.innerHTML = `
-            <div class="logo"><a href="/index.html">MMO ARCHITECTS</a></div>
+            <div class="logo">
+                <a href="/index.html" class="logo-link">
+                    <span class="logo-title">MMO ARCHITECTS</span>
+                    <span class="logo-sub">Design lab</span>
+                </a>
+            </div>
             <div class="nav-menu">
                 <a href="/projects.html" class="${isProjects ? 'active' : ''}">PROJECTS</a>
                 <div class="nav-item-wrapper">
