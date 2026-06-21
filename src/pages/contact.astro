@@ -28,30 +28,30 @@ import Layout from '../layouts/Layout.astro';
             </p>
             
             저의 이름은 
-            <div class="field-blank-container" style="width: 200px;">
+            <div class="field-blank-container">
               <input type="text" class="field-blank" id="formName" placeholder="이름 혹은 기업명" required />
               <div class="line-trigger"></div>
             </div>
             이며, 현재 
-            <div class="field-blank-container" style="width: 260px;">
+            <div class="field-blank-container">
               <input type="text" class="field-blank" id="formLocation" placeholder="마음속 장소나 대지위치" />
               <div class="line-trigger"></div>
             </div>
             에 관한 모호한 결의 공간을 그려보는 중입니다. 
             그곳에서 실현하고 싶은 프로그램이나 형태는 
-            <div class="field-blank-container" style="width: 320px;">
+            <div class="field-blank-container">
               <input type="text" class="field-blank" id="formProgram" placeholder="예: 밸류업을 위한 리모델링" required />
               <div class="line-trigger"></div>
             </div>
             에 닿아 있습니다. 
             아직 예산과 규모의 선은 
-            <div class="field-blank-container" style="width: 200px;">
+            <div class="field-blank-container">
               <input type="text" class="field-blank" id="formScale" placeholder="느슨하게 열려있는 생각" />
               <div class="line-trigger"></div>
             </div>
             하지만, MMO ARCHITECTS와의 만남을 통해 명확한 답을 찾아가고 싶습니다. 
             가벼운 첫 대화를 조율하기 위해, 저는 
-            <div class="field-blank-container" style="width: 260px;">
+            <div class="field-blank-container">
               <input type="text" class="field-blank" id="formContact" placeholder="연락처 또는 이메일 주소" required />
               <div class="line-trigger"></div>
             </div>
@@ -60,18 +60,15 @@ import Layout from '../layouts/Layout.astro';
           
           <div class="free-discourse-area">
             <label>+ 마지막으로, 이 공간에 담고 싶은 당신만의 이야기나, 규정되지 않은 자유로운 이야기가 있다면 편하게 남겨주셔도 좋습니다.</label>
-            <textarea class="free-textarea" id="formMessage" rows={3} placeholder="어떠한 형태의 고민이어도 좋습니다. 이곳에 편히 기록해 주세요."></textarea>
+            <textarea class="free-textarea" id="formMessage" rows={3} placeholder="예: 대수선 및 용도변경 밸류업을 위한 건물을 매입할 계획을 세우고 있습니다. 개발 기획부터 설계, 인허가 검토와 예산 분석까지 함께 진행할 수 있는지 궁금합니다."></textarea>
           </div>
 
-          <div class="chamber-toggle-container">
+          <div class="form-footer-inline">
             <label class="chamber-label">
               <input type="checkbox" class="chamber-checkbox" id="checkAgree" required />
               <span class="chamber-box"></span>
               에세이 형태로 정돈된 기획 데이터 송신에 동의합니다.
             </label>
-          </div>
-          
-          <div class="form-footer">
             <button type="submit" class="submit-text-link">상담 신청서 송신 ➔</button>
           </div>
         </form>
@@ -80,12 +77,63 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </section>
 </Layout>
-
 <script>
   document.addEventListener("astro:page-load", () => {
     const form = document.getElementById("poeticInquiryForm");
     if (!form) return;
 
+    // 1. Dynamic Auto-Resizing for field-blank inputs
+    const inputs = document.querySelectorAll('.field-blank');
+    
+    // Create a hidden measuring span if it doesn't exist
+    let measurer = document.getElementById('input-measurer');
+    if (!measurer) {
+      measurer = document.createElement('span');
+      measurer.id = 'input-measurer';
+      measurer.style.position = 'absolute';
+      measurer.style.visibility = 'hidden';
+      measurer.style.height = '0';
+      measurer.style.width = 'auto';
+      measurer.style.whiteSpace = 'pre';
+      document.body.appendChild(measurer);
+    }
+
+    function resize(input: HTMLInputElement) {
+      const styles = window.getComputedStyle(input);
+      measurer.style.fontFamily = styles.fontFamily;
+      measurer.style.fontSize = styles.fontSize;
+      measurer.style.fontWeight = styles.fontWeight;
+      measurer.style.letterSpacing = styles.letterSpacing;
+      
+      measurer.textContent = input.value || input.placeholder || '';
+      
+      // Calculate width and enforce min-width boundaries
+      const width = Math.max(measurer.offsetWidth + 14, 110);
+      
+      input.style.width = `${width}px`;
+      const container = input.closest('.field-blank-container') as HTMLElement;
+      if (container) {
+        container.style.width = `${width}px`;
+      }
+    }
+
+    inputs.forEach(input => {
+      const htmlInput = input as HTMLInputElement;
+      resize(htmlInput);
+      
+      // Auto-resize on input or change events
+      htmlInput.addEventListener('input', () => resize(htmlInput));
+      htmlInput.addEventListener('change', () => resize(htmlInput));
+    });
+
+    // Handle resetting form sizing
+    form.addEventListener('reset', () => {
+      setTimeout(() => {
+        inputs.forEach(input => resize(input as HTMLInputElement));
+      }, 50);
+    });
+
+    // 2. Poetic Form Submission handler
     async function submitPoeticForm(e: Event) {
       e.preventDefault();
       const name = (document.getElementById("formName") as HTMLInputElement).value;
@@ -159,22 +207,70 @@ import Layout from '../layouts/Layout.astro';
   .contact-channels a:hover { color: #888; border-bottom-color: #888; }
   .narrative-box { background: transparent; }
   .inquiry-welcome-desc { font-size: 1.05rem; color: #555; line-height: 1.8; margin-bottom: 3rem; font-weight: 400; }
-  .narrative-paragraph { font-size: 1.05rem; line-height: 2.4; color: #111; text-align: justify; }
-  .field-blank-container { display: inline-block; position: relative; margin: 0 0.2rem; }
-  .field-blank { background: transparent; border: none; font-size: 1.05rem; font-weight: 500; color: #000; padding: 0 0.3rem; text-align: center; outline: none; width: 100%; }
+  .narrative-paragraph { 
+    font-size: 1.05rem; 
+    line-height: 2.4; 
+    color: #111; 
+    text-align: justify; 
+    text-justify: inter-word;
+    letter-spacing: -0.015em;
+    word-break: keep-all;
+  }
+  .field-blank-container { 
+    display: inline-block; 
+    position: relative; 
+    margin: 0 0.2rem; 
+    transition: width 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .field-blank { 
+    background: transparent; 
+    border: none; 
+    font-size: 1.05rem; 
+    font-weight: 500; 
+    color: #000; 
+    padding: 0 0.3rem; 
+    text-align: center; 
+    outline: none; 
+    width: 100%; 
+    letter-spacing: -0.015em;
+    transition: width 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+  }
   .line-trigger { position: absolute; bottom: 4px; left: 0; width: 100%; height: 1px; background: #ccc; transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1); }
   .field-blank:focus + .line-trigger, .field-blank:hover + .line-trigger { height: 2px; background: #000; transform: scaleX(1.02); }
   .field-blank::placeholder { color: #bbb; font-size: 1rem; font-weight: 400; font-style: italic; }
+  
   .free-discourse-area { margin-top: 4rem; display: flex; flex-direction: column; gap: 1.2rem; }
-  .free-discourse-area label { font-size: 0.95rem; color: #444; font-weight: 500; }
-  .free-textarea { width: 100%; border: none; border-bottom: 1px solid #ccc; font-size: 1.1rem; padding: 0.8rem 0; outline: none; resize: none; background: transparent; line-height: 1.8; transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1); }
+  .free-discourse-area label { font-size: 0.95rem; color: #444; font-weight: 500; letter-spacing: -0.015em; }
+  .free-textarea { 
+    width: 100%; 
+    border: none; 
+    border-bottom: 1px solid #ccc; 
+    font-size: 1.05rem; 
+    padding: 0.8rem 0; 
+    outline: none; 
+    resize: none; 
+    background: transparent; 
+    line-height: 1.8; 
+    transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1); 
+    letter-spacing: -0.015em;
+  }
   .free-textarea:focus { border-bottom: 2px solid #000; }
-  .chamber-toggle-container { margin-top: 3rem; display: flex; align-items: center; gap: 1rem; }
-  .chamber-label { display: inline-flex; align-items: center; cursor: pointer; font-size: 0.9rem; color: #666; letter-spacing: 0.02em; }
+  .free-textarea::placeholder { color: #bbb; font-size: 0.95rem; font-style: italic; }
+  
+  .form-footer-inline {
+    margin-top: 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    border-top: 1px solid #e5e4e0;
+    padding-top: 2rem;
+  }
+  .chamber-label { display: inline-flex; align-items: center; cursor: pointer; font-size: 0.9rem; color: #666; letter-spacing: -0.01em; }
   .chamber-checkbox { display: none; }
   .chamber-box { width: 14px; height: 14px; border: 1px solid #000; margin-right: 0.8rem; display: inline-block; position: relative; background: #fff; transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1); }
   .chamber-checkbox:checked + .chamber-box { background: #000; transform: rotate(90deg); }
-  .form-footer { margin-top: 5rem; display: flex; justify-content: flex-end; }
+  
   .submit-text-link { background: transparent; border: none; color: #000; font-size: 1rem; font-weight: 600; cursor: pointer; letter-spacing: 0.05em; padding: 0 0 0.4rem 0; border-bottom: 1px solid #000; transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1); }
   .submit-text-link:hover { color: #666; border-bottom: 1px solid #666; padding-right: 0.5rem; }
   #formFeedback { margin-top: 2rem; font-size: 1rem; font-weight: 600; display: none; text-align: right; }
@@ -184,7 +280,13 @@ import Layout from '../layouts/Layout.astro';
     #contact-page-content { padding-top: 8rem; }
     .contact-flow { grid-template-columns: 1fr; gap: 4rem; }
     .field-blank-container { width: 100% !important; margin: 0.5rem 0; }
+    .field-blank { width: 100% !important; text-align: left; padding: 0.2rem 0; }
     .narrative-paragraph { line-height: 2.2; }
-    .submit-text-link { float: none; display: inline-block; }
+    .form-footer-inline {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2rem;
+    }
+    .submit-text-link { align-self: flex-end; }
   }
 </style>

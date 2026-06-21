@@ -362,22 +362,24 @@ import Layout from '../layouts/Layout.astro';
 
   /* ABOUT FOOTER ACTIONS */
   .about-footer-links {
-    display: flex;
-    gap: 5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
     margin-top: 8rem;
     padding-top: 4rem;
     border-top: 1px solid #e5e4e0;
-    width: 100%;
   }
   .about-action-link {
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
+    align-items: center;
+    text-align: center;
+    gap: 0.4rem;
     transition: all 0.4s ease;
   }
   .about-action-link:hover {
     opacity: 0.65;
-    padding-left: 0.3rem;
+    transform: translateY(-2px);
   }
   .about-action-link .eng {
     font-size: 1.15rem;
@@ -396,13 +398,12 @@ import Layout from '../layouts/Layout.astro';
     .about-footer-links {
       margin-top: 5rem;
       padding-top: 3rem;
-      gap: 3rem;
     }
   }
   @media (max-width: 768px) {
     .about-footer-links {
-      flex-direction: column;
-      gap: 2.5rem;
+      grid-template-columns: 1fr;
+      gap: 3.5rem;
     }
   }
 

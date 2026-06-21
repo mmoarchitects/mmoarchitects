@@ -132,25 +132,25 @@ const styledCards = cards.map((card, index) => {
       caption.classList.remove('step-show');
 
       // Step 1: initial blurry state is default CSS.
-      // Step 2: make clear at 0.15s (1.5x of 100ms)
+      // Step 2: make clear at 0.1s
       setTimeout(() => {
         flow.classList.add('step-clear');
-      }, 150);
+      }, 100);
 
-      // Step 3: collapse "fictio" to leave only "n" at 2.25s (1.5x of 1500ms)
+      // Step 3: collapse "fictio" to leave only "n" at 1.5s (same as original reading window: 1.4s clear)
       setTimeout(() => {
         flow.classList.add('step-collapse');
-      }, 2250);
+      }, 1500);
 
-      // Step 4: expand and fade-in "onfiction." at 3.45s (1.5x of 2300ms)
+      // Step 4: expand and fade-in "onfiction." at 2.7s (1.2s after collapse starts - 1.5x slower transition)
       setTimeout(() => {
         flow.classList.add('step-expand');
-      }, 3450);
+      }, 2700);
 
-      // Step 5: fade up Korean sub-caption at 4.35s (1.5x of 2900ms)
+      // Step 5: fade up Korean sub-caption at 3.6s (0.9s after expansion starts - 1.5x slower transition)
       setTimeout(() => {
         caption.classList.add('step-show');
-      }, 4350);
+      }, 3600);
     }
 
     // Run on standard load & view transitions
