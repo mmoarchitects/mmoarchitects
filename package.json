@@ -2,12 +2,15 @@
   "name": "mmo-architects",
   "version": "1.0.0",
   "description": "MMO ARCHITECTS Website Portfolio",
-  "main": "app.js",
+  "type": "module",
   "scripts": {
-    "dev": "npx http-server -p 8080"
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
   },
-  "dependencies": {},
-  "devDependencies": {
-    "http-server": "^14.1.1"
+  "dependencies": {
+    "astro": "^4.11.3"
   }
 }

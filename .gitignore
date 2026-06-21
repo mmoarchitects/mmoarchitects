@@ -14,3 +14,7 @@ node_modules/
 # Large media files
 *.mp4
 *.mov
+
+# Astro build caches & output
+.astro/
+dist/

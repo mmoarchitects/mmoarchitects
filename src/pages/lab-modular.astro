@@ -1,0 +1,80 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="LAB & EDITIONS — MMO ARCHITECTS" activeTab="lab" subTab="modular">
+  <section id="lab-modular">
+    <span class="section-label">Laboratory — Modular Line</span>
+    <div class="positioning-statement">
+      <h2>"모듈러 주택의 성패는 공장이 아닌 <em>'대지'</em>에 있습니다."</h2>
+      <p>규격화된 박스를 대량 양산하여 판매하는 일반 유닛과 결을 달리합니다. <strong>MMO EDITIONS</strong>는 대지의 맥락을 해석하는 건축사사무소의 시선과, 공장 정밀 제작 시스템이 만나는 하이엔드 프리미엄 주택 에디션입니다.</p>
+    </div>
+
+    <div class="mmo-strip-grid grid-3">
+      <div class="strip-item"><span class="strip-num">01</span><h3 class="strip-title">공기 50% 단축 및 일정 보장</h3><p class="strip-desc">토목 공사와 유닛 제작이 병렬로 동시 전개되어 공기 지연 리스크가 제어됩니다.</p></div>
+      <div class="strip-item"><span class="strip-num">02</span><h3 class="strip-title">실내 정밀 제어 고품질 마감</h3><p class="strip-desc">기후 변화가 차단된 공장 환경에서 오차 없는 균일한 디테일을 완성합니다.</p></div>
+      <div class="strip-item"><span class="strip-num">03</span><h3 class="strip-title">순환 가능한 미래지향적 친환경성</h3><p class="strip-desc">이주 시 유닛을 그대로 분리·이동하여 다른 땅에 재안착시킬 수 있습니다.</p></div>
+    </div>
+
+    <div class="sub-section-title">MMO Editions — Architectural Risk Control</div>
+    <div class="mmo-strip-grid grid-4">
+      <div class="strip-item"><span class="strip-id">EDITION 01</span><h3 class="strip-title">안착 동선 시뮬레이션</h3><p class="strip-desc">진입로 실사를 거쳐 이동 불가 리스크를 제로화합니다.</p></div>
+      <div class="strip-item"><span class="strip-id">EDITION 02</span><h3 class="strip-title">현장 접합부 정밀 감리</h3><p class="strip-desc">건축사가 직접 감리하여 결로와 단열 유실을 전면 차단합니다.</p></div>
+      <div class="strip-item"><span class="strip-id">EDITION 03</span><h3 class="strip-title">대지 맥락 커스텀 최적화</h3><p class="strip-desc">땅의 조망과 일조 조건을 분석해 매스 배치를 커스텀 조율합니다.</p></div>
+      <div class="strip-item"><span class="strip-id">EDITION 04</span><h3 class="strip-title">가설물 vs 준공 조례 관통</h3><p class="strip-desc">지자체별 상이한 규제의 경계를 관통하여 행정 안전성을 담보합니다.</p></div>
+    </div>
+
+    <div class="sub-section-title">Cost Breakdown & Specification Matrix</div>
+    <div class="spec-table-container">
+      <table class="spec-table">
+        <thead><tr><th>분류 항목</th><th>상세 반영 및 기술 기준</th><th>포함 범위</th></tr></thead>
+        <tbody>
+          <tr><td><strong>공장 기본 제작비</strong><span>Factory Fabrication</span></td><td>실내 유닛 골조 및 기본 내외장재 조립 공정.</td><td>구조 프레임 및 내장 마감</td></tr>
+          <tr><td><strong>구조 및 안전 시스템</strong><span>Structure & Safety</span></td><td>고성능 경량/중목 하이브리드. 비틀림 방지 및 내진 성능 검토.</td><td>구조 안전 진단 및 성적서</td></tr>
+          <tr><td><strong>단열 및 기밀 가공</strong><span>Thermal Insulation</span></td><td>패시브하우스 기준 상회 고밀도 수성 연질폼 시공.</td><td>결로 방지 및 기밀 테스트</td></tr>
+          <tr><td><strong>운송 및 크레인 안착비</strong><span>Logistics & Placement</span></td><td>카고 크레인 안착·결합 비용. 지자체 도로 점용 허가 연계.</td><td>특수 운송 차량 및 안착</td></tr>
+          <tr><td><strong>대지 인허가 및 세팅</strong><span>Permit & Site Setting</span></td><td>건축 허가/신고, 가설건축물 축조 신고 기술 행정 대행.</td><td>세움터 대관 행정 지원</td></tr>
+          <tr><td><strong>토목, 우오수 및 기초</strong><span>Civil & Infrastructure</span></td><td>콘크리트 기초 패키지, 정화조 매설 및 인프라 인입.</td><td>토목 엔지니어링</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <a href="/about#about-contact" class="poetic-cta-link">에디션 대지 진단 의뢰 ➔</a>
+  </section>
+</Layout>
+
+<style>
+  /* Page specific styles */
+  section { padding: 12rem 3rem 6rem 3rem; max-width: 1400px; margin: 0 auto; }
+  .section-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.2em; color: #aaa; margin-bottom: 4rem; display: block; }
+  .positioning-statement { max-width: 950px; margin-bottom: 6rem; }
+  .positioning-statement h2 { font-size: 2.2rem; font-weight: 400; line-height: 1.4; margin-bottom: 1.5rem; }
+  .positioning-statement h2 em { font-family: serif; font-style: italic; }
+  .positioning-statement p { font-size: 1.05rem; color: #555; }
+
+  .mmo-strip-grid { display: grid; gap: 5rem; padding-left: 1rem; margin-bottom: 6rem; }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+  .strip-item { display: flex; flex-direction: column; }
+  .strip-num { font-family: serif; font-style: italic; font-size: 1.2rem; color: #222; margin-bottom: 1.2rem; }
+  .strip-id { font-size: 0.85rem; font-weight: 700; color: #000; margin-bottom: 1.2rem; letter-spacing: 0.05em; display: block; }
+  .strip-title { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.8rem; }
+  .strip-desc { font-size: 0.9rem; color: #666; text-align: justify; line-height: 1.6; }
+
+  .sub-section-title { font-size: 1.1rem; font-weight: 500; letter-spacing: 0.05em; color: #666; margin-bottom: 3rem; }
+
+  .spec-table-container { margin-bottom: 6rem; padding-left: 1rem; }
+  .spec-table { width: 100%; border-collapse: collapse; text-align: left; }
+  .spec-table th { padding: 1.2rem 1rem; font-size: 0.85rem; font-weight: 600; color: #888; border-bottom: 1px solid #000; text-transform: uppercase; letter-spacing: 0.05em; }
+  .spec-table td { padding: 1.5rem 1rem; font-size: 0.95rem; vertical-align: top; border-bottom: 1px solid #eee; line-height: 1.6; }
+  .spec-table td strong { font-weight: 600; color: #000; display: block; margin-bottom: 0.3rem; }
+  .spec-table td span { font-size: 0.85rem; color: #666; }
+
+  .poetic-cta-link { display: inline-block; font-size: 1rem; font-weight: 600; letter-spacing: 0.05em; padding-bottom: 0.4rem; border-bottom: 1px solid #000; transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1); margin-top: 2rem; cursor: pointer; }
+  .poetic-cta-link:hover { color: #666; border-bottom: 1px solid #666; padding-right: 0.5rem; }
+
+  @media (max-width: 1100px) {
+    section { padding-top: 8rem; }
+    .mmo-strip-grid { grid-template-columns: 1fr; gap: 3rem; }
+  }
+</style>

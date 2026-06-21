@@ -1,0 +1,123 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="ADMINISTRATIVE SOLUTIONS — MMO ARCHITECTS" activeTab="lab" subTab="solution">
+  <section id="lab-solutions">
+    <span class="section-label">Laboratory — Administrative Solutions</span>
+    <div class="positioning-statement">
+      <h2>"용도변경은 행정 절차가 아닌,<br>공간의 잠재 가치를 회복하는 <em>Value-up 디자인</em>입니다."</h2>
+      <p>복잡하게 얽힌 건축법적 규제와 시설군 체계를 명확한 숫자의 질서(Order)로 재배치하여, 노후 자산의 임대 가치와 비즈니스 ROI를 극대화하는 컨설팅입니다.</p>
+    </div>
+
+    <div class="mmo-strip-grid grid-4">
+      <div class="strip-item"><span class="strip-id">[01] 방화창 리스크</span><h3 class="strip-title">인접대지 1.5m 이내</h3><p class="strip-desc">예산을 폭등시키는 고가의 고정식 방화유리창 조례 검토.</p></div>
+      <div class="strip-item"><span class="strip-id">[02] 정화조 리스크</span><h3 class="strip-title">용량 초과 및 부담금</h3><p class="strip-desc">기존 정화조 한계 초과 및 원인자부담금 폭탄 액수 계산.</p></div>
+      <div class="strip-item"><span class="strip-id">[03] 주차장 리스크</span><h3 class="strip-title">추가 주차 대수 산정</h3><p class="strip-desc">추가 주차면 확보 유무를 판정하여 리모델링 기획 무산 방어.</p></div>
+      <div class="strip-item"><span class="strip-id">[04] 하수도 리스크</span><h3 class="strip-title">원인자부담금 산정</h3><p class="strip-desc">급증하는 오수 배출량에 따른 지자체 세금을 예산에 선반영.</p></div>
+    </div>
+
+    <div class="sub-section-title">Value-up Indicator — 건축법 제19조의 9개 시설군</div>
+    <div class="solutions-split-container">
+      <div class="solutions-left-index">
+        <div class="law-item active" data-dir="UP (허가)" data-title="01 자동차 관련 시설군" data-desc="특수 목적 상업 시설 전환 검토 대상. 차량 동선 및 소음 조례 검토 선행.">01 자동차 관련 시설군</div>
+        <div class="law-item" data-dir="UP (허가)" data-title="02 산업 등의 시설군" data-desc="소방 피난 및 환경오염 요건이 까다로워 상향 시 주변 민원 리스크 검토 필수.">02 산업 등의 시설군</div>
+        <div class="law-item" data-dir="UP (허가)" data-title="03 전기통신시설군" data-desc="고전력 인프라 및 대규모 냉각 배관 변경이 수반되어 구조 안전과 직결됩니다.">03 전기통신시설군</div>
+        <div class="law-item" data-dir="UP (허가)" data-title="04 문화 및 집회시설군" data-desc="소방·피난·직통계단 추가 개설 등 형태 변경이 수반되어 밸런스 타겟팅이 핵심.">04 문화 및 집회시설군</div>
+        <div class="law-item" data-dir="UP/DOWN 분기" data-title="05 영업시설군" data-desc="주차 의무 대수가 대폭 완화 또는 강화되는 마찰 지점으로 정밀 계산 요구.">05 영업시설군</div>
+        <div class="law-item" data-dir="UP/DOWN 분기" data-title="06 교육 및 복지시설군" data-desc="배리어프리 편의시설 확충과 직통계단 확보 리스크가 강하게 작용합니다.">06 교육 및 복지시설군</div>
+        <div class="law-item" data-dir="CORE LAYER" data-title="07 근린생활시설군" data-desc="Value-up의 중심. 카페, 음식점 등 방화창, 주차장, 정화조 3대 폭탄 상존.">07 근린생활시설군</div>
+        <div class="law-item" data-dir="DOWN (신고)" data-title="08 주거업무시설군" data-desc="주택 자산을 상가로 탈바꿈시킬 때 출발점이 되는 자산 베이스라인 위계.">08 주거업무시설군</div>
+        <div class="law-item" data-dir="DOWN (신고)" data-title="09 그 밖의 시설군" data-desc="도심지 상업 가치로 전환하기 위해 최상위 인허가 승인을 관통해야 하는 구간.">09 그 밖의 시설군</div>
+      </div>
+      
+      <div class="solutions-right-panel" id="interactive-panel">
+        <div id="panel-text-content" style="flex-grow: 1;">
+          <div class="panel-direction" id="panel-dir">REGULATORY DIRECTION — UP (허가)</div>
+          <h3 class="panel-title" id="panel-title">01 자동차 관련 시설군</h3>
+          <p class="panel-desc" id="panel-desc">특수 목적 상업 시설 전환 검토 대상. 차량 동선 및 소음 조례 검토 선행.</p>
+        </div>
+        <div style="display: flex; justify-content: flex-end; margin-top: 3rem;">
+          <a href="/about#about-contact" class="poetic-cta-link">용도변경 및 법규 검토 의뢰 ➔</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const lawItems = document.querySelectorAll(".law-item");
+    const panelText = document.getElementById("panel-text-content");
+    const panelDir = document.getElementById("panel-dir");
+    const panelTitle = document.getElementById("panel-title");
+    const panelDesc = document.getElementById("panel-desc");
+
+    if (!panelText || !panelDir || !panelTitle || !panelDesc) return;
+
+    lawItems.forEach(item => {
+      item.addEventListener("mouseenter", () => {
+        if (item.classList.contains("active")) return;
+
+        lawItems.forEach(el => el.classList.remove("active"));
+        item.classList.add("active");
+
+        const direction = item.getAttribute("data-dir") || "";
+        const title = item.getAttribute("data-title") || "";
+        const desc = item.getAttribute("data-desc") || "";
+
+        panelText.style.opacity = "0.3";
+        panelText.style.transform = "translateY(5px)";
+
+        setTimeout(() => {
+          panelDir.innerText = "REGULATORY DIRECTION — " + direction;
+          panelTitle.innerText = title;
+          panelDesc.innerText = desc;
+          panelText.style.opacity = "1";
+          panelText.style.transform = "translateY(0)";
+        }, 250);
+      });
+    });
+  });
+</script>
+
+<style>
+  /* Page specific styles */
+  section { padding: 12rem 3rem 6rem 3rem; max-width: 1400px; margin: 0 auto; }
+  .section-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.2em; color: #aaa; margin-bottom: 4rem; display: block; }
+  .positioning-statement { max-width: 950px; margin-bottom: 6rem; }
+  .positioning-statement h2 { font-size: 2.2rem; font-weight: 400; line-height: 1.4; margin-bottom: 1.5rem; }
+  .positioning-statement h2 em { font-family: serif; font-style: italic; }
+  .positioning-statement p { font-size: 1.05rem; color: #555; }
+
+  .mmo-strip-grid { display: grid; gap: 5rem; padding-left: 1rem; margin-bottom: 6rem; }
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+  .strip-item { display: flex; flex-direction: column; }
+  .strip-id { font-size: 0.85rem; font-weight: 700; color: #000; margin-bottom: 1.2rem; letter-spacing: 0.05em; display: block; }
+  .strip-title { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.8rem; }
+  .strip-desc { font-size: 0.9rem; color: #666; text-align: justify; line-height: 1.6; }
+
+  .sub-section-title { font-size: 1.1rem; font-weight: 500; letter-spacing: 0.05em; color: #666; margin-bottom: 3rem; }
+
+  .poetic-cta-link { display: inline-block; font-size: 0.9rem; font-weight: 600; letter-spacing: 0.05em; padding-bottom: 0.4rem; border-bottom: 1px solid #000; transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1); cursor: pointer; }
+  .poetic-cta-link:hover { color: #666; border-bottom: 1px solid #666; padding-right: 0.5rem; }
+
+  /* SOLUTIONS SPLIT LAYOUT */
+  .solutions-split-container { display: grid; grid-template-columns: 1fr 1.2fr; gap: 6rem; margin-bottom: 6rem; }
+  .solutions-left-index { display: flex; flex-direction: column; gap: 0.2rem; }
+  .law-item { padding: 0.9rem 1rem; border-left: 2px solid #eee; font-size: 1rem; color: #888; cursor: pointer; transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1); }
+  .law-item:hover, .law-item.active { border-left: 2px solid #000; color: #000; font-weight: 500; padding-left: 1.5rem; }
+
+  .solutions-right-panel { background-color: transparent; padding: 2rem 0; display: flex; flex-direction: column; justify-content: space-between; min-height: 480px; transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1); }
+  #panel-text-content { transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1); }
+  .panel-direction { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; color: #999; margin-bottom: 1.5rem; }
+  .panel-title { font-size: 1.6rem; font-weight: 600; margin-bottom: 1.2rem; }
+  .panel-desc { font-size: 0.95rem; color: #444; line-height: 1.8; text-align: justify; }
+
+  @media (max-width: 1100px) {
+    section { padding-top: 8rem; }
+    .mmo-strip-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .solutions-split-container { grid-template-columns: 1fr; gap: 2rem; }
+  }
+</style>

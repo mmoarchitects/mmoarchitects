@@ -1,0 +1,408 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import projectsData from '../../data/projects.json';
+
+// getStaticPaths is required in Astro to define dynamic routes at build time
+export async function getStaticPaths() {
+  return projectsData.map((proj, index) => {
+    // Find next and previous project IDs for infinite scroll transitions
+    const nextProj = projectsData[(index + 1) % projectsData.length];
+    const prevProj = projectsData[(index - 1 + projectsData.length) % projectsData.length];
+    
+    return {
+      params: { id: proj.id },
+      props: { 
+        project: proj,
+        nextId: nextProj.id,
+        prevId: prevProj.id
+      }
+    };
+  });
+}
+
+const { project, nextId, prevId } = Astro.props;
+
+// Helper to determine asset paths (removes /public prefix for Astro)
+const getAssetPath = (path: string) => {
+  if (!path) return "";
+  return path.startsWith("/public") ? path.slice(7) : path;
+};
+
+const getProjectAssetPath = (projId: string, fileName: string) => {
+  if (!fileName) return "";
+  const normalizedFileName = fileName.normalize('NFC');
+  if (normalizedFileName.startsWith("/") || normalizedFileName.startsWith("http")) {
+    return getAssetPath(normalizedFileName);
+  }
+  return getAssetPath(`/assets/projects/${projId}/${normalizedFileName}`);
+};
+
+const getVimeoEmbedUrl = (vimeoInput: any) => {
+  if (!vimeoInput) return "";
+  let videoId = vimeoInput.toString().trim();
+  const reg = /vimeo\.com\/(?:video\/)?([0-9]+)/;
+  const match = videoId.match(reg);
+  if (match && match[1]) {
+    videoId = match[1];
+  }
+  return `https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&muted=1&playsinline=1&controls=0&title=0&byline=0&portrait=0&badge=0`;
+};
+
+// Caption parser
+const getCaptionFromPath = (path: string) => {
+  if (!path) return "";
+  const filenameWithExt = path.substring(path.lastIndexOf('/') + 1);
+  const filename = filenameWithExt.substring(0, filenameWithExt.lastIndexOf('.'));
+  return decodeURIComponent(filename).normalize('NFC');
+};
+
+// Filter specs helper
+const isSpecValueEmpty = (val: any) => {
+  if (!val) return true;
+  const clean = val.toString().trim();
+  if (clean === "" || clean === "-" || clean === "—" || clean === "0" || clean === "00.00" || clean === "00" || clean === "00.평") return true;
+  if (clean.includes("-㎡") || clean.includes("—㎡") || clean.includes("-평") || clean.includes("—평") || clean.includes("00.00㎡")) return true;
+  return false;
+};
+
+// Build specs list
+const activeSpecs = [];
+if (project.spec) {
+  for (const [key, value] of Object.entries(project.spec)) {
+    if (!isSpecValueEmpty(value)) {
+      activeSpecs.push({ key, value });
+    }
+  }
+}
+const hasPhotoInSpec = activeSpecs.some(s => s.key === "사진");
+const photoCredit = project.사진 || project.photo;
+if (!hasPhotoInSpec && photoCredit && !isSpecValueEmpty(photoCredit)) {
+  activeSpecs.push({ key: "사진", value: photoCredit });
+}
+
+// Build image stream list
+const imagesList = (project.gallery && project.gallery.length > 0)
+  ? project.gallery
+  : [project.blueprint].filter(Boolean);
+
+const mediaBlocks = imagesList.map((imgSrc, index) => {
+  const cleanSrc = getProjectAssetPath(project.id, imgSrc);
+  const captionText = getCaptionFromPath(imgSrc);
+  const patternType = index % 3;
+  const isBlueprint = cleanSrc.toLowerCase().includes("blueprint") || 
+                      cleanSrc.toLowerCase().includes("drawing") || 
+                      patternType === 1;
+
+  return {
+    src: cleanSrc,
+    caption: captionText,
+    isBlueprint,
+    isNarrow: patternType === 2 && !isBlueprint
+  };
+});
+
+const ogImage = mediaBlocks.length > 0 ? mediaBlocks[0].src : "/assets/logo.png";
+const statusTag = project.status ? ` (${project.status.toUpperCase()})` : "";
+---
+
+<Layout 
+  title={`${project.title} — MMO ARCHITECTS`} 
+  description={project.maintext || project.monograph || project.description}
+  activeTab="projects"
+  ogImage={ogImage}
+>
+  <div class="project-detail-layer is-active" id="projectDetailLayer" data-next-id={nextId} data-prev-id={prevId}>
+    <aside class="detail-left-fixed" id="detailLeftFixed">
+      <a href="/projects" class="croquis-back-btn" id="closeDetailBtn">← EXIT ARCHIVE</a>
+      <div class="detail-meta-wrapper">
+        <div class="croquis-meta-top">
+          <span>{project.year}{statusTag}</span>
+          <span class="croquis-separator">/</span>
+          <div class="croquis-tags-inline">{(project.subCategory || "").toUpperCase()}</div>
+        </div>
+        <h2 class="croquis-main-title">{project.title}</h2>
+        <div class="croquis-divider-thin"></div>
+        
+        <div class="croquis-spec-panel">
+          {activeSpecs.map((spec, idx) => {
+            const isLast = idx === activeSpecs.length - 1;
+            return (
+              <div class="spec-row" style={isLast ? "border-bottom: none; padding-bottom: 0;" : ""}>
+                <span class="spec-label">{spec.key}</span>
+                <span class="spec-value">{spec.value}</span>
+              </div>
+            );
+          })}
+        </div>
+
+        <p class="croquis-lead-paragraph" style="margin-top: 2rem;">{project.maintext || project.description}</p>
+      </div>
+      
+      <div class="detail-left-footer">
+        {project.annotation && (
+          <div id="detailAnnotation" style="font-size: 10px; color: #a3a19b; margin-bottom: 1.5rem; line-height: 1.6; word-break: keep-all;">
+            {project.annotation}
+          </div>
+        )}
+        <div class="croquis-issue-number">MMO MONOGRAPH ARCHIVES</div>
+        <div class="croquis-copyright">© 2026 MMO Architects. All rights reserved.</div>
+      </div>
+    </aside>
+
+    <section class="detail-right-scroll" id="detailRightScroll">
+      <div class="croquis-gallery-stream">
+        {mediaBlocks.map((media, index) => (
+          media.isBlueprint ? (
+            <div class="croquis-media-block blueprint-style">
+              <div class="croquis-image-frame">
+                <img src={media.src} alt={media.caption} />
+              </div>
+              <span class="croquis-caption">{media.caption}</span>
+            </div>
+          ) : media.isNarrow ? (
+            <div class="croquis-media-block narrow-focus">
+              <div class="croquis-image-frame">
+                <img src={media.src} alt={media.caption} />
+              </div>
+              <span class="croquis-caption">{media.caption}</span>
+            </div>
+          ) : (
+            <div class="croquis-media-block">
+              <div class="croquis-image-frame">
+                <img src={media.src} alt={media.caption} />
+              </div>
+              <span class="croquis-caption">{media.caption}</span>
+            </div>
+          )
+        ))}
+
+        {project.vimeo && (
+          <div class="croquis-media-block">
+            <div class="croquis-image-frame" style="aspect-ratio: 16/9; background-color: #000; position: relative;">
+              <iframe 
+                src={getVimeoEmbedUrl(project.vimeo)} 
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" 
+                frameborder="0" 
+                allow="autoplay; fullscreen; picture-in-picture" 
+                allowfullscreen>
+              </iframe>
+            </div>
+            <span class="croquis-caption">Fig {mediaBlocks.length + 1}. Cinematic Sketch (Vimeo Video)</span>
+          </div>
+        )}
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<script>
+  // Client-side scroll detection for Next/Prev project transition
+  document.addEventListener("astro:page-load", () => {
+    const detailLayer = document.getElementById("projectDetailLayer") as HTMLElement;
+    const scrollTrack = document.getElementById("detailRightScroll") as HTMLElement;
+    if (!detailLayer || !scrollTrack) return;
+
+    const nextId = detailLayer.getAttribute("data-next-id") || "";
+    const prevId = detailLayer.getAttribute("data-prev-id") || "";
+
+    const getScrollElement = () => {
+      if (window.innerWidth <= 1100) {
+        return detailLayer;
+      }
+      return scrollTrack;
+    };
+
+    let isTransitioning = false;
+    let topScrollLocked = false;
+    let topScrollLockedTime = 0;
+    let bottomScrollLocked = false;
+    let bottomScrollLockedTime = 0;
+
+    const triggerTransition = (targetId: string) => {
+      if (isTransitioning || !targetId) return;
+      isTransitioning = true;
+      detailLayer.classList.add("switching-project");
+      setTimeout(() => {
+        // Dynamic navigation to next/prev project page
+        window.location.href = `/projects/${targetId}`;
+      }, 550);
+    };
+
+    // Wheel Scroll Handlers
+    detailLayer.addEventListener("wheel", (e) => {
+      if (isTransitioning) return;
+
+      if (window.innerWidth > 1100 && e.target && (e.target as HTMLElement).closest(".detail-left-fixed")) {
+        return;
+      }
+
+      const scrollEl = getScrollElement();
+      const isAtBottom = scrollEl.scrollHeight - scrollEl.scrollTop <= scrollEl.clientHeight + 5;
+      const isAtTop = scrollEl.scrollTop <= 2;
+
+      if (isAtBottom && e.deltaY > 0) {
+        if (!bottomScrollLocked) {
+          bottomScrollLocked = true;
+          bottomScrollLockedTime = Date.now();
+          e.preventDefault();
+        } else {
+          if (Date.now() - bottomScrollLockedTime > 800) {
+            e.preventDefault();
+            triggerTransition(nextId);
+            bottomScrollLocked = false;
+          } else {
+            e.preventDefault();
+          }
+        }
+        topScrollLocked = false;
+      }
+      else if (isAtTop && e.deltaY < 0) {
+        if (!topScrollLocked) {
+          topScrollLocked = true;
+          topScrollLockedTime = Date.now();
+          e.preventDefault();
+        } else {
+          if (Date.now() - topScrollLockedTime > 800) {
+            e.preventDefault();
+            triggerTransition(prevId);
+            topScrollLocked = false;
+          } else {
+            e.preventDefault();
+          }
+        }
+        bottomScrollLocked = false;
+      } else {
+        topScrollLocked = false;
+        bottomScrollLocked = false;
+      }
+    });
+
+    // Touch Swipe Handlers for Mobile
+    let touchStartY = 0;
+    let topTouchLocked = false;
+    let topTouchLockedTime = 0;
+    let bottomTouchLocked = false;
+    let bottomTouchLockedTime = 0;
+
+    detailLayer.addEventListener("touchstart", (e) => {
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+
+    detailLayer.addEventListener("touchmove", (e) => {
+      if (isTransitioning) return;
+
+      if (window.innerWidth > 1100 && e.target && (e.target as HTMLElement).closest(".detail-left-fixed")) {
+        return;
+      }
+
+      const scrollEl = getScrollElement();
+      const touchEndY = e.touches[0].clientY;
+      const isAtBottom = scrollEl.scrollHeight - scrollEl.scrollTop <= scrollEl.clientHeight + 5;
+      const isAtTop = scrollEl.scrollTop <= 2;
+      const swipeDiff = touchStartY - touchEndY;
+
+      if (isAtBottom && swipeDiff > 30) {
+        if (!bottomTouchLocked) {
+          bottomTouchLocked = true;
+          bottomTouchLockedTime = Date.now();
+        } else {
+          if (Date.now() - bottomTouchLockedTime > 800) {
+            triggerTransition(nextId);
+            bottomTouchLocked = false;
+          }
+        }
+        topTouchLocked = false;
+      }
+      else if (isAtTop && swipeDiff < -30) {
+        if (!topTouchLocked) {
+          topTouchLocked = true;
+          topTouchLockedTime = Date.now();
+        } else {
+          if (Date.now() - topTouchLockedTime > 800) {
+            triggerTransition(prevId);
+            topTouchLocked = false;
+          }
+        }
+        bottomTouchLocked = false;
+      } else if (Math.abs(swipeDiff) > 5) {
+        topTouchLocked = false;
+        bottomTouchLocked = false;
+      }
+    });
+  });
+</script>
+
+<style>
+  /* Page specific styles */
+  .project-detail-layer { 
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #f5f4f0; 
+    z-index: 2000; display: flex; opacity: 0; visibility: hidden; transform: translateY(30px); 
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.8s; 
+  }
+  .project-detail-layer.is-active { opacity: 1; visibility: visible; transform: translateY(0); }
+  
+  .detail-left-fixed { 
+    width: 35%; height: 100vh; padding: 6rem 4% 4rem 4vw; box-sizing: border-box; 
+    display: flex; flex-direction: column; justify-content: space-between; overflow-y: auto; 
+  }
+  .croquis-back-btn { 
+    background: none; border: none; font-size: 10px; letter-spacing: 0.15em; color: #1a1a1a; 
+    font-weight: 600; cursor: pointer; text-align: left; padding: 0; width: fit-content;
+  }
+  .croquis-back-btn:hover { color: #8c8a85; }
+  .detail-meta-wrapper { max-width: 360px; margin-top: 2rem; margin-bottom: auto; text-align: left; }
+  .croquis-meta-top { display: flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 600; color: #8c8a85; margin-bottom: 1.5rem; letter-spacing: 0.05em; }
+  .croquis-separator { font-weight: 300; color: #d1d0ca; }
+  .croquis-tags-inline { text-transform: uppercase; }
+  .croquis-main-title { font-size: 2.2rem; font-weight: 300; letter-spacing: -0.02em; line-height: 1.35; margin-bottom: 2.5rem; }
+  .croquis-divider-thin { width: 40px; height: 1px; background-color: #1a1a1a; margin-bottom: 2.5rem; }
+  .croquis-lead-paragraph { font-size: 0.95rem; line-height: 1.75; color: #1a1a1a; text-align: justify; font-weight: 400; margin-bottom: 2rem; }
+  
+  .detail-right-scroll { width: 65%; height: 100vh; overflow-y: auto; padding: 6rem 6.5% 12rem 0; box-sizing: border-box; }
+  .croquis-gallery-stream { display: flex; flex-direction: column; gap: 140px; width: 100%; }
+  .croquis-media-block { width: 100%; display: flex; flex-direction: column; }
+  .croquis-image-frame { width: 100%; overflow: hidden; background-color: #e6e5df; }
+  .croquis-image-frame img { width: 100%; height: auto; display: block; }
+  
+  .croquis-caption { 
+    font-size: 10px; color: #8c8a85; letter-spacing: 0.02em; margin-top: 14px; 
+    font-weight: 500; line-height: 1.5; text-align: left;
+  }
+  .croquis-media-block.blueprint-style .croquis-image-frame { background-color: #f5f4f0; mix-blend-mode: multiply; }
+  .croquis-media-block.blueprint-style .croquis-image-frame img { opacity: 0.85; border: 1px dashed #c4c2ba; padding: 30px; }
+  .croquis-media-block.narrow-focus { max-width: 80%; margin-left: auto; }
+
+  /* Left panel footer */
+  .detail-left-footer { margin-top: auto; }
+  .croquis-issue-number { font-size: 9px; letter-spacing: 0.2em; color: #aaa; font-weight: 500; text-transform: uppercase; text-align: left; margin-bottom: 0.4rem; }
+  .croquis-copyright { font-size: 9px; color: #aaa; letter-spacing: 0.02em; line-height: 1.2; text-align: left; }
+
+  /* Spec panel */
+  .croquis-spec-panel { margin-top: 2rem; display: flex; flex-direction: column; gap: 10px; border-top: 1px solid #e5e4e0; padding-top: 1.5rem; font-size: 11px; color: #666; }
+  .spec-row { display: flex; justify-content: space-between; border-bottom: 1px dashed #e6e5df; padding-bottom: 5px; }
+  .spec-label { font-weight: 600; color: #8c8a85; letter-spacing: 0.05em; }
+  .spec-value { color: #1a1a1a; text-align: right; font-weight: 400; }
+
+  /* Project switching transitions */
+  .detail-left-fixed, .detail-right-scroll {
+    transition: opacity 0.55s cubic-bezier(0.25, 1, 0.5, 1), transform 0.55s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .project-detail-layer.switching-project .detail-left-fixed { opacity: 0; transform: translateY(15px); }
+  .project-detail-layer.switching-project .detail-right-scroll { opacity: 0; transform: translateY(30px); }
+
+  /* Hide default layout footer inside this detail view */
+  :global(footer.mmo-footer) { display: none !important; }
+
+  /* Mobile/Tablet overrides */
+  @media (max-width: 1100px) {
+    .project-detail-layer { flex-direction: column-reverse; overflow-y: auto; }
+    .detail-left-fixed { width: 100%; height: auto; padding: 4rem 6% 4rem 6%; overflow-y: visible; flex: none; }
+    .detail-right-scroll { width: 100%; height: auto; padding: 4rem 6% 0 6%; overflow-y: visible; flex: none; }
+    .croquis-back-btn {
+      position: fixed; top: 2rem; left: 2rem; z-index: 2100;
+      background-color: rgba(245, 244, 240, 0.85); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+      padding: 0.8rem 1.2rem; border: 1px solid #e5e4e0; border-radius: 2px;
+    }
+    .croquis-gallery-stream { gap: 60px; }
+  }
+</style>

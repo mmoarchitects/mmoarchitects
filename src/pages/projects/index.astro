@@ -1,0 +1,308 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import projectsData from '../../data/projects.json';
+
+// Size and padding presets for asymmetry
+const sizePresets = ["size-standard", "size-tall", "size-square", "size-wide"];
+const spacePresets = ["space-tight", "space-medium", "space-wide"];
+
+// Helper to determine asset paths (removes /public prefix for Astro)
+const getAssetPath = (path: string) => {
+  if (!path) return "";
+  return path.startsWith("/public") ? path.slice(7) : path;
+};
+
+const getProjectAssetPath = (projId: string, fileName: string) => {
+  if (!fileName) return "";
+  const normalizedFileName = fileName.normalize('NFC');
+  if (normalizedFileName.startsWith("/") || normalizedFileName.startsWith("http")) {
+    return getAssetPath(normalizedFileName);
+  }
+  return getAssetPath(`/assets/projects/${projId}/${normalizedFileName}`);
+};
+
+const getVimeoEmbedUrl = (vimeoInput: any) => {
+  if (!vimeoInput) return "";
+  let videoId = vimeoInput.toString().trim();
+  const reg = /vimeo\.com\/(?:video\/)?([0-9]+)/;
+  const match = videoId.match(reg);
+  if (match && match[1]) {
+    videoId = match[1];
+  }
+  return `https://player.vimeo.com/video/${videoId}?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1`;
+};
+
+// Normalize tags for class names
+const normalizeTag = (str: string) => {
+  if (!str) return "";
+  return str.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-]/g, '').trim();
+};
+
+// Gather all unique categories for the filter bar
+const categorySet = new Set<string>();
+projectsData.forEach(proj => {
+  if (proj.category) {
+    const cats = Array.isArray(proj.category) ? proj.category : [proj.category];
+    cats.forEach(c => {
+      if (c) categorySet.add(c.trim());
+    });
+  }
+});
+const categories = Array.from(categorySet);
+
+// Prepare project cards
+let currentColumnSpace = 0;
+const projects = projectsData.map((proj, index) => {
+  const isVimeo = !!proj.vimeo;
+  let thumbUrl = "";
+  let vimeoUrl = "";
+
+  if (isVimeo) {
+    vimeoUrl = getVimeoEmbedUrl(proj.vimeo);
+  } else {
+    let selectedThumb = "";
+    if (proj.gallery && proj.gallery.length > 0) {
+      const randomIndex = Math.floor(Math.random() * proj.gallery.length);
+      const thumbObj = proj.gallery[randomIndex];
+      selectedThumb = typeof thumbObj === "object" ? thumbObj.src : thumbObj;
+    }
+    thumbUrl = getProjectAssetPath(proj.id, selectedThumb || proj.blueprint || "");
+  }
+
+  // Determine size and space presets
+  const randomSize = sizePresets[Math.floor(Math.random() * sizePresets.length)];
+  const randomSpace = spacePresets[Math.floor(Math.random() * spacePresets.length)];
+  
+  let classes = ["project-card", randomSize, randomSpace];
+
+  // Prevent blank row spaces
+  if (currentColumnSpace === 0 && Math.random() > 0.45 && index < projectsData.length - 1) {
+    classes.push("colspan-2");
+    classes = classes.filter(c => c !== "size-tall" && c !== "size-standard");
+    classes.push("size-wide");
+    currentColumnSpace += 2;
+  } else {
+    currentColumnSpace += 1;
+  }
+
+  if (currentColumnSpace >= 3) {
+    currentColumnSpace = 0;
+  }
+
+  // Join categories into tag classes for filtering
+  const cats = (Array.isArray(proj.category) ? proj.category : [proj.category]).filter(Boolean) as string[];
+  const normalizedTags = cats.map(c => normalizeTag(c)).join(" ");
+  const catDisplayString = cats.join(", ").toUpperCase();
+
+  const summaryText = proj.maintext && proj.maintext.length > 75 
+    ? proj.maintext.substring(0, 75) + "..." 
+    : (proj.maintext || "");
+
+  return {
+    ...proj,
+    isVimeo,
+    thumbUrl,
+    vimeoUrl,
+    className: classes.join(" "),
+    normalizedTags,
+    catDisplayString,
+    summaryText
+  };
+});
+---
+
+<Layout title="MMO ARCHITECTS — PROJECTS" activeTab="projects">
+  <main class="portfolio-container">
+    <aside class="filter-sidebar">
+      <div class="filter-sticky">
+        <ul class="filter-list" id="filterList">
+          <li class="filter-item active" data-filter="all">ALL</li>
+          {categories.map(cat => (
+            <li class="filter-item" data-filter={normalizeTag(cat)}>{cat.toUpperCase()}</li>
+          ))}
+        </ul>
+      </div>
+    </aside>
+
+    <section class="masonry-infinite-wrapper" id="infiniteWrapper">
+      <div class="grid-track" id="gridTrack">
+        {projects.map(proj => (
+          <article class={proj.className} data-id={proj.id} data-tags={proj.normalizedTags}>
+            <a href={`/projects/${proj.id}`}>
+              <div class="card-image-slot">
+                {proj.isVimeo ? (
+                  <div class="photo-layer" style="background: #000;">
+                    <iframe 
+                      src={proj.vimeoUrl} 
+                      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; pointer-events: none;" 
+                      frameborder="0" 
+                      allow="autoplay; fullscreen" 
+                      allowfullscreen>
+                    </iframe>
+                  </div>
+                ) : (
+                  <div class="photo-layer" style={`background-image: url('${proj.thumbUrl}');`}></div>
+                )}
+                <div class="blueprint-layer">[VIEW THIS PROJECT]</div>
+              </div>
+              <h3 class="project-title">{proj.title}</h3>
+              <p class="project-summary">{proj.summaryText}</p>
+              <div class="meta-row" style="margin-top: 10px; margin-bottom: 0;">
+                <span class="card-year">{proj.year}{proj.status ? ` <span style="margin-left: 4px; font-weight: 400; color: #a3a19b;">(${proj.status.toUpperCase()})</span>` : ""}</span>
+                <span class="card-tag-text">{(proj.subCategory || "").toUpperCase()} / {proj.catDisplayString}</span>
+              </div>
+            </a>
+          </article>
+        ))}
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<script>
+  // Client-side filtering and sidebar reveal logic
+  document.addEventListener("astro:page-load", () => {
+    // 1. Sidebar Reveal
+    const sidebar = document.querySelector(".filter-sidebar");
+    if (sidebar) {
+      sidebar.classList.add("init-reveal");
+      setTimeout(() => {
+        sidebar.classList.remove("init-reveal");
+      }, 1000);
+    }
+
+    // 2. Filter Handler
+    const filterList = document.getElementById("filterList");
+    if (filterList) {
+      filterList.addEventListener("click", (e) => {
+        const item = (e.target as HTMLElement).closest(".filter-item");
+        if (!item) return;
+
+        document.querySelectorAll(".filter-item").forEach(el => el.classList.remove("active"));
+        item.classList.add("active");
+
+        const filterValue = item.getAttribute("data-filter");
+        const cards = document.querySelectorAll(".project-card") as NodeListOf<HTMLElement>;
+
+        cards.forEach(card => {
+          if (filterValue === "all") {
+            card.style.display = "flex";
+          } else {
+            const cardTags = card.getAttribute("data-tags") || "";
+            if (cardTags.split(" ").includes(filterValue || "")) {
+              card.style.display = "flex";
+            } else {
+              card.style.display = "none";
+            }
+          }
+        });
+      });
+    }
+  });
+</script>
+
+<style>
+  /* Page specific styles */
+  .portfolio-container { 
+    display: flex; flex-direction: row; width: 100%; max-width: 1900px; margin: 0 auto; 
+    padding: 180px 4% 8rem 4%; box-sizing: border-box; 
+  }
+  
+  /* Filter Sidebar styling */
+  .filter-sidebar { width: 180px; flex-shrink: 0; box-sizing: border-box; }
+  .filter-sticky { position: sticky; top: 180px; width: 100%; transition: opacity 0.55s; }
+  .filter-list { list-style: none; display: flex; flex-direction: column; gap: 1.2rem; }
+  .filter-item { 
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; color: #888; cursor: pointer; 
+    transition: color 0.4s, padding-left 0.4s; position: relative; padding-left: 0;
+  }
+  .filter-item:hover, .filter-item.active { color: #1a1a1a; }
+  .filter-item::before { 
+    content: ""; position: absolute; left: 0; top: 50%; width: 0; height: 1px; 
+    background-color: #1a1a1a; transform: translateY(-50%); transition: width 0.4s; 
+  }
+  .filter-item.active { padding-left: 14px; }
+  .filter-item.active::before { width: 8px; }
+
+  /* Infinite Scroll and Grid Track */
+  .masonry-infinite-wrapper { flex-grow: 1; margin-left: 4vw; position: relative; }
+  .grid-track { 
+    display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-flow: dense; 
+    column-gap: 6.5%; row-gap: 140px; align-items: start; width: 100%; 
+  }
+  .project-card { display: flex; flex-direction: column; cursor: pointer; box-sizing: border-box; }
+  .project-card a { display: flex; flex-direction: column; width: 100%; }
+  
+  .card-image-slot { width: 100%; background-color: #dfded9; margin-bottom: 24px; position: relative; overflow: hidden; }
+  .photo-layer, .blueprint-layer {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center;
+    transition: opacity 0.55s cubic-bezier(0.25, 1, 0.5, 1), transform 0.55s cubic-bezier(0.25, 1, 0.5, 1), filter 0.55s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .blueprint-layer { 
+    opacity: 0; 
+    background-color: rgba(245, 244, 240, 0.35); 
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    color: #000; 
+    font-size: 0.85rem; 
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    z-index: 3;
+  }
+  .project-card:hover .photo-layer { 
+    transform: scale(1.03); 
+    filter: blur(2px) brightness(0.9); 
+  }
+  .project-card:hover .blueprint-layer { 
+    opacity: 1; 
+  }
+
+  .size-standard .card-image-slot { aspect-ratio: 4/3; }
+  .size-tall .card-image-slot { aspect-ratio: 3/4; }
+  .size-square .card-image-slot { aspect-ratio: 1/1; }
+  .size-wide .card-image-slot { aspect-ratio: 16/10; }
+  
+  .colspan-3 { grid-column: span 3 !important; }
+  .colspan-3 .card-image-slot { aspect-ratio: 21/9; }
+  .colspan-2 { grid-column: span 2; }
+  .colspan-2.size-wide .card-image-slot { aspect-ratio: 16/9; }
+  
+  .space-tight { margin-top: -20px; }
+  .space-medium { margin-top: 20px; }
+  .space-wide { margin-top: 45px; }
+
+  .meta-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; font-size: 10px; letter-spacing: 0.15em; color: #8c8a85; font-weight: 600; text-transform: uppercase; }
+  .project-title { font-size: 1.25rem; font-weight: 500; margin: 0 0 10px 0; letter-spacing: -0.02em; }
+  .project-summary { font-size: 0.9rem; line-height: 1.6; color: #666460; font-weight: 300; text-align: justify; }
+
+  /* GNB Scroll margin */
+  .project-card {
+    scroll-margin-top: 120px;
+    scroll-behavior: smooth;
+  }
+
+  /* Reveal transition for filter sidebar */
+  .filter-sidebar { transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1); }
+  .filter-sidebar.init-reveal { transform: translateX(10px); }
+  .filter-sidebar.init-reveal .filter-sticky { opacity: 0.3; }
+
+  /* Responsive layout overrides */
+  @media (max-width: 1100px) {
+    .portfolio-container { flex-direction: column; padding-top: 100px; padding-left: 4% !important; }
+    .filter-sidebar { width: 100% !important; position: relative; padding: 0; height: auto; margin-bottom: 50px; }
+    .filter-sticky { opacity: 1; visibility: visible; width: 100%; position: relative; top: 0; }
+    .filter-list { flex-direction: row; flex-wrap: wrap; gap: 20px; }
+    .filter-item::before { display: none; }
+    .filter-item { padding-left: 0; }
+    .masonry-infinite-wrapper { margin-left: 0 !important; }
+    .grid-track { grid-template-columns: repeat(2, 1fr); row-gap: 120px; }
+    .project-card.colspan-3, .project-card.colspan-2 { grid-column: span 1 !important; }
+    .space-tight, .space-medium, .space-wide { padding: 0; margin-top: 0; }
+  }
+  @media (max-width: 768px) { 
+    .grid-track { grid-template-columns: 1fr; row-gap: 80px; } 
+  }
+</style>
