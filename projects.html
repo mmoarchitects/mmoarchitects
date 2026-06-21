@@ -240,9 +240,22 @@
             .grid-track { grid-template-columns: repeat(2, 1fr); row-gap: 120px; }
             .project-card.colspan-3, .project-card.colspan-2 { grid-column: span 1 !important; }
             .space-tight, .space-medium, .space-wide { padding: 0; margin-top: 0; }
-            .project-detail-layer { flex-direction: column; overflow-y: auto; }
-            .detail-left-fixed { width: 100%; height: auto; padding: 4rem 6% 2rem 6%; }
-            .detail-right-scroll { width: 100%; height: auto; padding: 2rem 6% 6rem 6%; overflow-y: visible; }
+            .project-detail-layer { flex-direction: column-reverse; overflow-y: auto; }
+            .detail-left-fixed { width: 100%; height: auto; padding: 4rem 6% 4rem 6%; }
+            .detail-right-scroll { width: 100%; height: auto; padding: 4rem 6% 0 6%; overflow-y: visible; }
+            .croquis-back-btn {
+                position: fixed;
+                top: 2rem;
+                left: 2rem;
+                z-index: 2100;
+                background-color: rgba(245, 244, 240, 0.85);
+                backdrop-filter: blur(5px);
+                -webkit-backdrop-filter: blur(5px);
+                padding: 0.8rem 1.2rem;
+                border: 1px solid #e5e4e0;
+                border-radius: 2px;
+            }
+            .croquis-gallery-stream { gap: 60px; }
             .mmo-footer { grid-template-columns: 1fr; padding: 6rem 4% 4rem 4%; }
         }
         @media (max-width: 768px) { 
@@ -588,7 +601,8 @@
                 const proj = projectsList.find(p => p.id === projId);
                 if (!proj) return;
 
-                scrollTrack.scrollTop = 0; // Reset scroll position
+                scrollTrack.scrollTop = 0; // Reset scroll position for desktop
+                detailLayer.scrollTop = 0; // Reset scroll position for mobile
                 detailLayer.setAttribute("data-current-id", proj.id);
                 detailTitle.innerText = proj.title;
                 
@@ -731,18 +745,31 @@
                 window.history.replaceState({ id: proj.id }, "", newUrl);
             }
 
+            // helper to determine which element is scrolling based on responsive layout
+            const getScrollElement = () => {
+                if (window.innerWidth <= 1100) {
+                    return detailLayer;
+                }
+                return scrollTrack;
+            };
+
             // AUTO-TRANSITION TO NEXT/PREV PROJECT ON WHEEL PAST BOTTOM/TOP
             let topScrollLocked = false;
             let topScrollLockedTime = 0;
             let bottomScrollLocked = false;
             let bottomScrollLockedTime = 0;
 
-            scrollTrack.addEventListener("wheel", (e) => {
+            detailLayer.addEventListener("wheel", (e) => {
                 if (isTransitioning) return;
 
-                // Check if scroll has hit the bottom or top
-                const isAtBottom = scrollTrack.scrollHeight - scrollTrack.scrollTop <= scrollTrack.clientHeight + 5;
-                const isAtTop = scrollTrack.scrollTop <= 2;
+                // On desktop, ignore wheel events inside the fixed left panel to prevent unintended switching
+                if (window.innerWidth > 1100 && e.target.closest(".detail-left-fixed")) {
+                    return;
+                }
+
+                const scrollEl = getScrollElement();
+                const isAtBottom = scrollEl.scrollHeight - scrollEl.scrollTop <= scrollEl.clientHeight + 5;
+                const isAtTop = scrollEl.scrollTop <= 2;
                 
                 // If at bottom and scrolling down (deltaY > 0)
                 if (isAtBottom && e.deltaY > 0) {
@@ -792,15 +819,22 @@
             let bottomTouchLocked = false;
             let bottomTouchLockedTime = 0;
 
-            scrollTrack.addEventListener("touchstart", (e) => {
+            detailLayer.addEventListener("touchstart", (e) => {
                 touchStartY = e.touches[0].clientY;
             }, { passive: true });
 
-            scrollTrack.addEventListener("touchmove", (e) => {
+            detailLayer.addEventListener("touchmove", (e) => {
                 if (isTransitioning) return;
+
+                // On desktop, ignore touch swipes inside the fixed left panel
+                if (window.innerWidth > 1100 && e.target.closest(".detail-left-fixed")) {
+                    return;
+                }
+
+                const scrollEl = getScrollElement();
                 const touchEndY = e.touches[0].clientY;
-                const isAtBottom = scrollTrack.scrollHeight - scrollTrack.scrollTop <= scrollTrack.clientHeight + 5;
-                const isAtTop = scrollTrack.scrollTop <= 2;
+                const isAtBottom = scrollEl.scrollHeight - scrollEl.scrollTop <= scrollEl.clientHeight + 5;
+                const isAtTop = scrollEl.scrollTop <= 2;
                 const swipeDiff = touchStartY - touchEndY;
 
                 if (isAtBottom && swipeDiff > 30) { // Swipe up (scroll down)
