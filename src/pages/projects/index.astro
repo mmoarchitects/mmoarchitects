@@ -159,7 +159,7 @@ const projects = projectsData.map((proj, index) => {
               <h3 class="project-title">{proj.title}</h3>
               <p class="project-summary">{proj.summaryText}</p>
               <div class="meta-row" style="margin-top: 10px; margin-bottom: 0;">
-                <span class="card-year">{proj.year}{proj.status ? ` <span style="margin-left: 4px; font-weight: 400; color: #a3a19b;">(${proj.status.toUpperCase()})</span>` : ""}</span>
+                <span class="card-year">{proj.year}{proj.status && <span style="margin-left: 4px; font-weight: 400; color: #a3a19b;">({proj.status.toUpperCase()})</span>}</span>
                 <span class="card-tag-text">{(proj.subCategory || "").toUpperCase()} / {proj.catDisplayString}</span>
               </div>
             </a>
