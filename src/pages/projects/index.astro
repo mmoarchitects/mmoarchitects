@@ -176,6 +176,16 @@ const projects = projectsData.map((proj, index) => {
 <script>
   // Client-side filtering and sidebar reveal logic
   document.addEventListener("astro:page-load", () => {
+    const track = document.getElementById("gridTrack");
+    const wrapper = document.getElementById("infiniteWrapper");
+    
+    let trackHeight = 0;
+    const updateTrackHeight = () => {
+      if (track) {
+        trackHeight = track.getBoundingClientRect().height;
+      }
+    };
+
     // 1. Sidebar Reveal
     const sidebar = document.querySelector(".filter-sidebar");
     if (sidebar) {
@@ -236,7 +246,60 @@ const projects = projectsData.map((proj, index) => {
             (arrow as HTMLElement).innerText = "➔";
           }
         }
+
+        // Recalculate track height after layout update
+        setTimeout(updateTrackHeight, 100);
       });
+    }
+
+    // 4. Infinite Loop Magazine Scroll
+    if (track && wrapper) {
+      // Remove any existing clone first (e.g. from previous Astro page loads to prevent stacking)
+      const existingClone = document.getElementById("gridTrackClone");
+      if (existingClone) {
+        existingClone.remove();
+      }
+      
+      const cloneTrack = track.cloneNode(true) as HTMLElement;
+      cloneTrack.id = "gridTrackClone";
+      // Clear IDs in the clone to avoid duplicate IDs in the DOM
+      cloneTrack.querySelectorAll("[id]").forEach(el => el.removeAttribute("id"));
+      wrapper.appendChild(cloneTrack);
+      
+      // Calculate initial height
+      updateTrackHeight();
+      
+      window.addEventListener("resize", updateTrackHeight);
+      
+      // Update when images inside the track finish loading
+      track.querySelectorAll("img").forEach(img => {
+        if (img.complete) {
+          updateTrackHeight();
+        } else {
+          img.addEventListener("load", updateTrackHeight);
+        }
+      });
+      
+      const handleInfiniteScroll = () => {
+        const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+        const rowGapOffset = 140; // match row-gap of grid track
+        
+        if (trackHeight > 0) {
+          if (currentScroll >= (trackHeight + rowGapOffset)) {
+            window.scrollTo(0, currentScroll - (trackHeight + rowGapOffset));
+          } else if (currentScroll <= 0) {
+            window.scrollTo(0, (trackHeight + rowGapOffset) + currentScroll);
+          }
+        }
+      };
+      
+      window.addEventListener("scroll", handleInfiniteScroll);
+      
+      // Clean up event listeners on page transition
+      document.addEventListener("astro:before-swap", () => {
+        window.removeEventListener("resize", updateTrackHeight);
+        window.removeEventListener("scroll", handleInfiniteScroll);
+      }, { once: true });
     }
   });
 </script>
@@ -306,6 +369,7 @@ const projects = projectsData.map((proj, index) => {
     display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-flow: dense; 
     column-gap: 6.5%; row-gap: 140px; align-items: start; width: 100%; 
   }
+  #gridTrackClone { margin-top: 140px; }
   .project-card { display: flex; flex-direction: column; cursor: pointer; box-sizing: border-box; }
   .project-card a { display: flex; flex-direction: column; width: 100%; }
   
