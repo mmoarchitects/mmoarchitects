@@ -40,12 +40,22 @@ featured = featured.slice(0, 6);
 const topProj = featured[0];
 const remainingProjs = featured.slice(1);
 
-// Select thumbnail for showcase card (randomized at build time)
+// Select thumbnail for showcase card (must start with "Fig " to show photos/renderings only)
 let topThumb = "";
 if (topProj.gallery && topProj.gallery.length > 0) {
-  const randomIndex = Math.floor(Math.random() * topProj.gallery.length);
-  const thumbObj = topProj.gallery[randomIndex];
-  topThumb = typeof thumbObj === "object" ? thumbObj.src : thumbObj;
+  const figImages = topProj.gallery.filter(item => {
+    const filename = typeof item === "object" ? item.src : item;
+    return filename && filename.normalize('NFC').startsWith("Fig ");
+  });
+  
+  if (figImages.length > 0) {
+    const randomIndex = Math.floor(Math.random() * figImages.length);
+    const thumbObj = figImages[randomIndex];
+    topThumb = typeof thumbObj === "object" ? thumbObj.src : thumbObj;
+  } else {
+    const thumbObj = topProj.gallery[0];
+    topThumb = typeof thumbObj === "object" ? thumbObj.src : thumbObj;
+  }
 }
 const topThumbUrl = getProjectAssetPath(topProj.id, topThumb || topProj.blueprint);
 const topSummary = topProj.maintext && topProj.maintext.length > 120 
@@ -75,36 +85,30 @@ const cards = remainingProjs.map((proj, idx) => {
   };
 });
 
-// 5. Apply entropy grid sizes and offsets statically at build time
-const guaranteedSpan3Index = Math.floor(Math.random() * cards.length);
+// 5. Apply entropy grid sizes and offsets statically at build time (showcase card is colspan-3, others are random without forced colspan-3)
 let currentColumnSpace = 0;
 
 const styledCards = cards.map((card, index) => {
   let classes = ["project-card"];
   
-  if (index === guaranteedSpan3Index) {
-    classes.push("colspan-3");
-    currentColumnSpace = 0;
+  const randomSize = sizePresets[Math.floor(Math.random() * sizePresets.length)];
+  classes.push(randomSize);
+
+  const randomSpace = spacePresets[Math.floor(Math.random() * spacePresets.length)];
+  classes.push(randomSpace);
+
+  // Prevent blank row spaces
+  if (currentColumnSpace === 0 && Math.random() > 0.45 && index < cards.length - 1) {
+    classes.push("colspan-2");
+    classes = classes.filter(c => c !== "size-tall" && c !== "size-standard");
+    classes.push("size-wide");
+    currentColumnSpace += 2;
   } else {
-    const randomSize = sizePresets[Math.floor(Math.random() * sizePresets.length)];
-    classes.push(randomSize);
+    currentColumnSpace += 1;
+  }
 
-    const randomSpace = spacePresets[Math.floor(Math.random() * spacePresets.length)];
-    classes.push(randomSpace);
-
-    // Prevent blank row spaces
-    if (currentColumnSpace === 0 && Math.random() > 0.45 && index < cards.length - 1 && (index + 1 !== guaranteedSpan3Index)) {
-      classes.push("colspan-2");
-      classes.filter(c => c !== "size-tall" && c !== "size-standard");
-      classes.push("size-wide");
-      currentColumnSpace += 2;
-    } else {
-      currentColumnSpace += 1;
-    }
-
-    if (currentColumnSpace >= 3) {
-      currentColumnSpace = 0;
-    }
+  if (currentColumnSpace >= 3) {
+    currentColumnSpace = 0;
   }
 
   return {
