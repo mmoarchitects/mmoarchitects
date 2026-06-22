@@ -132,6 +132,11 @@ const locationText = isLab ? "LABORATORY" : "SEOUL, KR";
       visibility: visible;
       transform: translateX(-50%) translateY(0);
     }
+    .nav-item-wrapper.active-parent .lnb-hover-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
     .lnb-hover-item {
       font-size: 0.7rem;
       letter-spacing: 0.1em;
@@ -196,8 +201,8 @@ const locationText = isLab ? "LABORATORY" : "SEOUL, KR";
     </div>
     <div class="nav-menu">
       <a href="/projects" class={activeTab === 'projects' ? 'active' : ''}>PROJECTS</a>
-      <div class="nav-item-wrapper">
-        <span class={`nav-lab-link ${activeTab === 'lab' ? 'active' : ''}`}>LAB — EDITIONS</span>
+      <div class={`nav-item-wrapper ${activeTab === 'lab' ? 'active-parent' : ''}`}>
+        <a href="/lab-modular" class={`nav-lab-link ${activeTab === 'lab' ? 'active' : ''}`}>LAB — EDITIONS</a>
         <div class="lnb-hover-menu">
           <a href="/lab-modular" class={`lnb-hover-item ${subTab === 'modular' ? 'active' : ''}`}>MODULAR</a>
           <a href="/lab-solution" class={`lnb-hover-item ${subTab === 'solution' ? 'active' : ''}`}>SOLUTION</a>

@@ -22,8 +22,8 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
             <div class="nav-menu">
                 <a href="/projects.html" class="${isProjects ? 'active' : ''}">PROJECTS</a>
-                <div class="nav-item-wrapper">
-                    <span class="nav-lab-link ${isLab ? 'active' : ''}">LAB — EDITIONS</span>
+                <div class="nav-item-wrapper ${isLab ? 'active-parent' : ''}">
+                    <a href="/lab-modular.html" class="nav-lab-link ${isLab ? 'active' : ''}">LAB — EDITIONS</a>
                     <div class="lnb-hover-menu">
                         <a href="/lab-modular.html" class="lnb-hover-item ${isModular ? 'active' : ''}">MODULAR</a>
                         <a href="/lab-solution.html" class="lnb-hover-item ${isSolution ? 'active' : ''}">SOLUTION</a>

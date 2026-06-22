@@ -186,6 +186,60 @@ const projects = projectsData.map((proj, index) => {
       }
     };
 
+    // 0. Shuffle and apply random layout to project cards (runs on client for true page-load randomness)
+    if (track) {
+      const cards = Array.from(track.querySelectorAll(".project-card")) as HTMLElement[];
+      
+      // Shuffle the cards array randomly
+      cards.sort(() => Math.random() - 0.5);
+      
+      // Select one random card to be colspan-3
+      const guaranteedSpan3Index = Math.floor(Math.random() * cards.length);
+      
+      // Layout helper presets
+      const sizePresets = ["size-standard", "size-tall", "size-square", "size-wide"];
+      const spacePresets = ["space-tight", "space-medium", "space-wide"];
+      const layoutClasses = [
+        "size-standard", "size-tall", "size-square", "size-wide",
+        "space-tight", "space-medium", "space-wide",
+        "colspan-2", "colspan-3"
+      ];
+      
+      let currentColumnSpace = 0;
+      
+      cards.forEach((card, index) => {
+        // Remove existing layout classes
+        card.classList.remove(...layoutClasses);
+        
+        // Re-append to track in shuffled order
+        track.appendChild(card);
+        
+        if (index === guaranteedSpan3Index) {
+          card.classList.add("colspan-3");
+          currentColumnSpace = 0;
+          return;
+        }
+        
+        const randomSize = sizePresets[Math.floor(Math.random() * sizePresets.length)];
+        const randomSpace = spacePresets[Math.floor(Math.random() * spacePresets.length)];
+        card.classList.add(randomSize, randomSpace);
+        
+        // Prevent blank row spaces (asymmetry logic)
+        if (currentColumnSpace === 0 && Math.random() > 0.45 && index < cards.length - 1 && (index + 1 !== guaranteedSpan3Index)) {
+          card.classList.add("colspan-2");
+          card.classList.remove("size-tall", "size-standard");
+          card.classList.add("size-wide");
+          currentColumnSpace += 2;
+        } else {
+          currentColumnSpace += 1;
+        }
+        
+        if (currentColumnSpace >= 3) {
+          currentColumnSpace = 0;
+        }
+      });
+    }
+
     // 1. Sidebar Reveal
     const sidebar = document.querySelector(".filter-sidebar");
     if (sidebar) {
