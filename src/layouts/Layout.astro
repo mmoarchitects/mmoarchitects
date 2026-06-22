@@ -89,6 +89,8 @@ const locationText = isLab ? "LABORATORY" : "SEOUL, KR";
     .nav-menu { 
       display: flex; gap: 3rem; position: absolute; left: 50%; top: 50%; 
       transform: translate(-50%, -50%); align-items: center; 
+      transition: opacity 0.35s ease, max-height 0.35s ease, margin-top 0.35s ease, visibility 0.35s;
+      max-height: 40px;
     }
     .nav-menu a, .nav-menu .nav-lab-link { 
       font-size: 0.85rem; letter-spacing: 0.1em; font-weight: 600; color: #888; 
@@ -156,17 +158,29 @@ const locationText = isLab ? "LABORATORY" : "SEOUL, KR";
     }
 
     /* 4. Responsive Queries */
-    @media (max-width: 1100px) {
+     @media (max-width: 1100px) {
       header {
         padding: 1.5rem 2rem;
         flex-wrap: wrap;
         justify-content: space-between;
+        transition: padding 0.35s ease;
+      }
+      header.scrolled {
+        padding-bottom: 1.5rem;
       }
       .logo { order: 1; }
       .nav-right { order: 2; font-size: 0.65rem; }
       .nav-menu {
         order: 3; width: 100%; position: static; transform: none;
         margin-top: 1.2rem; justify-content: center; gap: 1.8rem;
+      }
+      header.scrolled .nav-menu {
+        opacity: 0;
+        visibility: hidden;
+        max-height: 0;
+        margin-top: 0;
+        pointer-events: none;
+        overflow: hidden;
       }
     }
   </style>
@@ -223,5 +237,43 @@ const locationText = isLab ? "LABORATORY" : "SEOUL, KR";
       </div>
     </div>
   </footer>
+
+  <script>
+    function initScrollHeader() {
+      const header = document.querySelector('header');
+      if (!header) return;
+      
+      let lastScrollY = window.scrollY;
+      
+      const handleScroll = () => {
+        const currentScrollY = window.scrollY;
+        
+        if (currentScrollY <= 20) {
+          // Always show when near the top
+          header.classList.remove('scrolled');
+        } else if (currentScrollY > lastScrollY) {
+          // Scrolling down: hide 2nd row
+          header.classList.add('scrolled');
+        } else {
+          // Scrolling up: show 2nd row
+          header.classList.remove('scrolled');
+        }
+        
+        lastScrollY = currentScrollY;
+      };
+      
+      window.addEventListener('scroll', handleScroll);
+      // Run once initially to check initial state
+      handleScroll();
+
+      // Clean up event listener when leaving/transitioning pages in Astro
+      document.addEventListener('astro:before-swap', () => {
+        window.removeEventListener('scroll', handleScroll);
+      }, { once: true });
+    }
+
+    // Run on initial load and subsequent navigation page transitions
+    document.addEventListener('astro:page-load', initScrollHeader);
+  </script>
 </body>
 </html>
