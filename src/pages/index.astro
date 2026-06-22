@@ -108,7 +108,7 @@ const styledCards = remainingProjs.map((card, index) => {
 
 <Layout title="MMO ARCHITECTS | 주식회사 엠엠오건축사사무소">
   <section id="hero">
-    <h1>Architecture from<br>nothing to <span class="slogan-word-flow" id="slogan-flow"><span class="char-fictio">fictio</span><span class="char-n">n</span><span class="char-onfiction">onfiction.</span></span></h1>
+    <h1>Architecture from<br>nothing to <span class="sr-only">nonfiction.</span><span class="slogan-word-flow" id="slogan-flow" aria-hidden="true"><span class="char-fictio">fictio</span><span class="char-n">n</span><span class="char-onfiction">onfiction.</span></span></h1>
     <p class="hero-sub-ko" id="hero-caption">무(無)의 상태에서 실존하는 질서로 나아가는 건축.</p>
     <a href="#featured-hero-work" class="poetic-scroll-link">Explore MMO ➔</a>
   </section>
@@ -398,6 +398,19 @@ const styledCards = remainingProjs.map((card, index) => {
 </Layout>
 
 <style is:global>
+  /* Visually hidden screen reader & search robot optimized class */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
   /* Page specific styles */
   section { 
     padding: 8rem 3rem 4rem 3rem; 
