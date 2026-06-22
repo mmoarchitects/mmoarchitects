@@ -125,7 +125,7 @@ const styledCards = cards.map((card, index) => {
     <a href="#featured-hero-work" class="poetic-scroll-link">Explore MMO ➔</a>
   </section>
 
-  <script>
+  <script define:vars={{ featured }}>
     function runSloganAnimation() {
       const flow = document.getElementById('slogan-flow');
       const caption = document.getElementById('hero-caption');
@@ -157,9 +157,156 @@ const styledCards = cards.map((card, index) => {
       }, 2500);
     }
 
+    function renderFeaturedProjects() {
+      if (!featured || featured.length === 0) return;
+      
+      const list = [...featured];
+      // Shuffle the 6 projects to pick a random showcase project
+      list.sort(() => Math.random() - 0.5);
+      
+      const topProj = list[0];
+      const remaining = list.slice(1);
+      
+      // Helpers
+      const getAssetPath = (path) => {
+        if (!path) return "";
+        return path.startsWith("/public") ? path.slice(7) : path;
+      };
+      const getProjectAssetPath = (projId, fileName) => {
+        if (!fileName) return "";
+        const normalized = fileName.normalize('NFC');
+        if (normalized.startsWith("/") || normalized.startsWith("http")) {
+          return getAssetPath(normalized);
+        }
+        return getAssetPath(`/assets/projects/${projId}/${normalized}`);
+      };
+      
+      // Render Showcase card
+      const heroGrid = document.getElementById("heroWorkGrid");
+      if (heroGrid) {
+        let topThumb = "";
+        if (topProj.gallery && topProj.gallery.length > 0) {
+          const figImages = topProj.gallery.filter(item => {
+            const filename = typeof item === "object" ? item.src : item;
+            return filename && filename.normalize('NFC').startsWith("Fig ");
+          });
+          if (figImages.length > 0) {
+            const randomIndex = Math.floor(Math.random() * figImages.length);
+            const thumbObj = figImages[randomIndex];
+            topThumb = typeof thumbObj === "object" ? thumbObj.src : thumbObj;
+          } else {
+            const thumbObj = topProj.gallery[0];
+            topThumb = typeof thumbObj === "object" ? thumbObj.src : thumbObj;
+          }
+        }
+        
+        const topThumbUrl = getProjectAssetPath(topProj.id, topThumb || topProj.blueprint);
+        const topSummary = topProj.maintext && topProj.maintext.length > 120 
+          ? topProj.maintext.substring(0, 120) + "..." 
+          : (topProj.maintext || "");
+        
+        const cats = Array.isArray(topProj.category) ? topProj.category : [topProj.category];
+        const topCatString = cats.filter(Boolean).join(', ').toUpperCase();
+        const statusText = topProj.status ? ` <span style="margin-left: 4px; font-weight: 400; color: #a3a19b;">(${topProj.status.toUpperCase()})</span>` : "";
+        
+        heroGrid.innerHTML = `
+          <article class="project-card" data-id="${topProj.id}">
+            <a href="/projects/${topProj.id}">
+              <div class="card-image-slot">
+                <div class="photo-layer" style="background-image: url('${topThumbUrl}');"></div>
+                <div class="blueprint-layer">[VIEW IN PROJECTS]</div>
+              </div>
+              <h3 class="project-title" style="font-size: 1.8rem; margin-top: 1rem; margin-bottom: 0.5rem;">${topProj.title}</h3>
+              <p class="project-summary" style="max-width: 800px; font-size: 1.0rem; line-height: 1.7; color: #444; margin-top: 0.8rem; word-break: keep-all; text-align: justify; display: block; -webkit-line-clamp: unset; overflow: visible;">${topSummary}</p>
+              <div class="meta-row" style="margin-top: 15px; margin-bottom: 0;">
+                <span class="card-year">${topProj.year}${statusText}</span>
+                <span class="card-tag-text">${(topProj.subCategory || "").toUpperCase()} / ${topCatString}</span>
+              </div>
+            </a>
+          </article>
+        `;
+      }
+      
+      // Render remaining 5 cards in Grid
+      const entropyGrid = document.getElementById("entropyGrid");
+      if (entropyGrid) {
+        const sizePresets = ["size-standard", "size-tall", "size-square", "size-wide"];
+        const spacePresets = ["space-tight", "space-medium", "space-wide"];
+        let currentColumnSpace = 0;
+        let gridHtml = "";
+        
+        remaining.forEach((card, index) => {
+          const classes = ["project-card"];
+          const randomSize = sizePresets[Math.floor(Math.random() * sizePresets.length)];
+          classes.push(randomSize);
+          const randomSpace = spacePresets[Math.floor(Math.random() * spacePresets.length)];
+          classes.push(randomSpace);
+          
+          if (currentColumnSpace === 0 && Math.random() > 0.45 && index < remaining.length - 1) {
+            classes.push("colspan-2");
+            const filtered = classes.filter(c => c !== "size-tall" && c !== "size-standard");
+            filtered.push("size-wide");
+            classes.length = 0;
+            classes.push(...filtered);
+            currentColumnSpace += 2;
+          } else {
+            currentColumnSpace += 1;
+          }
+          if (currentColumnSpace >= 3) {
+            currentColumnSpace = 0;
+          }
+          
+          let selectedThumb = "";
+          if (card.gallery && card.gallery.length > 0) {
+            const randomIndex = Math.floor(Math.random() * card.gallery.length);
+            const thumbObj = card.gallery[randomIndex];
+            selectedThumb = typeof thumbObj === "object" ? thumbObj.src : thumbObj;
+          }
+          const thumbUrl = getProjectAssetPath(card.id, selectedThumb || card.blueprint);
+          const summaryText = card.maintext && card.maintext.length > 75 
+            ? card.maintext.substring(0, 75) + "..." 
+            : (card.maintext || "");
+          
+          const cats = Array.isArray(card.category) ? card.category : [card.category];
+          const catString = cats.filter(Boolean).join(', ').toUpperCase();
+          const statusText = card.status ? ` <span style="margin-left: 4px; font-weight: 400; color: #a3a19b;">(${card.status.toUpperCase()})</span>` : "";
+          
+          gridHtml += `
+            <article class="${classes.join(' ')}" data-id="${card.id}">
+              <a href="/projects/${card.id}">
+                <div class="card-image-slot">
+                  <div class="photo-layer" style="background-image: url('${thumbUrl}');"></div>
+                  <div class="blueprint-layer">[VIEW IN PROJECTS]</div>
+                </div>
+                <h3 class="project-title">${card.title}</h3>
+                <p class="project-summary">${summaryText}</p>
+                <div class="meta-row" style="margin-top: 10px; margin-bottom: 0;">
+                  <span class="card-year">${card.year}${statusText}</span>
+                  <span class="card-tag-text">${(card.subCategory || "").toUpperCase()} / ${catString}</span>
+                </div>
+              </a>
+            </article>
+          `;
+        });
+        
+        gridHtml += `
+          <div class="grid-footer" id="gridFooter">
+            <a href="/projects" class="poetic-scroll-link">View All Projects ➔</a>
+          </div>
+        `;
+        
+        entropyGrid.innerHTML = gridHtml;
+      }
+    }
+
+    function initPage() {
+      renderFeaturedProjects();
+      runSloganAnimation();
+    }
+
     // Run on standard load & view transitions
-    document.addEventListener('DOMContentLoaded', runSloganAnimation);
-    document.addEventListener('astro:page-load', runSloganAnimation);
+    document.addEventListener('DOMContentLoaded', initPage);
+    document.addEventListener('astro:page-load', initPage);
   </script>
 
   <section id="featured-hero-work">
@@ -241,7 +388,7 @@ const styledCards = cards.map((card, index) => {
   </section>
 </Layout>
 
-<style>
+<style is:global>
   /* Page specific styles */
   section { 
     padding: 8rem 3rem 4rem 3rem; 
