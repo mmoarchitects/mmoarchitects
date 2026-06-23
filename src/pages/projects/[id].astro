@@ -334,6 +334,21 @@ const statusTag = project.status ? ` (${project.status.toUpperCase()})` : "";
         bottomTouchLocked = false;
       }
     });
+
+    // Keyboard ESC key handler to exit archive
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" || e.key === "Esc") {
+        const closeBtn = document.getElementById("closeDetailBtn");
+        if (closeBtn) {
+          closeBtn.click();
+        }
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+
+    document.addEventListener("astro:before-swap", () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    }, { once: true });
   });
 </script>
 
