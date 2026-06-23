@@ -15,10 +15,13 @@ const getAssetPath = (path: string) => {
 const getProjectAssetPath = (projId: string, fileName: string) => {
   if (!fileName) return "";
   const normalizedFileName = fileName.normalize('NFC');
+  let path = "";
   if (normalizedFileName.startsWith("/") || normalizedFileName.startsWith("http")) {
-    return getAssetPath(normalizedFileName);
+    path = getAssetPath(normalizedFileName);
+  } else {
+    path = getAssetPath(`/assets/projects/${projId}/${normalizedFileName}`);
   }
-  return getAssetPath(`/assets/projects/${projId}/${normalizedFileName}`);
+  return path ? `${path}?v=2` : "";
 };
 
 const getVimeoEmbedUrl = (vimeoInput: any) => {
@@ -461,7 +464,7 @@ const projects = projectsData.map((proj, index) => {
 
   .meta-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; font-size: 10px; letter-spacing: 0.15em; color: #8c8a85; font-weight: 600; text-transform: uppercase; }
   .project-title { font-size: 1.25rem; font-weight: 500; margin: 0 0 10px 0; letter-spacing: -0.02em; }
-  .project-summary { font-size: 0.9rem; line-height: 1.6; color: #666460; font-weight: 300; text-align: justify; }
+  .project-summary { font-size: 0.9rem; line-height: 1.6; color: #666460; font-weight: 300; text-align: justify; white-space: pre-line; }
 
   /* GNB Scroll margin */
   .project-card {
