@@ -1,5 +1,6 @@
 ---
 import { ViewTransitions } from 'astro:transitions';
+import SpeedInsights from '@vercel/speed-insights/astro';
 
 interface Props {
   title?: string;
@@ -280,5 +281,6 @@ const locationText = isLab ? "LABORATORY" : "SEOUL, KR";
     // Run on initial load and subsequent navigation page transitions
     document.addEventListener('astro:page-load', initScrollHeader);
   </script>
+  <SpeedInsights />
 </body>
 </html>
