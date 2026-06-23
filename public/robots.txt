@@ -2,3 +2,5 @@ User-agent: *
 Allow: /
 
 Sitemap: https://mmoarchitects.com/sitemap.xml
+
+#DaumWebMasterTool:79522d3c3f878864fbffdf67850cefb5188212816d704a679437eee6529852a9:KqMtrRaDniV96GOxiqaKXg==
