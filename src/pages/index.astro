@@ -237,64 +237,82 @@ const styledCards = remainingProjs.map((card, index) => {
         topPhotoLayer.style.backgroundImage = `url('${topThumbUrl}')`;
       }
       
-      // 4. Move remaining cards to entropyGrid (Selected Works grid)
+      // 4. Move remaining cards to entropyGrid (Selected Works grid) using 4 distinct row patterns: 1-1-1, 1-2, 2-1, 3
       const footer = document.getElementById("gridFooter");
       entropyGrid.innerHTML = "";
       
-      let currentColumnSpace = 0;
-      
-      remainingCards.forEach((card, index) => {
-        entropyGrid.appendChild(card);
-        
-        // Clean layout classes
-        card.classList.remove(...layoutClasses);
-        
-        // Set random sizes and spacing
-        const randomSize = sizePresets[Math.floor(Math.random() * sizePresets.length)];
-        const randomSpace = spacePresets[Math.floor(Math.random() * spacePresets.length)];
-        card.classList.add(randomSize, randomSpace);
-        
-        // Prevent blank row spaces
-        if (currentColumnSpace === 0 && Math.random() > 0.45 && index < remainingCards.length - 1) {
-          card.classList.add("colspan-2");
-          card.classList.remove("size-tall", "size-standard");
-          card.classList.add("size-wide");
-          currentColumnSpace += 2;
+      const normalPatterns = [
+        { name: "1,1,1", spans: [1, 1, 1], cardsNeeded: 3 },
+        { name: "1,2", spans: [1, 2], cardsNeeded: 2 },
+        { name: "2,1", spans: [2, 1], cardsNeeded: 2 },
+        { name: "3", spans: [3], cardsNeeded: 1 }
+      ];
+
+      let cardIndex = 0;
+      const elementsToAppend: HTMLElement[] = [];
+
+      while (cardIndex < remainingCards.length) {
+        const cardsLeft = remainingCards.length - cardIndex;
+        const validNormals = normalPatterns.filter(p => p.cardsNeeded <= cardsLeft);
+        let chosenPattern;
+        if (validNormals.length > 0) {
+          chosenPattern = validNormals[Math.floor(Math.random() * validNormals.length)];
         } else {
-          currentColumnSpace += 1;
+          chosenPattern = { name: "fallback", spans: Array(cardsLeft).fill(1), cardsNeeded: cardsLeft };
         }
-        if (currentColumnSpace >= 3) {
-          currentColumnSpace = 0;
-        }
-        
-        // Update summary text to short version
-        const summaryTextShort = card.getAttribute("data-summary-short") || "";
-        const summaryEl = card.querySelector(".project-summary");
-        if (summaryEl) {
-          summaryEl.textContent = summaryTextShort;
-        }
-        
-        // Select a random thumbnail from the card's gallery for Selected Works
-        const cardProjId = card.getAttribute("data-id") || "";
-        const cardGalleryAttr = card.getAttribute("data-gallery") || "[]";
-        let cardGallery: any[] = [];
-        try {
-          cardGallery = JSON.parse(cardGalleryAttr);
-        } catch (e) {}
-        
-        let selectedThumb = "";
-        if (cardGallery && cardGallery.length > 0) {
-          const randomIndex = Math.floor(Math.random() * cardGallery.length);
-          const thumbObj = cardGallery[randomIndex];
-          selectedThumb = typeof thumbObj === "object" ? thumbObj.src : thumbObj;
-        }
-        const cardBlueprint = card.getAttribute("data-blueprint") || "";
-        const thumbUrl = getProjectAssetPath(cardProjId, selectedThumb || cardBlueprint);
-        const photoLayer = card.querySelector(".photo-layer") as HTMLElement;
-        if (photoLayer) {
-          photoLayer.style.backgroundImage = `url('${thumbUrl}')`;
-        }
-      });
+
+        chosenPattern.spans.forEach((spanVal: number) => {
+          const card = remainingCards[cardIndex++];
+          card.classList.remove(...layoutClasses);
+
+          // Add random size and spacing
+          const randomSize = sizePresets[Math.floor(Math.random() * sizePresets.length)];
+          const randomSpace = spacePresets[Math.floor(Math.random() * spacePresets.length)];
+          card.classList.add(randomSize, randomSpace);
+
+          if (spanVal === 2) {
+            card.classList.add("colspan-2");
+            card.classList.remove("size-tall", "size-standard");
+            card.classList.add("size-wide");
+          } else if (spanVal === 3) {
+            card.classList.add("colspan-3");
+            card.classList.remove("size-tall", "size-standard", "size-square");
+            card.classList.add("size-wide");
+          }
+
+          // Update summary text to short version
+          const summaryTextShort = card.getAttribute("data-summary-short") || "";
+          const summaryEl = card.querySelector(".project-summary");
+          if (summaryEl) {
+            summaryEl.textContent = summaryTextShort;
+          }
+          
+          // Select a random thumbnail from the card's gallery
+          const cardProjId = card.getAttribute("data-id") || "";
+          const cardGalleryAttr = card.getAttribute("data-gallery") || "[]";
+          let cardGallery: any[] = [];
+          try {
+            cardGallery = JSON.parse(cardGalleryAttr);
+          } catch (e) {}
+          
+          let selectedThumb = "";
+          if (cardGallery && cardGallery.length > 0) {
+            const randomIndex = Math.floor(Math.random() * cardGallery.length);
+            const thumbObj = cardGallery[randomIndex];
+            selectedThumb = typeof thumbObj === "object" ? thumbObj.src : thumbObj;
+          }
+          const cardBlueprint = card.getAttribute("data-blueprint") || "";
+          const thumbUrl = getProjectAssetPath(cardProjId, selectedThumb || cardBlueprint);
+          const photoLayer = card.querySelector(".photo-layer") as HTMLElement;
+          if (photoLayer) {
+            photoLayer.style.backgroundImage = `url('${thumbUrl}')`;
+          }
+
+          elementsToAppend.push(card);
+        });
+      }
+
+      elementsToAppend.forEach(card => entropyGrid.appendChild(card));
       
       if (footer) {
         entropyGrid.appendChild(footer);

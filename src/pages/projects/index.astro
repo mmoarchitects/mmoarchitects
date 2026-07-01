@@ -189,11 +189,14 @@ const projects = projectsData.map((proj, index) => {
       }
     };
 
+    let applyLayout = () => {};
+    let updateClone = () => {};
+
     // 0. Shuffle and apply random layout to project cards (runs on client for true page-load randomness)
     if (track) {
       const cards = Array.from(track.querySelectorAll(".project-card")) as HTMLElement[];
       
-      // Shuffle the cards array randomly
+      // Shuffle the cards array randomly once
       cards.sort(() => Math.random() - 0.5);
       
       // Layout helper presets
@@ -205,33 +208,125 @@ const projects = projectsData.map((proj, index) => {
         "colspan-2", "colspan-3"
       ];
       
-      let currentColumnSpace = 0;
-      
-      cards.forEach((card, index) => {
-        // Remove existing layout classes
-        card.classList.remove(...layoutClasses);
-        
-        // Re-append to track in shuffled order
-        track.appendChild(card);
-        
-        const randomSize = sizePresets[Math.floor(Math.random() * sizePresets.length)];
-        const randomSpace = spacePresets[Math.floor(Math.random() * spacePresets.length)];
-        card.classList.add(randomSize, randomSpace);
-        
-        // Prevent blank row spaces (asymmetry logic)
-        if (currentColumnSpace === 0 && Math.random() > 0.45 && index < cards.length - 1) {
-          card.classList.add("colspan-2");
-          card.classList.remove("size-tall", "size-standard");
-          card.classList.add("size-wide");
-          currentColumnSpace += 2;
-        } else {
-          currentColumnSpace += 1;
+      const normalPatterns = [
+        { name: "1,1,1", spans: [1, 1, 1], cardsNeeded: 3 },
+        { name: "1,2", spans: [1, 2], cardsNeeded: 2 },
+        { name: "2,1", spans: [2, 1], cardsNeeded: 2 },
+        { name: "3", spans: [3], cardsNeeded: 1 }
+      ];
+
+      const spacerPatterns = [
+        { name: "1,spacer1,1", spans: [1, "spacer1", 1], cardsNeeded: 2 },
+        { name: "1,1,spacer1", spans: [1, 1, "spacer1"], cardsNeeded: 2 },
+        { name: "spacer1,1,1", spans: ["spacer1", 1, 1], cardsNeeded: 2 },
+        { name: "1,spacer2", spans: [1, "spacer2"], cardsNeeded: 1 },
+        { name: "spacer2,1", spans: ["spacer2", 1], cardsNeeded: 1 },
+        { name: "spacer1,2", spans: ["spacer1", 2], cardsNeeded: 1 },
+        { name: "2,spacer1", spans: [2, "spacer1"], cardsNeeded: 1 }
+      ];
+
+      updateClone = () => {
+        if (track && wrapper) {
+          const existingClone = document.getElementById("gridTrackClone");
+          if (existingClone) {
+            existingClone.remove();
+          }
+          
+          const cloneTrack = track.cloneNode(true) as HTMLElement;
+          cloneTrack.id = "gridTrackClone";
+          cloneTrack.querySelectorAll("[id]").forEach(el => el.removeAttribute("id"));
+          wrapper.appendChild(cloneTrack);
         }
-        
-        if (currentColumnSpace >= 3) {
-          currentColumnSpace = 0;
+      };
+
+      applyLayout = () => {
+        // Remove existing spacers
+        track.querySelectorAll(".grid-spacer").forEach(el => el.remove());
+
+        // Get currently visible project cards (among the original cards)
+        const visibleCards = cards.filter(card => card.style.display !== "none");
+
+        let cardIndex = 0;
+        let rowCount = 0;
+        const elementsToAppend: HTMLElement[] = [];
+
+        while (cardIndex < visibleCards.length) {
+          const cardsLeft = visibleCards.length - cardIndex;
+          let chosenPattern: any = null;
+
+          // Approx. 30% chance for spacer row on the projects page (skip first row to keep top neat)
+          const wantSpacer = (Math.random() < 0.3) && (rowCount > 0);
+
+          if (wantSpacer) {
+            const validSpacers = spacerPatterns.filter(p => p.cardsNeeded <= cardsLeft);
+            if (validSpacers.length > 0) {
+              chosenPattern = validSpacers[Math.floor(Math.random() * validSpacers.length)];
+            }
+          }
+
+          if (!chosenPattern) {
+            const validNormals = normalPatterns.filter(p => p.cardsNeeded <= cardsLeft);
+            if (validNormals.length > 0) {
+              chosenPattern = validNormals[Math.floor(Math.random() * validNormals.length)];
+            } else {
+              chosenPattern = { name: "fallback", spans: Array(cardsLeft).fill(1), cardsNeeded: cardsLeft };
+            }
+          }
+
+          chosenPattern.spans.forEach((spanVal: any) => {
+            if (typeof spanVal === "string" && spanVal.startsWith("spacer")) {
+              const spacer = document.createElement("div");
+              spacer.className = "grid-spacer";
+              if (spanVal === "spacer1") {
+                spacer.classList.add("colspan-1");
+              } else if (spanVal === "spacer2") {
+                spacer.classList.add("colspan-2");
+              }
+              elementsToAppend.push(spacer);
+            } else {
+              const card = visibleCards[cardIndex++];
+              card.classList.remove(...layoutClasses);
+
+              const randomSize = sizePresets[Math.floor(Math.random() * sizePresets.length)];
+              const randomSpace = spacePresets[Math.floor(Math.random() * spacePresets.length)];
+              card.classList.add(randomSize, randomSpace);
+
+              if (spanVal === 2) {
+                card.classList.add("colspan-2");
+                card.classList.remove("size-tall", "size-standard");
+                card.classList.add("size-wide");
+              } else if (spanVal === 3) {
+                card.classList.add("colspan-3");
+                card.classList.remove("size-tall", "size-standard", "size-square");
+                card.classList.add("size-wide");
+              }
+              elementsToAppend.push(card);
+            }
+          });
+
+          rowCount++;
         }
-      });
+
+        // Clear and append in correct sequence
+        track.innerHTML = "";
+        elementsToAppend.forEach(el => track.appendChild(el));
+
+        // Re-append hidden cards to keep them in DOM for filtering
+        cards.forEach(card => {
+          if (card.style.display === "none") {
+            track.appendChild(card);
+          }
+        });
+
+        // Recreate the clone
+        updateClone();
+
+        // Recalculate track height after layout update
+        setTimeout(updateTrackHeight, 50);
+      };
+
+      // Run initial layout
+      applyLayout();
     }
 
     // 1. Sidebar Reveal
@@ -257,7 +352,7 @@ const projects = projectsData.map((proj, index) => {
     }
 
     // 3. Filter Handler
-    if (filterListUl) {
+    if (filterListUl && track) {
       filterListUl.addEventListener("click", (e) => {
         const item = (e.target as HTMLElement).closest(".filter-item");
         if (!item) return;
@@ -266,7 +361,9 @@ const projects = projectsData.map((proj, index) => {
         item.classList.add("active");
 
         const filterValue = item.getAttribute("data-filter");
-        const cards = document.querySelectorAll(".project-card") as NodeListOf<HTMLElement>;
+        
+        // Filter only original cards currently in track
+        const cards = Array.from(track.querySelectorAll(".project-card")) as HTMLElement[];
 
         cards.forEach(card => {
           if (filterValue === "all") {
@@ -281,6 +378,9 @@ const projects = projectsData.map((proj, index) => {
           }
         });
 
+        // Reapply grid layout dynamically
+        applyLayout();
+
         // Update selected label and collapse list on mobile/tablet
         const labelText = item.textContent || "ALL";
         const labelSpan = mobileHeader?.querySelector(".selected-category-label");
@@ -294,9 +394,6 @@ const projects = projectsData.map((proj, index) => {
             (arrow as HTMLElement).innerText = "➔";
           }
         }
-
-        // Recalculate track height after layout update
-        setTimeout(updateTrackHeight, 100);
       });
     }
 
@@ -458,6 +555,14 @@ const projects = projectsData.map((proj, index) => {
   .colspan-2 { grid-column: span 2; }
   .colspan-2.size-wide .card-image-slot { aspect-ratio: 16/9; }
   
+  .grid-spacer {
+    pointer-events: none;
+    visibility: hidden;
+  }
+  .grid-spacer.colspan-2 {
+    grid-column: span 2;
+  }
+  
   .space-tight { margin-top: -20px; }
   .space-medium { margin-top: 20px; }
   .space-wide { margin-top: 45px; }
@@ -567,6 +672,7 @@ const projects = projectsData.map((proj, index) => {
     
     .grid-track { grid-template-columns: repeat(2, 1fr); row-gap: 120px; }
     .project-card.colspan-3, .project-card.colspan-2 { grid-column: span 1 !important; }
+    .grid-spacer { display: none !important; }
     .space-tight, .space-medium, .space-wide { padding: 0; margin-top: 0; }
   }
   @media (max-width: 768px) { 
