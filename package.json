@@ -11,7 +11,8 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^4.11.3",
-    "@vercel/speed-insights": "^1.0.12"
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^1.0.12",
+    "astro": "^4.11.3"
   }
 }

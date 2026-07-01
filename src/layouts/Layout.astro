@@ -1,6 +1,7 @@
 ---
 import { ViewTransitions } from 'astro:transitions';
 import SpeedInsights from '@vercel/speed-insights/astro';
+import Analytics from '@vercel/analytics/astro';
 
 interface Props {
   title?: string;
@@ -191,6 +192,7 @@ const locationText = isLab ? "LABORATORY" : "SEOUL, KR";
       }
     }
   </style>
+  <Analytics />
 </head>
 <body>
   <!-- GNB Header -->
