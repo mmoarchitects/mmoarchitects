@@ -159,33 +159,85 @@ const locationText = isLab ? "LABORATORY" : "SEOUL, KR";
       padding: 10rem 4% 4rem 4%;
       max-width: 1900px;
       margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1.51fr 1fr;
-      row-gap: 1rem;
-      column-gap: 4rem;
       border-top: 1px solid #e5e4e0;
-    }
-    .footer-cell-left {
       display: flex;
       flex-direction: column;
+      gap: 1.5rem;
+    }
+    .footer-top-row {
+      width: 100%;
+    }
+    .footer-columns-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      column-gap: 4rem;
+    }
+    .footer-col-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       align-items: flex-start;
       text-align: left;
     }
-    .footer-cell-right {
+    .footer-address-block {
+      font-size: 9px;
+      color: #aaa;
+      line-height: 1.6;
+      letter-spacing: 0.02em;
+      font-weight: 400;
+      margin-top: 2rem;
+    }
+    .footer-col-right {
       display: flex;
       flex-direction: column;
       align-items: flex-end;
       text-align: right;
+      justify-content: space-between;
+    }
+    .footer-contact-title {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      color: #8c8a85;
+      font-weight: 600;
+      text-transform: uppercase;
+      line-height: 1.7;
+    }
+    .footer-links-container {
+      font-size: 0.9rem;
+      font-weight: 400;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      align-items: flex-end;
+      margin-top: 0.5rem;
+      margin-bottom: auto;
+    }
+    .footer-email-link, .footer-insta-link {
+      transition: color 0.4s;
+      color: #1a1a1a;
+      text-decoration: none;
+    }
+    .footer-copyright-block {
+      font-size: 9px;
+      color: #888;
+      letter-spacing: 0.02em;
+      line-height: 1.6;
+      margin-top: 1rem;
     }
     
     @media (max-width: 768px) {
-      .mmo-footer {
+      .footer-columns-grid {
         grid-template-columns: 1fr;
-        row-gap: 2rem;
+        row-gap: 2.5rem;
       }
-      .footer-cell-right {
+      .footer-col-left, .footer-col-right {
         align-items: flex-start;
         text-align: left;
+      }
+      .footer-links-container {
+        align-items: flex-start;
+        margin-bottom: 0;
       }
     }
 
@@ -247,34 +299,30 @@ const locationText = isLab ? "LABORATORY" : "SEOUL, KR";
 
   <!-- Global Footer (Only rendered if footer is not visually hidden by page styles) -->
   <footer class="mmo-footer">
-    <!-- Row 1: Headings -->
-    <div class="footer-cell-left">
+    <div class="footer-top-row">
       <h4 style="font-size: 1.1rem; font-weight: bold; letter-spacing: 0.05em; margin: 0; line-height: 1;">MMO ARCHITECTS</h4>
     </div>
-    <div class="footer-cell-right">
-      <!-- Empty to align Direct Contact with Row 2 -->
-    </div>
-
-    <!-- Row 2: Main Content & Direct Contact Heading -->
-    <div class="footer-cell-left">
-      <p style="font-size: 0.9rem; color: #555; max-width: 480px; line-height: 1.7; word-break: keep-all; margin: 0;">엠엠오건축사사무소는 물질(Matter)과 방법론(Method)의 심도 있는 결합을 통해 공간의 최종적인 예술 질서(Order)를 확립합니다.</p>
-    </div>
-    <div class="footer-cell-right">
-      <div style="font-size: 0.75rem; letter-spacing: 0.15em; color: #8c8a85; font-weight: 600; text-transform: uppercase; line-height: 1.7;">Direct Contact</div>
-    </div>
-
-    <!-- Row 3: Bottom Meta & Links/Copyright -->
-    <div class="footer-cell-left" style="align-self: end;">
-      <div style="font-size: 9px; color: #aaa; line-height: 1.6; letter-spacing: 0.02em; font-weight: 400;">
-        주식회사 엠엠오건축사사무소 <br>
-        서울특별시 강서구, 대한민국
+    
+    <div class="footer-columns-grid">
+      <!-- Left Column (60% width) -->
+      <div class="footer-col-left">
+        <p style="font-size: 0.9rem; color: #555; max-width: 480px; line-height: 1.7; word-break: keep-all; margin: 0;">
+          엠엠오건축사사무소는 물질(Matter)과 방법론(Method)의 심도 있는 결합을 통해 공간의 최종적인 예술 질서(Order)를 확립합니다.
+        </p>
+        <div class="footer-address-block">
+          주식회사 엠엠오건축사사무소 <br>
+          서울특별시 강서구, 대한민국
+        </div>
       </div>
-    </div>
-    <div class="footer-cell-right" style="align-self: end;">
-      <div style="font-size: 0.9rem; font-weight: 400; line-height: 1.6; display: flex; flex-direction: column; gap: 0.4rem; align-items: flex-end;">
-        <a href="mailto:official@mmoarchitects.com" style="transition: color 0.4s;" onmouseover="this.style.color='#8c8a85'" onmouseout="this.style.color='#1a1a1a'">official@mmoarchitects.com</a>
-        <a href="https://instagram.com/mmoarchitects" target="_blank" style="transition: color 0.4s;" onmouseover="this.style.color='#8c8a85'" onmouseout="this.style.color='#1a1a1a'">@mmoarchitects</a>
-        <div style="font-size: 9px; color: #888; letter-spacing: 0.02em; margin-top: 0.8rem; line-height: 1.6;">
+
+      <!-- Right Column (40% width) -->
+      <div class="footer-col-right">
+        <div class="footer-contact-title">Direct Contact</div>
+        <div class="footer-links-container">
+          <a href="mailto:official@mmoarchitects.com" class="footer-email-link" onmouseover="this.style.color='#8c8a85'" onmouseout="this.style.color='#1a1a1a'">official@mmoarchitects.com</a>
+          <a href="https://instagram.com/mmoarchitects" target="_blank" class="footer-insta-link" onmouseover="this.style.color='#8c8a85'" onmouseout="this.style.color='#1a1a1a'">@mmoarchitects</a>
+        </div>
+        <div class="footer-copyright-block">
           © 2026 MMO Architects. All rights reserved.
         </div>
       </div>
