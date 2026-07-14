@@ -6,33 +6,29 @@ import Layout from '../layouts/Layout.astro';
   <section id="lab-solutions">
     <span class="section-label">Laboratory — Administrative Solutions</span>
     
+    <!-- 1) HERO Section -->
     <div class="positioning-statement">
-      <h2>공간에 잠재된 가치를 되찾는 데는, 두 갈래가 있습니다.</h2>
+      <h2>공간에 잠재된 가치를 되찾는 데 두 갈래가 있습니다.</h2>
       <p style="margin-bottom: 1.5rem;">복잡한 건축법과 시설군을 명확하게 재정리하는 용도변경·기재변경,<br>그리고 시장성을 고려해 자산의 임대 가치와 비즈니스 ROI를 끌어올리는 Value-up 프로젝트입니다.</p>
       <p>건축법 규제와 시설군 체계를 명확한 질서로 재정리하는 것이 그 시작이며,<br>여기에 설계를 더해 자산의 임대 가치와 ROI를 끌어올리는 것이 그 다음 단계입니다.</p>
     </div>
 
-    <div class="sub-section-title">SERVICE STRUCTURE</div>
-    <div class="service-structure-grid">
+    <!-- 2) SERVICE STRUCTURE - BASE SERVICE -->
+    <div class="sub-section-title">SERVICE STRUCTURE — BASE SERVICE</div>
+    <div class="service-structure-single" style="margin-bottom: 6rem;">
       <div class="service-structure-card">
         <span class="service-type-label">Base Service</span>
         <h3 class="service-card-title">용도변경 · 기재변경</h3>
         <p class="service-card-desc">건축물대장 기재변경, 용도변경 신고·허가 등 법적으로 요구되는 행정절차를 정확하고 신속하게 처리합니다.</p>
-        <a href="/contact" class="poetic-cta-link" style="margin-top: auto; display: inline-block; width: max-content;">용도변경 문의하기 ➔</a>
-      </div>
-      <div class="service-structure-card">
-        <span class="service-type-label">Premium Consulting</span>
-        <h3 class="service-card-title">Value-up — 자산 가치향상 프로젝트</h3>
-        <p class="service-card-desc">용도변경·기재변경 과정과 함께 진행할 수 있는, 설계와 시공이 수반되는 가치향상 프로젝트입니다. 공간의 물리적 개선을 더해 자산의 임대 가치와 ROI를 장기적으로 끌어올립니다.</p>
-        <a href="/contact" class="poetic-cta-link" style="margin-top: auto; display: inline-block; width: max-content;">Value-up 프로젝트 상담하기 ➔</a>
       </div>
     </div>
 
+    <!-- 3) PRE-REVIEW ITEMS -->
     <div class="sub-section-title">PRE-REVIEW ITEMS — 사전 검토 항목</div>
     <div class="mmo-strip-grid grid-4">
       <div class="strip-item">
         <span class="strip-id">[01] 방화유리창 검토</span>
-        <h3 class="strip-title">인접대지 이격거리에 따른 방화창 설치</h3>
+        <h3 class="strip-title">인접대지에 따른 방화창 설치</h3>
         <p class="strip-desc">인접대지와의 이격거리에 따라 방화유리창 설치 여부가 달라질 수 있는 사항으로 미리 검토합니다.</p>
       </div>
       <div class="strip-item">
@@ -52,6 +48,50 @@ import Layout from '../layouts/Layout.astro';
       </div>
     </div>
 
+    <!-- 4) Value-up Indicator -->
+    <div class="sub-section-title" style="margin-bottom: 1rem;">
+      Value-up Indicator — 건축법 제19조의 9개 시설군
+    </div>
+    <p style="font-size: 0.95rem; color: #666; margin-bottom: 3rem; font-weight: 400;">
+      자산이 어떤 방향으로 확장 가능한지 미리 확인 가능합니다.
+    </p>
+
+    <div class="solutions-split-container">
+      <div class="solutions-left-index">
+        <div class="law-item active" data-dir="UP (허가)" data-title="01 자동차 관련 시설군" data-desc="특수 목적 상업 시설로 전환 시 검토해야 할 대상입니다. 차량 동선 및 소음 관련 조례 검토가 선행되어야 합니다.">01 자동차 관련 시설군</div>
+        <div class="law-item" data-dir="UP (허가)" data-title="02 산업 등의 시설군" data-desc="소방 피난 및 환경오염 요건이 매우 까다로워, 상향 조정 시 주변 민원 발생 우려와 관련 리스크를 필수적으로 검토합니다.">02 산업 등의 시설군</div>
+        <div class="law-item" data-dir="UP (허가)" data-title="03 전기통신시설군" data-desc="고전력 인프라 구축 및 대규모 냉각 배관 변경이 수반되어 구조 안전성과 직접적으로 직결됩니다.">03 전기통신시설군</div>
+        <div class="law-item" data-dir="UP (허가)" data-title="04 문화 및 집회시설군" data-desc="소방·피난·직통계단 추가 개설 등 건축물의 형태 변경이 수반되므로 밸런스 타겟팅이 핵심이 됩니다.">04 문화 및 집회시설군</div>
+        <div class="law-item" data-dir="UP/DOWN 분기" data-title="05 영업시설군" data-desc="주차 의무 대수가 대폭 완화되거나 강화되는 마찰 지점으로 정밀한 계산을 요구합니다.">05 영업시설군</div>
+        <div class="law-item" data-dir="UP/DOWN 분기" data-title="06 교육 및 복지시설군" data-desc="배리어프리 편의시설 확충과 직통계단 확보 리스크가 강하게 작용합니다.">06 교육 및 복지시설군</div>
+        <div class="law-item" data-dir="CORE LAYER" data-title="07 근린생활시설군" data-desc="Value-up의 핵심 영역입니다. 카페, 음식점 등을 입점시킬 때 발생하는 방화창, 주차장, 정화조 등 다양한 이슈를 면밀히 고려합니다.">07 근린생활시설군</div>
+        <div class="law-item" data-dir="DOWN (신고)" data-title="08 주거업무시설군" data-desc="주택이나 기존 자산을 상가로 탈바꿈시킬 때 출발점이 되는 자산 베이스라인 위계에 해당합니다.">08 주거업무시설군</div>
+        <div class="law-item" data-dir="DOWN (신고)" data-title="09 그 밖의 시설군" data-desc="도심지의 상업적 가치로 전환하기 위해 상위 인허가 승인 과정을 명확하게 통과해야 하는 구간입니다.">09 그 밖의 시설군</div>
+      </div>
+      
+      <div class="solutions-right-panel" id="interactive-panel">
+        <div id="panel-text-content" style="flex-grow: 1;">
+          <div class="panel-direction" id="panel-dir">REGULATORY DIRECTION — UP (허가)</div>
+          <h3 class="panel-title" id="panel-title">01 자동차 관련 시설군</h3>
+          <p class="panel-desc" id="panel-desc">특수 목적 상업 시설로 전환 시 검토해야 할 대상입니다. 차량 동선 및 소음 관련 조례 검토가 선행되어야 합니다.</p>
+        </div>
+        <div style="display: flex; justify-content: flex-end; margin-top: 3rem;">
+          <a href="/contact" class="poetic-cta-link">용도변경 및 법규 검토 의뢰 ➔</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5) SERVICE STRUCTURE — PREMIUM CONSULTING -->
+    <div class="sub-section-title">SERVICE STRUCTURE — PREMIUM CONSULTING</div>
+    <div class="service-structure-single" style="margin-bottom: 6rem;">
+      <div class="service-structure-card">
+        <span class="service-type-label">Premium Consulting</span>
+        <h3 class="service-card-title">Value-up — 자산 가치향상 프로젝트</h3>
+        <p class="service-card-desc">용도변경·기재변경 과정과 함께 진행할 수 있는, 설계와 시공이 수반되는 가치향상 프로젝트입니다. 공간의 물리적 개선을 더해 자산의 임대 가치와 ROI를 장기적으로 끌어올립니다.</p>
+      </div>
+    </div>
+
+    <!-- 6) VALUE-UP PREMIUM -->
     <div class="sub-section-title">VALUE-UP PREMIUM — 공간 개선을 통한 가치향상</div>
     <div class="mmo-strip-grid grid-3" style="margin-bottom: 3rem;">
       <div class="strip-item">
@@ -85,42 +125,10 @@ import Layout from '../layouts/Layout.astro';
     </div>
     
     <div class="cta-banner" style="margin-bottom: 6rem;">
+      <a href="/contact" class="poetic-cta-link" style="margin-bottom: 1.5rem; display: inline-block;">Value-up 프로젝트 상담하기 ➔</a>
       <p class="cta-banner-text">프로젝트 규모와 범위에 따라 설계·시공 방향이 달라지므로, 상담을 통해 최적의 방향을 함께 설계해 드립니다.</p>
-      <a href="/contact" class="poetic-cta-link" style="margin-top: 1rem; display: inline-block;">Value-up 프로젝트 상담하기 ➔</a>
     </div>
 
-    <div class="sub-section-title" style="margin-bottom: 1rem;">
-      Value-up Indicator <br>
-      — 건축법 제19조의 9개 시설군
-    </div>
-    <p style="font-size: 0.95rem; color: #666; margin-bottom: 3rem; font-weight: 400;">
-      자산이 어떤 방향으로 확장 가능한지 미리 확인 가능합니다.
-    </p>
-
-    <div class="solutions-split-container">
-      <div class="solutions-left-index">
-        <div class="law-item active" data-dir="UP (허가)" data-title="01 자동차 관련 시설군" data-desc="특수 목적 상업 시설로 전환 시 검토해야 할 대상입니다. 차량 동선 및 소음 관련 조례 검토가 선행되어야 합니다.">01 자동차 관련 시설군</div>
-        <div class="law-item" data-dir="UP (허가)" data-title="02 산업 등의 시설군" data-desc="소방 피난 및 환경오염 요건이 매우 까다로워, 상향 조정 시 주변 민원 발생 우려와 관련 리스크를 필수적으로 검토합니다.">02 산업 등의 시설군</div>
-        <div class="law-item" data-dir="UP (허가)" data-title="03 전기통신시설군" data-desc="고전력 인프라 구축 및 대규모 냉각 배관 변경이 수반되어 구조 안전성과 직접적으로 직결됩니다.">03 전기통신시설군</div>
-        <div class="law-item" data-dir="UP (허가)" data-title="04 문화 및 집회시설군" data-desc="소방·피난·직통계단 추가 개설 등 건축물의 형태 변경이 수반되므로 밸런스 타겟팅이 핵심이 됩니다.">04 문화 및 집회시설군</div>
-        <div class="law-item" data-dir="UP/DOWN 분기" data-title="05 영업시설군" data-desc="주차 의무 대수가 대폭 완화되거나 강화되는 마찰 지점으로 정밀한 계산을 요구합니다.">05 영업시설군</div>
-        <div class="law-item" data-dir="UP/DOWN 분기" data-title="06 교육 및 복지시설군" data-desc="배리어프리 편의시설 확충과 직통계단 확보 리스크가 강하게 작용합니다.">06 교육 및 복지시설군</div>
-        <div class="law-item" data-dir="CORE LAYER" data-title="07 근린생활시설군" data-desc="Value-up의 핵심 영역입니다. 카페, 음식점 등을 입점시킬 때 발생하는 방화창, 주차장, 정화조 등 다양한 이슈를 면밀히 고려합니다.">07 근린생활시설군</div>
-        <div class="law-item" data-dir="DOWN (신고)" data-title="08 주거업무시설군" data-desc="주택이나 기존 자산을 상가로 탈바꿈시킬 때 출발점이 되는 자산 베이스라인 위계에 해당합니다.">08 주거업무시설군</div>
-        <div class="law-item" data-dir="DOWN (신고)" data-title="09 그 밖의 시설군" data-desc="도심지의 상업적 가치로 전환하기 위해 상위 인허가 승인 과정을 명확하게 통과해야 하는 구간입니다.">09 그 밖의 시설군</div>
-      </div>
-      
-      <div class="solutions-right-panel" id="interactive-panel">
-        <div id="panel-text-content" style="flex-grow: 1;">
-          <div class="panel-direction" id="panel-dir">REGULATORY DIRECTION — UP (허가)</div>
-          <h3 class="panel-title" id="panel-title">01 자동차 관련 시설군</h3>
-          <p class="panel-desc" id="panel-desc">특수 목적 상업 시설로 전환 시 검토해야 할 대상입니다. 차량 동선 및 소음 관련 조례 검토가 선행되어야 합니다.</p>
-        </div>
-        <div style="display: flex; justify-content: flex-end; margin-top: 3rem;">
-          <a href="/contact" class="poetic-cta-link">용도변경 및 법규 검토 의뢰 ➔</a>
-        </div>
-      </div>
-    </div>
   </section>
 </Layout>
 
@@ -179,7 +187,7 @@ import Layout from '../layouts/Layout.astro';
   .positioning-statement p { font-size: 1.05rem; color: #555; line-height: 1.7; }
 
   /* Service Structure Section styling */
-  .service-structure-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; margin-bottom: 6rem; }
+  .service-structure-single { max-width: 650px; }
   .service-structure-card { display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; }
   .service-type-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: #8c8a85; letter-spacing: 0.15em; margin-bottom: 1rem; }
   .service-card-title { font-size: 1.4rem; font-weight: 500; margin-bottom: 1rem; letter-spacing: -0.02em; }
@@ -219,7 +227,6 @@ import Layout from '../layouts/Layout.astro';
 
   @media (max-width: 1100px) {
     section { padding-top: 8rem; }
-    .service-structure-grid { grid-template-columns: 1fr; gap: 3rem; }
     .mmo-strip-grid { grid-template-columns: 1fr; gap: 3rem; }
     .solutions-split-container { grid-template-columns: 1fr; gap: 2rem; }
   }
