@@ -12,13 +12,13 @@ export default async function handler(request) {
 
   try {
     const body = await request.json();
-    const { name, location, program, scale, contact, message } = body;
+    const { name, location, program, scale, timeline, contact, message } = body;
 
     const apiKey = process.env.RESEND_API_KEY;
 
     if (!apiKey) {
       console.warn('[EMAIL WARNING] RESEND_API_KEY is not defined in environment variables. Email dispatch is running in MOCK mode.');
-      console.log(`[CONTENT] Name: ${name}, Location: ${location}, Program: ${program}, Scale: ${scale}, Contact: ${contact}, Message: ${message}`);
+      console.log(`[CONTENT] Name: ${name}, Location: ${location}, Program: ${program}, Scale: ${scale}, Timeline: ${timeline}, Contact: ${contact}, Message: ${message}`);
       
       return new Response(JSON.stringify({ 
         success: false, 
@@ -46,6 +46,7 @@ export default async function handler(request) {
           <p><strong>위치/대지:</strong> ${location}</p>
           <p><strong>용도/프로그램:</strong> ${program}</p>
           <p><strong>규모/예산:</strong> ${scale}</p>
+          <p><strong>희망 완공/입주 시기:</strong> ${timeline}</p>
           <p><strong>연락처:</strong> ${contact}</p>
           <br/>
           <p><strong>문의 내용:</strong></p>
