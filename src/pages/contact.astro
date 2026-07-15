@@ -23,53 +23,35 @@ import Layout from '../layouts/Layout.astro';
         <form id="poeticInquiryForm">
           <div class="narrative-paragraph">
             안녕하세요. 저(희)는 
-            <div class="field-blank-container">
-              <input type="text" class="field-blank" id="formName" placeholder="식물을 50개 키우는 1인 가구 / OOO 컴퍼니 / 빵에 진심인 세 자매" />
-              <div class="line-trigger"></div>
-            </div>
+            <span contenteditable="true" class="field-blank" id="formName" data-placeholder="식물을 50개 키우는 1인 가구 / OOO 컴퍼니 / 빵에 진심인 세 자매"></span>
             입니다.
             <br/><br/>
             저(희)는 요즘 
-            <div class="field-blank-container">
-              <input type="text" class="field-blank" id="formLocation" placeholder="세모나서 어찌할 바를 모르는 30평 땅 / 할머니가 물려주신 낡디낡은 구옥 / 바다가 아주 조금 보이는 빈 상가" />
-              <div class="line-trigger"></div>
-            </div>
+            <span contenteditable="true" class="field-blank" id="formLocation" data-placeholder="세모나서 어찌할 바를 모르는 30평 땅 / 할머니가 물려주신 낡디낡은 구옥 / 바다가 아주 조금 보이는 빈 상가"></span>
             에 관한 고민과 함께 재미있는 공간을 모호하게나마 그려보고 있습니다.
             <br/><br/>
             그곳에서 실현하고 싶은 구체적인 쓰임새나 형태는 
-            <div class="field-blank-container">
-              <input type="text" class="field-blank" id="formProgram" placeholder="1층은 고양이 전용, 2층은 집사의 집 / 겉은 평범한데 속은 미로 같은 공간 / 출근하고 싶어지는 포근한 사옥" />
-              <div class="line-trigger"></div>
-            </div>
+            <span contenteditable="true" class="field-blank" id="formProgram" data-placeholder="1층은 고양이 전용, 2층은 집사의 집 / 겉은 평범한데 속은 미로 같은 공간 / 출근하고 싶어지는 포근한 사옥"></span>
             에 닿아 있습니다.
             <br/><br/>
             가장 현실적인 부분인 예산과 규모의 선은 
-            <div class="field-blank-container">
-              <input type="text" class="field-blank" id="formScale" placeholder="영혼을 끌어모은 OO억 원 / 작지만 알찬 2층 / 예산은 미정이지만 꿈은 큽니다" />
-              <div class="line-trigger"></div>
-            </div>
+            <span contenteditable="true" class="field-blank" id="formScale" data-placeholder="영혼을 끌어모은 OO억 원 / 작지만 알찬 2층 / 예산은 미정이지만 꿈은 큽니다"></span>
             정도로 생각하고 있습니다.
             <br/><br/>
             더불어, 이 공간이 완성되어 새로운 일상을 시작하고 싶은 시기는 대략적 
-            <div class="field-blank-container">
-              <input type="text" class="field-blank" id="formTimeline" placeholder="내년 봄 피크닉 전 완공 / 천천히 지어도 되니 튼튼하게만 / 마음만은 내일 당장 착공" />
-              <div class="line-trigger"></div>
-            </div>
+            <span contenteditable="true" class="field-blank" id="formTimeline" data-placeholder="내년 봄 피크닉 전 완공 / 천천히 지어도 되니 튼튼하게만 / 마음만은 내일 당장 착공"></span>
             입니다.
             <br/><br/>
             아직은 스케치 단계지만, MMO ARCHITECTS와의 만남을 통해 명확한 답을 찾아가고 싶습니다. 
             가벼운 첫 대화를 시작하기 위해, 저(희)는 
-            <div class="field-blank-container">
-              <input type="text" class="field-blank" id="formContact" placeholder="mmo@email.com / 010-0000-0000" required />
-              <div class="line-trigger"></div>
-            </div>
+            <span contenteditable="true" class="field-blank" id="formContact" data-placeholder="mmo@email.com / 010-0000-0000"></span>
             로 이야기를 이어가면 좋겠습니다.
           </div>
           
           <div class="free-discourse-area">
             <label>+ 못다 한 이야기 (선택)</label>
-            <p style="font-size: 0.88rem; color: #666; margin: 0; line-height: 1.5; word-break: keep-all; margin-bottom: 0.8rem;">이 공간에 담고 싶은 당신만의 이야기, 좋아하는 공간의 분위기, 혹은 규정되지 않은 자유로운 영감이 있다면 편하게 남겨주세요.</p>
-            <textarea class="free-textarea" id="formMessage" rows={3} placeholder='"다락방에 만화책 1,000권을 쌓아두고 싶어요" 같은 아주 개인적인 로망이나 엉뚱한 상상들도 환영합니다.'></textarea>
+            <p style="font-size: 0.88rem; color: #666; margin: 0; line-height: 1.5; word-break: keep-all; margin-bottom: 0.8rem;">이 공간에 담고 싶은 당신만의 이야기나, 좋아하는 공간의 분위기, 규정되지 않은 자유로운 이야기가 있다면 편하게 남겨주셔도 좋습니다.</p>
+            <textarea class="free-textarea" id="formMessage" rows={4} placeholder='예: "다락방에 만화책 1,000권을 쌓아두고 싶어요" 같은 엉뚱한 로망이나 "비 오는 날 빗소리가 유독 잘 들렸으면 좋겠습니다" 같은 감각적인 상상, 혹은 "대수선 및 용도변경 밸류업을 위한 건물을 매입할 계획인데 기획부터 설계, 인허가 검토와 예산 분석까지 함께 진행할 수 있을까요?" 같은 현실적인 고민까지 어떤 이야기든 환영합니다.'></textarea>
           </div>
 
           <div class="form-footer-inline">
@@ -79,7 +61,7 @@ import Layout from '../layouts/Layout.astro';
                 <span class="chamber-box"></span>
                 에세이 형태로 정돈된 기획 데이터 송신에 동의합니다.
               </label>
-              <div id="contactConfirmation" class="contact-confirm-text" style="display: none; margin-top: 0.8rem; font-size: 0.85rem; color: #d93838; font-weight: 500; letter-spacing: -0.01em;">
+              <div id="contactConfirmation" class="contact-confirm-text" style="display: none; margin-top: 0.8rem; font-size: 0.85rem; color: #2e7d32; font-weight: 500; letter-spacing: -0.01em;">
                 연락처가 <span id="confirmedContactVal" style="text-decoration: underline; font-weight: 600; color: #000;"></span>(이)가 맞는지 확인해 주세요.
               </div>
             </div>
@@ -96,66 +78,35 @@ import Layout from '../layouts/Layout.astro';
     const form = document.getElementById("poeticInquiryForm");
     if (!form) return;
 
-    // 1. Dynamic Auto-Resizing for field-blank inputs
     const inputs = document.querySelectorAll('.field-blank');
     
-    // Create a hidden measuring span if it doesn't exist
-    let measurer = document.getElementById('input-measurer');
-    if (!measurer) {
-      measurer = document.createElement('span');
-      measurer.id = 'input-measurer';
-      measurer.style.position = 'absolute';
-      measurer.style.visibility = 'hidden';
-      measurer.style.height = '0';
-      measurer.style.width = 'auto';
-      measurer.style.whiteSpace = 'pre';
-      document.body.appendChild(measurer);
-    }
-
-    function resize(input: HTMLInputElement) {
-      const styles = window.getComputedStyle(input);
-      measurer.style.fontFamily = styles.fontFamily;
-      measurer.style.fontSize = styles.fontSize;
-      measurer.style.fontWeight = styles.fontWeight;
-      measurer.style.letterSpacing = styles.letterSpacing;
-      
-      measurer.textContent = input.value || input.placeholder || '';
-      
-      // Calculate width and enforce min-width boundaries
-      const width = Math.max(measurer.offsetWidth + 14, 110);
-      
-      input.style.width = `${width}px`;
-      const container = input.closest('.field-blank-container') as HTMLElement;
-      if (container) {
-        container.style.width = `${width}px`;
-      }
-    }
-
+    // Clean empty contenteditable on blur to trigger :empty selector
     inputs.forEach(input => {
-      const htmlInput = input as HTMLInputElement;
-      resize(htmlInput);
-      
-      // Auto-resize on input or change events
-      htmlInput.addEventListener('input', () => resize(htmlInput));
-      htmlInput.addEventListener('change', () => resize(htmlInput));
+      input.addEventListener('blur', () => {
+        if (input.textContent.trim() === '') {
+          input.textContent = '';
+        }
+      });
     });
 
-    // Handle resetting form sizing
+    // Handle resetting form contenteditables
     form.addEventListener('reset', () => {
       setTimeout(() => {
-        inputs.forEach(input => resize(input as HTMLInputElement));
+        inputs.forEach(input => {
+          input.textContent = '';
+        });
       }, 50);
     });
 
     // 2. Real-time contact confirmation handler when checked
     const checkAgree = document.getElementById("checkAgree") as HTMLInputElement;
-    const formContact = document.getElementById("formContact") as HTMLInputElement;
+    const formContact = document.getElementById("formContact") as HTMLElement;
     const contactConfirm = document.getElementById("contactConfirmation") as HTMLElement;
     const confirmedContactVal = document.getElementById("confirmedContactVal") as HTMLElement;
 
     function updateContactConfirmation() {
       if (checkAgree.checked) {
-        const contactVal = formContact.value.trim();
+        const contactVal = formContact.textContent.trim();
         confirmedContactVal.textContent = contactVal || "[작성한 연락처]";
         contactConfirm.style.display = "block";
       } else {
@@ -171,16 +122,24 @@ import Layout from '../layouts/Layout.astro';
     // 3. Poetic Form Submission handler
     async function submitPoeticForm(e: Event) {
       e.preventDefault();
-      const name = (document.getElementById("formName") as HTMLInputElement).value;
-      const location = (document.getElementById("formLocation") as HTMLInputElement).value;
-      const program = (document.getElementById("formProgram") as HTMLInputElement).value;
-      const scale = (document.getElementById("formScale") as HTMLInputElement).value;
-      const timeline = (document.getElementById("formTimeline") as HTMLInputElement).value;
-      const contact = (document.getElementById("formContact") as HTMLInputElement).value;
+      
+      const name = (document.getElementById("formName") as HTMLElement).textContent.trim();
+      const location = (document.getElementById("formLocation") as HTMLElement).textContent.trim();
+      const program = (document.getElementById("formProgram") as HTMLElement).textContent.trim();
+      const scale = (document.getElementById("formScale") as HTMLElement).textContent.trim();
+      const timeline = (document.getElementById("formTimeline") as HTMLElement).textContent.trim();
+      const contact = (document.getElementById("formContact") as HTMLElement).textContent.trim();
       const message = (document.getElementById("formMessage") as HTMLTextAreaElement).value;
       
       const feedback = document.getElementById("formFeedback");
       if (!feedback) return;
+
+      if (!contact) {
+        feedback.style.display = "block";
+        feedback.innerText = "연락처를 입력해 주세요.";
+        feedback.style.color = "red";
+        return;
+      }
 
       feedback.style.display = "block";
       feedback.innerText = "상담 신청서를 송신하는 중...";
@@ -248,27 +207,32 @@ import Layout from '../layouts/Layout.astro';
     word-break: keep-all;
   }
   .field-blank-container { 
-    display: inline-block; 
-    position: relative; 
-    margin: 0 0.2rem; 
-    transition: width 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    display: inline; 
   }
   .field-blank { 
-    background: transparent; 
+    display: inline;
     border: none; 
+    border-bottom: 1px solid #999;
     font-size: 1.05rem; 
     font-weight: 500; 
     color: #000; 
-    padding: 0 0.3rem; 
-    text-align: center; 
+    padding: 0 0.15rem; 
     outline: none; 
-    width: 100%; 
     letter-spacing: -0.015em;
-    transition: width 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    word-break: break-all;
+    cursor: text;
+    transition: all 0.3s ease;
   }
-  .line-trigger { position: absolute; bottom: 4px; left: 0; width: 100%; height: 1px; background: #ccc; transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1); }
-  .field-blank:focus + .line-trigger, .field-blank:hover + .line-trigger { height: 2px; background: #000; transform: scaleX(1.02); }
-  .field-blank::placeholder { color: #bbb; font-size: 1rem; font-weight: 400; font-style: italic; }
+  .field-blank:focus {
+    border-bottom: 2px solid #000;
+    background-color: rgba(0, 0, 0, 0.02);
+  }
+  .field-blank:empty::before {
+    content: attr(data-placeholder);
+    color: #bbb;
+    font-weight: 400;
+    font-style: italic;
+  }
   
   .free-discourse-area { margin-top: 4rem; display: flex; flex-direction: column; gap: 1.2rem; }
   .free-discourse-area label { font-size: 0.95rem; color: #444; font-weight: 500; letter-spacing: -0.015em; }
@@ -310,8 +274,8 @@ import Layout from '../layouts/Layout.astro';
   @media (max-width: 1100px) {
     #contact-page-content { padding-top: 8rem; }
     .contact-flow { grid-template-columns: 1fr; gap: 4rem; }
-    .field-blank-container { width: 100% !important; margin: 0.5rem 0; }
-    .field-blank { width: 100% !important; text-align: left; padding: 0.2rem 0; }
+    .field-blank-container { display: block; margin: 0.5rem 0; }
+    .field-blank { display: block; border-bottom: 1.5px solid #bbb; width: 100% !important; padding: 0.2rem 0; }
     .narrative-paragraph { line-height: 2.2; }
     .form-footer-inline {
       flex-direction: column;
