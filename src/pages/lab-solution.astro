@@ -27,9 +27,39 @@ import Layout from '../layouts/Layout.astro';
         </div>
       </div>
 
-      <!-- 3) PRE-REVIEW ITEMS -->
-      <div class="sub-section-title">PRE-REVIEW ITEMS — 사전 검토 항목</div>
-      <div class="mmo-strip-grid grid-4" style="margin-bottom: 6rem;">
+      <!-- 3) Classification Indicator -->
+      <div class="sub-section-title" style="margin-bottom: 1rem;">
+        Classification Indicator — 건축법 제19조의 9개 시설군
+      </div>
+      <p style="font-size: 0.95rem; color: #666; margin-bottom: 3rem; font-weight: 400;">
+        자산이 어떤 방향으로 확장 가능한지 미리 확인 가능합니다.
+      </p>
+
+      <div class="solutions-split-container" style="margin-bottom: 6rem;">
+        <div class="solutions-left-index">
+          <div class="law-item active" data-dir="UP (허가)" data-title="01 자동차 관련 시설군" data-desc="특수 목적 상업 시설로 전환 시 검토해야 할 대상입니다. 차량 동선 및 소음 관련 조례 검토가 선행되어야 합니다.">01 자동차 관련 시설군</div>
+          <div class="law-item" data-dir="UP (허가)" data-title="02 산업 등의 시설군" data-desc="소방 피난 및 환경오염 요건이 매우 까다로워, 상향 조정 시 주변 민원 발생 우려와 관련 리스크를 필수적으로 검토합니다.">02 산업 등의 시설군</div>
+          <div class="law-item" data-dir="UP (허가)" data-title="03 전기통신시설군" data-desc="고전력 인프라 구축 및 대규모 냉각 배관 변경이 수반되어 구조 안전성과 직접적으로 직결됩니다.">03 전기통신시설군</div>
+          <div class="law-item" data-dir="UP (허가)" data-title="04 문화 및 집회시설군" data-desc="소방·피난·직통계단 추가 개설 등 건축물의 형태 변경이 수반되므로 밸런스 타겟팅이 핵심이 됩니다.">04 문화 및 집회시설군</div>
+          <div class="law-item" data-dir="UP/DOWN 분기" data-title="05 영업시설군" data-desc="주차 의무 대수가 대폭 완화되거나 강화되는 마찰 지점으로 정밀한 계산을 요구합니다.">05 영업시설군</div>
+          <div class="law-item" data-dir="UP/DOWN 분기" data-title="06 교육 및 복지시설군" data-desc="배리어프리 편의시설 확충과 직통계단 확보 리스크가 강하게 작용합니다.">06 교육 및 복지시설군</div>
+          <div class="law-item" data-dir="CORE LAYER" data-title="07 근린생활시설군" data-desc="Value-up of the core area. 카페, 음식점 등을 입점시킬 때 발생하는 방화창, 주차장, 정화조 등 다양한 이슈를 면밀히 고려합니다.">07 근린생활시설군</div>
+          <div class="law-item" data-dir="DOWN (신고)" data-title="08 주거업무시설군" data-desc="주택이나 기존 자산을 상가로 탈바꿈시킬 때 출발점이 되는 자산 베이스라인 위계에 해당합니다.">08 주거업무시설군</div>
+          <div class="law-item" data-dir="DOWN (신고)" data-title="09 그 밖의 시설군" data-desc="도심지의 상업적 가치로 전환하기 위해 상위 인허가 승인 과정을 명확하게 통과해야 하는 구간입니다.">09 그 밖의 시설군</div>
+        </div>
+        
+        <div class="solutions-right-panel" id="interactive-panel">
+          <div id="panel-text-content" style="flex-grow: 1;">
+            <div class="panel-direction" id="panel-dir">REGULATORY DIRECTION — UP (허가)</div>
+            <h3 class="panel-title" id="panel-title">01 자동차 관련 시설군</h3>
+            <p class="panel-desc" id="panel-desc">특수 목적 상업 시설로 전환 시 검토해야 할 대상입니다. 차량 동선 및 소음 관련 조례 검토가 선행되어야 합니다.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4) PRE-REVIEW FACTORS -->
+      <div class="sub-section-title">PRE-REVIEW FACTORS — 사전 검토 항목</div>
+      <div class="mmo-strip-grid grid-4" style="margin-bottom: 3rem;">
         <div class="strip-item">
           <span class="strip-id">[01] 방화유리창 검토</span>
           <h3 class="strip-title">인접대지 방화창 설치 확인</h3>
@@ -52,37 +82,8 @@ import Layout from '../layouts/Layout.astro';
         </div>
       </div>
 
-      <!-- 4) Value-up Indicator -->
-      <div class="sub-section-title" style="margin-bottom: 1rem;">
-        Value-up Indicator — 건축법 제19조의 9개 시설군
-      </div>
-      <p style="font-size: 0.95rem; color: #666; margin-bottom: 3rem; font-weight: 400;">
-        자산이 어떤 방향으로 확장 가능한지 미리 확인 가능합니다.
-      </p>
-
-      <div class="solutions-split-container">
-        <div class="solutions-left-index">
-          <div class="law-item active" data-dir="UP (허가)" data-title="01 자동차 관련 시설군" data-desc="특수 목적 상업 시설로 전환 시 검토해야 할 대상입니다. 차량 동선 및 소음 관련 조례 검토가 선행되어야 합니다.">01 자동차 관련 시설군</div>
-          <div class="law-item" data-dir="UP (허가)" data-title="02 산업 등의 시설군" data-desc="소방 피난 및 환경오염 요건이 매우 까다로워, 상향 조정 시 주변 민원 발생 우려와 관련 리스크를 필수적으로 검토합니다.">02 산업 등의 시설군</div>
-          <div class="law-item" data-dir="UP (허가)" data-title="03 전기통신시설군" data-desc="고전력 인프라 구축 및 대규모 냉각 배관 변경이 수반되어 구조 안전성과 직접적으로 직결됩니다.">03 전기통신시설군</div>
-          <div class="law-item" data-dir="UP (허가)" data-title="04 문화 및 집회시설군" data-desc="소방·피난·직통계단 추가 개설 등 건축물의 형태 변경이 수반되므로 밸런스 타겟팅이 핵심이 됩니다.">04 문화 및 집회시설군</div>
-          <div class="law-item" data-dir="UP/DOWN 분기" data-title="05 영업시설군" data-desc="주차 의무 대수가 대폭 완화되거나 강화되는 마찰 지점으로 정밀한 계산을 요구합니다.">05 영업시설군</div>
-          <div class="law-item" data-dir="UP/DOWN 분기" data-title="06 교육 및 복지시설군" data-desc="배리어프리 편의시설 확충과 직통계단 확보 리스크가 강하게 작용합니다.">06 교육 및 복지시설군</div>
-          <div class="law-item" data-dir="CORE LAYER" data-title="07 근린생활시설군" data-desc="Value-up의 핵심 영역입니다. 카페, 음식점 등을 입점시킬 때 발생하는 방화창, 주차장, 정화조 등 다양한 이슈를 면밀히 고려합니다.">07 근린생활시설군</div>
-          <div class="law-item" data-dir="DOWN (신고)" data-title="08 주거업무시설군" data-desc="주택이나 기존 자산을 상가로 탈바꿈시킬 때 출발점이 되는 자산 베이스라인 위계에 해당합니다.">08 주거업무시설군</div>
-          <div class="law-item" data-dir="DOWN (신고)" data-title="09 그 밖의 시설군" data-desc="도심지의 상업적 가치로 전환하기 위해 상위 인허가 승인 과정을 명확하게 통과해야 하는 구간입니다.">09 그 밖의 시설군</div>
-        </div>
-        
-        <div class="solutions-right-panel" id="interactive-panel">
-          <div id="panel-text-content" style="flex-grow: 1;">
-            <div class="panel-direction" id="panel-dir">REGULATORY DIRECTION — UP (허가)</div>
-            <h3 class="panel-title" id="panel-title">01 자동차 관련 시설군</h3>
-            <p class="panel-desc" id="panel-desc">특수 목적 상업 시설로 전환 시 검토해야 할 대상입니다. 차량 동선 및 소음 관련 조례 검토가 선행되어야 합니다.</p>
-          </div>
-          <div style="display: flex; justify-content: flex-end; margin-top: 3rem;">
-            <a href="/contact" class="poetic-cta-link">용도변경 및 법규 검토 의뢰 ➔</a>
-          </div>
-        </div>
+      <div class="cta-banner" style="margin-bottom: 6rem;">
+        <a href="/contact" class="poetic-cta-link" style="margin-bottom: 1.5rem; display: inline-block;">용도변경 및 법규 검토 의뢰 ➔</a>
       </div>
     </div>
 

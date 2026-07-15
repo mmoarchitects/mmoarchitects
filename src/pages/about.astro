@@ -8,6 +8,7 @@ import Layout from '../layouts/Layout.astro';
       <a href="#about-intro" class="about-tab-link active">Philosophy</a>
       <a href="#about-philosophy" class="about-tab-link">How We Think</a>
       <a href="#services" class="about-tab-link">Framework</a>
+      <a href="#about-conclusion" class="about-tab-link">Connect</a>
     </nav>
   </div>
 
@@ -222,7 +223,8 @@ import Layout from '../layouts/Layout.astro';
     const sections = [
       document.getElementById('about-intro'),
       document.getElementById('about-philosophy'),
-      document.getElementById('services')
+      document.getElementById('services'),
+      document.getElementById('about-conclusion')
     ];
     const tabLinks = document.querySelectorAll('.about-tab-link');
 
@@ -247,7 +249,7 @@ import Layout from '../layouts/Layout.astro';
       if (window.scrollY < 100) {
         activeId = 'about-intro';
       } else if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 80) {
-        activeId = 'services'; // services is the last tab section
+        activeId = 'about-conclusion'; // about-conclusion is the last tab section
       }
 
       if (activeId) {
