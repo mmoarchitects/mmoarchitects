@@ -18,3 +18,8 @@ node_modules/
 # Astro build caches & output
 .astro/
 dist/
+
+# Local env files
+.env
+.env.local
+.env.*
