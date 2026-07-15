@@ -37,7 +37,7 @@ export default async function handler(request) {
         'Authorization': `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        from: 'MMO Inquiry <onboarding@resend.dev>',
+        from: 'MMO Inquiry <inquiry@mmoarchitects.com>',
         to: ['official@mmoarchitects.com'],
         subject: `[MMO 건축문의] ${name}님 - ${program}`,
         html: `
