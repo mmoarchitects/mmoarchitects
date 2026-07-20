@@ -106,11 +106,14 @@ const mediaBlocks = imagesList.map((imgSrc, index) => {
 
 const ogImage = mediaBlocks.length > 0 ? mediaBlocks[0].src : "/assets/logo.png";
 const statusTag = project.status ? ` (${project.status.toUpperCase()})` : "";
+
+const rawDescription = project.maintext || project.monograph || project.description || `${project.title} — MMO ARCHITECTS가 수행한 ${project.location || ''} ${project.subCategory || ''} 건축 프로젝트.`;
+const cleanDescription = rawDescription.replace(/\s+/g, ' ').trim().slice(0, 160);
 ---
 
 <Layout 
   title={`${project.title} — MMO ARCHITECTS`} 
-  description={project.maintext || project.monograph || project.description}
+  description={cleanDescription}
   activeTab="projects"
   ogImage={ogImage}
 >
