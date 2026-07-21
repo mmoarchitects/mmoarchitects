@@ -53,13 +53,13 @@ import Layout from '../layouts/Layout.astro';
         </div>
         
         <div class="solutions-right-panel" id="interactive-panel">
-          <div id="panel-text-content" style="flex-grow: 1;">
-            <div class="panel-direction" id="panel-uses">REPRESENTATIVE USES — 주차장, 세차장, 폐차장, 검사장, 매매장</div>
+          <div id="panel-text-content">
+            <div class="panel-direction" id="panel-uses">REPRESENTATIVE USES<br><span class="panel-uses-detail">— 주차장, 세차장, 폐차장, 검사장, 매매장</span></div>
             <h3 class="panel-title" id="panel-title">01 자동차 관련 시설군</h3>
             <p class="panel-desc" id="panel-desc">시설군 체계상 최상위에 속합니다. 차량 동선과 주차장 확보는 물론, 지자체별 입지 제한, 환경·오염물질 배출 규제까지 폭넓게 검토가 필요합니다. 특히 휘발유·엔진오일 등을 취급하는 시설은 위험물안전관리법에 따른 저장·취급소 요건까지 함께 고려해야 합니다.</p>
-            <div class="panel-footnote" style="margin-top: 2rem; padding-top: 1.2rem; border-top: 1px dashed #e5e4e0; font-size: 0.8rem; color: #777; line-height: 1.6; word-break: keep-all;">
-              * 번호가 낮을수록 상위 시설군, 높을수록 하위 시설군입니다. 실제 허가·신고 여부는 기존 용도를 기준으로 한 상대적 위치에 따라 달라집니다.
-            </div>
+          </div>
+          <div class="panel-footnote">
+            * 번호가 낮을수록 상위 시설군, 높을수록 하위 시설군입니다. 실제 허가·신고 여부는 기존 용도를 기준으로 한 상대적 위치에 따라 달라집니다.
           </div>
         </div>
       </div>
@@ -175,7 +175,7 @@ import Layout from '../layouts/Layout.astro';
         panelText.style.transform = "translateY(5px)";
 
         setTimeout(() => {
-          panelUses.innerText = "REPRESENTATIVE USES — " + uses;
+          panelUses.innerHTML = 'REPRESENTATIVE USES<br><span class="panel-uses-detail">— ' + uses + '</span>';
           panelTitle.innerText = title;
           panelDesc.innerText = desc;
           panelText.style.opacity = "1";
@@ -276,11 +276,13 @@ import Layout from '../layouts/Layout.astro';
   .law-item { padding: 0.9rem 1rem; border-left: 2px solid #eee; font-size: 1rem; color: #888; cursor: pointer; transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1); }
   .law-item:hover, .law-item.active { border-left: 2px solid #000; color: #000; font-weight: 500; padding-left: 1.5rem; }
 
-  .solutions-right-panel { background-color: transparent; padding: 2rem 0; display: flex; flex-direction: column; justify-content: space-between; min-height: 480px; transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1); }
+  .solutions-right-panel { background-color: transparent; padding: 0.5rem 0 0 0; display: flex; flex-direction: column; justify-content: space-between; min-height: 480px; transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1); }
   #panel-text-content { transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1); }
-  .panel-direction { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; color: #999; margin-bottom: 1.5rem; }
+  .panel-direction { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; color: #999; margin-bottom: 1.5rem; line-height: 1.6; }
+  .panel-uses-detail { color: #333; font-weight: 500; display: inline-block; margin-top: 0.25rem; text-transform: none; letter-spacing: -0.01em; }
   .panel-title { font-size: 1.6rem; font-weight: 600; margin-bottom: 1.2rem; }
   .panel-desc { font-size: 0.95rem; color: #444; line-height: 1.8; text-align: justify; }
+  .panel-footnote { margin-top: 2rem; padding-top: 1.2rem; border-top: 1px dashed #e5e4e0; font-size: 0.8rem; color: #777; line-height: 1.6; word-break: keep-all; }
 
   @media (max-width: 1100px) {
     section { padding-top: 8rem; }
