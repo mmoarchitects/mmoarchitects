@@ -114,7 +114,7 @@ const styledCards = remainingProjs.map((card, index) => {
   description="MMO ARCHITECTS는 물질(Matter)과 방법론(Method)의 심도 있는 고민과 결합을 통해 정교한 건축과 공간을 창조하는 건축사사무소입니다. 건축 설계, 대수선, 리모델링, 공간 기획 및 부동산 밸류업 솔루션을 제공합니다."
 >
   <section id="hero">
-    <h1>Architecture from<br>nothing to <span class="sr-only">nonfiction.</span><span class="slogan-word-flow" id="slogan-flow" aria-hidden="true"><span class="char-fictio">fictio</span><span class="char-n">n</span><span class="char-onfiction">onfiction.</span></span></h1>
+    <h1>Architecture from<br>nothing to <span id="slogan-flow">nonfiction.</span></h1>
     <p class="hero-sub-ko" id="hero-caption">무(無)의 상태에서 실존하는 질서로 나아가는 건축.</p>
     <a href="#featured-hero-work" class="poetic-scroll-link">Explore MMO ➔</a>
   </section>
@@ -125,7 +125,8 @@ const styledCards = remainingProjs.map((card, index) => {
       const caption = document.getElementById('hero-caption');
       if (!flow || !caption) return;
 
-      // Reset styles to ensure clean replay on page transitions (e.g. Astro View Transitions)
+      // Inject animation DOM dynamically so static HTML remains 100% clean for crawlers & AI
+      flow.innerHTML = '<span class="char-fictio">fictio</span><span class="char-n">n</span><span class="char-onfiction">onfiction.</span>';
       flow.className = 'slogan-word-flow';
       caption.classList.remove('step-show');
 
