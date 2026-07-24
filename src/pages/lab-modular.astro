@@ -10,39 +10,121 @@ import Layout from '../layouts/Layout.astro';
 >
   <section id="lab-modular">
     <span class="section-label">Laboratory — Modular Line</span>
-    <div class="positioning-statement">
+    <div class="positioning-statement" style="margin-bottom: 6rem;">
       <h2>"모듈러 주택의 성패는 공장이 아닌 '대지'에 있습니다."</h2>
       <p>규격화된 박스를 대량 양산하여 판매하는 일반 유닛과 결을 달리합니다. <strong>MMO EDITIONS</strong>는 대지의 맥락을 해석하는 건축사사무소의 시선과, 공장 정밀 제작 시스템이 만나는 하이엔드 프리미엄 주택 에디션입니다.</p>
     </div>
 
-    <div class="mmo-strip-grid grid-3">
-      <div class="strip-item"><span class="strip-num">01</span><h3 class="strip-title">공기 50% 단축 및 일정 보장</h3><p class="strip-desc">토목 공사와 유닛 제작이 병렬로 동시 전개되어 공기 지연 리스크가 제어됩니다.</p></div>
+    <!-- 왜 건축사사무소부터 시작하는가 섹션 -->
+    <div class="why-mmo-modular" style="margin-bottom: 6rem; padding-left: 1rem;">
+      <div class="sub-section-title" style="margin-bottom: 1.5rem;">Why start with an Architect? — 왜 건축사사무소부터 시작하는가</div>
+      <p style="font-size: 1.05rem; color: #444; line-height: 1.8; max-width: 950px; text-align: justify; word-break: keep-all; margin: 0;">
+        모듈러 유닛의 크기와 규격은 운송 여건과 제작 단가에 따라 일정 범위 안에서 정해집니다. MMO는 이 규격 안에서 유닛의 배치와 조합, 대지와 만나는 방식을 설계로 조율하여, 같은 모듈이라도 그 땅에 맞는 공간을 완성합니다. 설계와 인허가는 건축사사무소가 처음부터 총괄하고, 제작은 검증된 협력사와 함께 진행하여 설계·법규·시공 사이의 공백 없이 하나의 흐름으로 완성합니다.
+      </p>
+    </div>
+
+    <div class="mmo-strip-grid grid-3" style="margin-bottom: 8rem;">
+      <div class="strip-item"><span class="strip-num">01</span><h3 class="strip-title">병렬 공정으로 공기를 획기적으로 단축합니다</h3><p class="strip-desc">토목 공사와 유닛 제작을 병렬(투트랙)로 진행해, 현장 공사기간을 단축할 수 있습니다.</p></div>
       <div class="strip-item"><span class="strip-num">02</span><h3 class="strip-title">실내 정밀 제어 고품질 마감</h3><p class="strip-desc">기후 변화가 차단된 공장 환경에서 오차 없는 균일한 디테일을 완성합니다.</p></div>
       <div class="strip-item"><span class="strip-num">03</span><h3 class="strip-title">순환 가능한 미래지향적 친환경성</h3><p class="strip-desc">이주 시 유닛을 그대로 분리·이동하여 다른 땅에 재안착시킬 수 있습니다.</p></div>
     </div>
 
-    <div class="sub-section-title">MMO Editions — Architectural Risk Control</div>
-    <div class="mmo-strip-grid grid-4">
-      <div class="strip-item"><span class="strip-id">EDITION 01</span><h3 class="strip-title">안착 동선 시뮬레이션</h3><p class="strip-desc">진입로 실사를 거쳐 이동 불가 리스크를 제로화합니다.</p></div>
+    <div class="sub-section-title">MMO Editions — 사전 검토 체계</div>
+    <div class="mmo-strip-grid grid-4" style="margin-bottom: 8rem;">
+      <div class="strip-item"><span class="strip-id">EDITION 01</span><h3 class="strip-title">안착 동선 시뮬레이션</h3><p class="strip-desc">대지현황을 사전에 확인해, 진입 가능 여부를 판단합니다.</p></div>
       <div class="strip-item"><span class="strip-id">EDITION 02</span><h3 class="strip-title">현장 접합부 정밀 감리</h3><p class="strip-desc">건축사가 직접 감리하여 결로와 단열 유실을 전면 차단합니다.</p></div>
       <div class="strip-item"><span class="strip-id">EDITION 03</span><h3 class="strip-title">대지 맥락 커스텀 최적화</h3><p class="strip-desc">땅의 조망과 일조 조건을 분석해 매스 배치를 커스텀 조율합니다.</p></div>
-      <div class="strip-item"><span class="strip-id">EDITION 04</span><h3 class="strip-title">가설물 vs 준공 조례 관통</h3><p class="strip-desc">지자체별 상이한 규제의 경계를 관통하여 행정 안전성을 담보합니다.</p></div>
+      <div class="strip-item"><span class="strip-id">EDITION 04</span><h3 class="strip-title">모듈러·가설 조례 사전 검토</h3><p class="strip-desc">지자체별로 다른 규제를 사전에 확인·반영해 행정 절차의 안정성을 높입니다.</p></div>
     </div>
 
-    <div class="sub-section-title">Cost Breakdown & Specification Matrix</div>
-    <div class="spec-table-container">
+    <div class="sub-section-title" style="margin-bottom: 1.5rem;">Specification & Scope Matrix</div>
+    <p style="font-size: 0.95rem; color: #555; margin-bottom: 3rem; line-height: 1.7; word-break: keep-all; padding-left: 1rem;">
+      설계와 인허가는 건축사사무소가 총괄하며, 제작·시공은 각 분야 전문 협력사와 함께 진행합니다.
+    </p>
+
+    <!-- ① 표준 구성 항목 -->
+    <div class="spec-table-group-title" style="font-size: 1.05rem; font-weight: 600; color: #1a1a1a; margin: 3rem 0 1.5rem 1rem;">① 표준 구성 항목</div>
+    <div class="spec-table-container" style="margin-bottom: 4rem;">
       <table class="spec-table">
-        <thead><tr><th>분류 항목</th><th>상세 반영 및 기술 기준</th><th>포함 범위</th></tr></thead>
+        <thead>
+          <tr>
+            <th style="width: 25%;">분류 항목</th>
+            <th style="width: 45%;">상세 내용</th>
+            <th style="width: 30%;">포함 범위</th>
+          </tr>
+        </thead>
         <tbody>
-          <tr><td><strong>공장 기본 제작비</strong><span>Factory Fabrication</span></td><td>실내 유닛 골조 및 기본 내외장재 조립 공정.</td><td>구조 프레임 및 내장 마감</td></tr>
-          <tr><td><strong>구조 및 안전 시스템</strong><span>Structure & Safety</span></td><td>고성능 경량/중목 하이브리드. 비틀림 방지 및 내진 성능 검토.</td><td>구조 안전 진단 및 성적서</td></tr>
-          <tr><td><strong>단열 및 기밀 가공</strong><span>Thermal Insulation</span></td><td>패시브하우스 기준 상회 고밀도 수성 연질폼 시공.</td><td>결로 방지 및 기밀 테스트</td></tr>
-          <tr><td><strong>운송 및 크레인 안착비</strong><span>Logistics & Placement</span></td><td>카고 크레인 안착·결합 비용. 지자체 도로 점용 허가 연계.</td><td>특수 운송 차량 및 안착</td></tr>
-          <tr><td><strong>대지 인허가 및 세팅</strong><span>Permit & Site Setting</span></td><td>건축 허가/신고, 가설건축물 축조 신고 기술 행정 대행.</td><td>세움터 대관 행정 지원</td></tr>
-          <tr><td><strong>토목, 우오수 및 기초</strong><span>Civil & Infrastructure</span></td><td>콘크리트 기초 패키지, 정화조 매설 및 인프라 인입.</td><td>토목 엔지니어링</td></tr>
+          <tr>
+            <td><strong>유닛 배치 및 디자인, 설계</strong></td>
+            <td>대지의 조망과 일조, 진입 동선을 분석해 모듈 배치와 외관 디자인을 조율합니다.</td>
+            <td>건축사사무소가 설계 전 과정을 담당합니다.</td>
+          </tr>
+          <tr>
+            <td><strong>대지 인허가 및 세팅</strong></td>
+            <td>건축 허가·신고, 가설건축물 축조신고 등 행정 절차를 진행합니다.</td>
+            <td>건축사사무소가 인허가 행정을 대행합니다.</td>
+          </tr>
+          <tr>
+            <td><strong>공장 기본 제작비</strong></td>
+            <td>유닛 골조 조립과 기본 내외장재 마감을 공장에서 진행합니다.</td>
+            <td>모듈러 협력사가 제작을 담당합니다.</td>
+          </tr>
+          <tr>
+            <td><strong>구조 및 안전 시스템</strong></td>
+            <td>내진 성능과 구조 안전성을 사전에 검토하고 성적서를 발급합니다.</td>
+            <td>모듈러 협력사가 구조 안전을 검증합니다.</td>
+          </tr>
+          <tr>
+            <td><strong>단열 및 기밀 가공</strong></td>
+            <td>고밀도 단열재로 결로와 열손실을 최소화하는 기밀 시공을 진행합니다.</td>
+            <td>모듈러 협력사가 단열·기밀 시공을 담당합니다.</td>
+          </tr>
+          <tr>
+            <td><strong>토목, 우오수 및 기초</strong></td>
+            <td>콘크리트 기초와 정화조 매설 등 기반 공사를 진행합니다.</td>
+            <td>협력 토목사가 기초 공사를 담당합니다.</td>
+          </tr>
         </tbody>
       </table>
     </div>
+
+    <!-- ② 대지·지역 여건에 따라 별도 산정 -->
+    <div class="spec-table-group-title" style="font-size: 1.05rem; font-weight: 600; color: #1a1a1a; margin: 4rem 0 1.5rem 1rem;">② 대지·지역 여건에 따라 별도 산정</div>
+    <div class="spec-table-container" style="margin-bottom: 2rem;">
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th style="width: 25%;">분류 항목</th>
+            <th style="width: 45%;">상세 내용</th>
+            <th style="width: 30%;">포함 범위</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>전기·수도·가스 인입</strong></td>
+            <td>기존 인프라가 없는 대지의 경우, 전력·상수도·가스 인입 공사가 추가로 필요할 수 있습니다.</td>
+            <td>한전 전력 인입, 상수도 연결, 필요 시 가스 배관 공사를 포함합니다.</td>
+          </tr>
+          <tr>
+            <td><strong>운송 및 안착</strong></td>
+            <td>크레인·지게차 등 특수 장비를 활용해 유닛을 운송하고 현장에 안착시킵니다.</td>
+            <td>특수 운송 차량과 크레인·지게차 등 안착 장비 사용을 포함합니다.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="font-size: 0.88rem; color: #666; line-height: 1.7; word-break: keep-all; margin: 2rem 0 4rem 1rem; max-width: 900px;">
+      * 설계가 확정된 이후, 협력사와의 협의를 통해 실제 제작·시공 비용을 확정합니다. 대지 조건과 규모에 따라 달라지므로, 정확한 산정은 상담을 통해 확인해 드립니다.
+    </p>
+
+    <!-- 협력사 포트폴리오 언급 -->
+    <div class="portfolio-preparation-note" style="margin-top: 4rem; padding-left: 1rem; margin-bottom: 3rem;">
+      <p style="font-size: 0.95rem; color: #555; line-height: 1.6; word-break: keep-all; margin: 0;">
+        * 협력 제작사의 시공 사례를 통해 완성된 유닛의 품질을 확인하실 수 있도록 준비하고 있습니다.
+      </p>
+    </div>
+
     <a href="/contact" class="poetic-cta-link">에디션 대지 진단 의뢰 ➔</a>
   </section>
 </Layout>
