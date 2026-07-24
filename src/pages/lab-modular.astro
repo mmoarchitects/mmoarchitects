@@ -118,11 +118,20 @@ import Layout from '../layouts/Layout.astro';
       * 설계가 확정된 이후, 협력사와의 협의를 통해 실제 제작·시공 비용을 확정합니다. 대지 조건과 규모에 따라 달라지므로, 정확한 산정은 상담을 통해 확인해 드립니다.
     </p>
 
-    <!-- 협력사 포트폴리오 언급 -->
-    <div class="portfolio-preparation-note" style="margin-top: 4rem; padding-left: 1rem; margin-bottom: 3rem;">
-      <p style="font-size: 0.95rem; color: #555; line-height: 1.6; word-break: keep-all; margin: 0;">
-        * 협력 제작사의 시공 사례를 통해 완성된 유닛의 품질을 확인하실 수 있도록 준비하고 있습니다.
+    <!-- 5. 협력 제작사 파트 구분 -->
+    <div class="sub-section-title" style="margin-top: 6rem; margin-bottom: 1.5rem;">PARTNERS — 협력 제작사 포트폴리오</div>
+    <div class="partners-section" style="padding-left: 1rem; margin-bottom: 6rem;">
+      <p style="font-size: 0.95rem; color: #555; line-height: 1.7; word-break: keep-all; max-width: 950px; margin-bottom: 2.5rem;">
+        협력 제작사의 시공 사례를 통해 완성된 유닛의 품질을 확인하실 수 있도록 포트폴리오 연계를 준비하고 있습니다. 향후 검증된 전문 제작사의 에디션 구축 사례들을 이곳에서 확인하실 수 있습니다.
       </p>
+      
+      <!-- 미래 추가될 파트너 카드 구조화 -->
+      <div class="partners-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem;">
+        <div class="partner-placeholder-card" style="border: 1px dashed #d5d4d0; padding: 4rem 2rem; text-align: center; color: #888; font-size: 0.9rem; border-radius: 2px; line-height: 1.6;">
+          <span style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #666;">제작 파트너사 포트폴리오</span>
+          검증된 모듈러 제작 파트너사의 포트폴리오가 곧 연동될 예정입니다.
+        </div>
+      </div>
     </div>
 
     <a href="/contact" class="poetic-cta-link">에디션 대지 진단 의뢰 ➔</a>
