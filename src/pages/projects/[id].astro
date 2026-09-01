@@ -104,7 +104,7 @@ const mediaBlocks = imagesList.map((imgSrc, index) => {
   };
 });
 
-const ogImage = mediaBlocks.length > 0 ? mediaBlocks[0].src : "/assets/logo.png";
+const ogImage = mediaBlocks.length > 0 ? mediaBlocks[0].src : "/assets/og-default.png";
 const statusTag = project.status ? ` (${project.status.toUpperCase()})` : "";
 
 const rawDescription = project.maintext || project.monograph || project.description || `${project.title} — MMO ARCHITECTS가 수행한 ${project.location || ''} ${project.subCategory || ''} 건축 프로젝트.`;

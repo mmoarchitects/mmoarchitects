@@ -16,12 +16,17 @@ const {
   description = "물질과 방법론의 심도 있는 결합을 통해 공간의 예술 질서를 확립하는 KIRA 인증 건축사사무소. Architecture, Value-up, Branding 총괄.",
   activeTab,
   subTab,
-  ogImage = "/assets/logo.png"
+  ogImage = "/assets/og-default.png"
 } = Astro.props;
 
 // Determine location text based on tab
 const isLab = activeTab === 'lab';
-const locationText = isLab ? "LABORATORY" : "SEOUL, KR";
+const locationText = isLab ? "LAB" : "SEOUL, KR";
+
+// Resolve absolute URLs (OG/canonical require them; Astro.site is set in astro.config.mjs)
+const siteOrigin = Astro.site ?? new URL('https://mmoarchitects.com');
+const canonicalURL = new URL(Astro.url.pathname, siteOrigin).href.replace(/\/$/, '') || siteOrigin.href;
+const ogImageURL = new URL(ogImage, siteOrigin).href;
 ---
 
 <!DOCTYPE html>
@@ -31,16 +36,27 @@ const locationText = isLab ? "LABORATORY" : "SEOUL, KR";
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{title}</title>
   <meta name="description" content={description}>
-  
+  <link rel="canonical" href={canonicalURL} />
+
+  <!-- Favicons -->
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon-96x96.png" sizes="96x96" type="image/png" />
+  <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
   <!-- OpenGraph Metadata for Social Link Sharing (KakaoTalk, Slack, Facebook) -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
-  <meta property="og:image" content={ogImage} />
+  <meta property="og:image" content={ogImageURL} />
+  <meta property="og:url" content={canonicalURL} />
   <meta property="og:site_name" content="MMO ARCHITECTS" />
+  <meta property="og:locale" content="ko_KR" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImageURL} />
 
-  <meta name="naver-site-verification" content="네이버인증코드입력" />
-  <meta name="google-site-verification" content="구글인증코드입력" />
   <meta name="msvalidate.01" content="0292E780AD9FBDCDBDF6B974F4619B25" />
 
   <!-- Pretendard WebFont -->
@@ -54,10 +70,20 @@ const locationText = isLab ? "LABORATORY" : "SEOUL, KR";
     * { -ms-overflow-style: none; scrollbar-width: none; }
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Pretendard', sans-serif; }
     
-    body { 
-      background-color: #F5F4F0; color: #1a1a1a; 
+    body {
+      background-color: #F5F4F0; color: #1a1a1a;
       overflow-x: hidden; min-height: 100vh;
       -webkit-font-smoothing: antialiased;
+    }
+
+    /* Respect the OS "reduce motion" setting: neutralise transitions, animations and smooth scroll */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+      }
     }
     a { color: #000; text-decoration: none; }
     body.modal-open { overflow: hidden; }
@@ -282,7 +308,7 @@ const locationText = isLab ? "LABORATORY" : "SEOUL, KR";
     <div class="nav-menu">
       <a href="/projects" class={activeTab === 'projects' ? 'active' : ''}>PROJECTS</a>
       <div class={`nav-item-wrapper ${activeTab === 'lab' ? 'active-parent' : ''}`}>
-        <a href="/lab-modular" class={`nav-lab-link ${activeTab === 'lab' ? 'active' : ''}`}>LAB — EDITIONS</a>
+        <a href="/lab-modular" class={`nav-lab-link ${activeTab === 'lab' ? 'active' : ''}`}>LAB</a>
         <div class="lnb-hover-menu">
           <a href="/lab-modular" class={`lnb-hover-item ${subTab === 'modular' ? 'active' : ''}`}>MODULAR</a>
           <a href="/lab-solution" class={`lnb-hover-item ${subTab === 'solution' ? 'active' : ''}`}>SOLUTION</a>

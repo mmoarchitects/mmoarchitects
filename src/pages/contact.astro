@@ -17,6 +17,7 @@ import Layout from '../layouts/Layout.astro';
           <p style="margin-bottom: 1rem; color: #1a1a1a; font-weight: 500;">10년의 프로젝트 경험을 가진 팀입니다.</p>
           <p>어떠한 생각을 하고 계신지 명확하지 않아도 됩니다.<br>공간에 대한 모호한 상상이어도 좋습니다.<br>고민을 공유해주세요.<br></p>
         </div>
+        <p class="contact-plain-note">양식이 부담스럽다면, 이메일로 몇 줄만 보내주셔도 좋습니다.</p>
         <div class="contact-channels">
           <p><strong>Email</strong> <a href="mailto:official@mmoarchitects.com">official@mmoarchitects.com</a></p>
           <p><strong>Instagram</strong> <a href="https://instagram.com/mmoarchitects" target="_blank">@mmoarchitects</a></p>
@@ -146,6 +147,7 @@ import Layout from '../layouts/Layout.astro';
         return;
       }
 
+      feedback.className = "";
       feedback.style.display = "block";
       feedback.innerText = "상담 신청서를 송신하는 중...";
       feedback.style.color = "#111";
@@ -160,8 +162,15 @@ import Layout from '../layouts/Layout.astro';
         });
         const result = await response.json();
         if (result.success || response.ok) {
-          feedback.innerText = "문의 신청서가 성공적으로 송신되었습니다.";
-          feedback.style.color = "green";
+          const safeContact = contact.replace(/[&<>"]/g, (c) => (
+            { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c] as string
+          ));
+          feedback.className = "is-confirm";
+          feedback.style.color = "#1a1a1a";
+          feedback.innerHTML =
+            "신청서가 전송되었습니다.<br>" +
+            "남겨주신 연락처(<strong>" + safeContact + "</strong>)로 확인 후 일주일 이내 회신드리겠습니다.<br>" +
+            "회신이 늦어질 경우 <a href=\"mailto:official@mmoarchitects.com\">official@mmoarchitects.com</a> 으로도 편하게 연락 주세요.";
           (document.getElementById("poeticInquiryForm") as HTMLFormElement).reset();
           if (contactConfirm) contactConfirm.style.display = "none";
         } else {
@@ -195,7 +204,8 @@ import Layout from '../layouts/Layout.astro';
   /* CONTACT & INQUIRY (POETIC NARRATIVE FORM) */
   .contact-flow { display: grid; grid-template-columns: 1fr 1.5fr; gap: 6rem; }
   .contact-meta h3 { font-size: 1.8rem; font-weight: 500; line-height: 1.4; margin-bottom: 2rem; }
-  .contact-meta .experience-text { font-size: 0.95rem; color: #555; line-height: 1.7; margin-bottom: 4rem; }
+  .contact-meta .experience-text { font-size: 0.95rem; color: #555; line-height: 1.7; margin-bottom: 2rem; }
+  .contact-plain-note { font-size: 0.85rem; color: #666; line-height: 1.6; margin-bottom: 2.5rem; word-break: keep-all; }
   .contact-channels { font-size: 0.9rem; line-height: 2; }
   .contact-channels strong { display: inline-block; width: 80px; color: #888; font-weight: 400; }
   .contact-channels a { border-bottom: 1px solid #ccc; transition: all 0.4s; }
@@ -287,6 +297,9 @@ import Layout from '../layouts/Layout.astro';
   .submit-text-link { background: transparent; border: none; color: #000; font-size: 1rem; font-weight: 600; cursor: pointer; letter-spacing: 0.05em; padding: 0 0 0.4rem 0; border-bottom: 1px solid #000; transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1); }
   .submit-text-link:hover { color: #666; border-bottom: 1px solid #666; padding-right: 0.5rem; }
   #formFeedback { margin-top: 2rem; font-size: 1rem; font-weight: 600; display: none; text-align: right; }
+  #formFeedback.is-confirm { text-align: left; font-weight: 400; font-size: 0.92rem; line-height: 1.8; color: #1a1a1a; }
+  #formFeedback.is-confirm a { border-bottom: 1px solid #ccc; transition: border-color 0.3s; }
+  #formFeedback.is-confirm a:hover { border-bottom-color: #1a1a1a; }
 
   /* Responsive control */
   @media (max-width: 1100px) {
