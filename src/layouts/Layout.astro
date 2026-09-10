@@ -66,6 +66,23 @@ const ogImageURL = new URL(ogImage, siteOrigin).href;
   <ViewTransitions />
 
   <style is:global>
+    /* Type scale — √φ-informed, 12 steps + a golden-ratio hero (--fs-13 = --fs-12 × φ) */
+    :root {
+      --fs-1: 0.62rem;
+      --fs-2: 0.72rem;
+      --fs-3: 0.85rem;
+      --fs-4: 0.9rem;
+      --fs-5: 0.95rem;
+      --fs-6: 1.05rem;
+      --fs-7: 1.15rem;
+      --fs-8: 1.25rem;
+      --fs-9: 1.4rem;
+      --fs-10: 1.6rem;
+      --fs-11: 1.8rem;
+      --fs-12: 2.2rem;
+      --fs-13: calc(var(--fs-12) * 1.618);
+    }
+
     /* 1. Global Reset & Scrollbars */
     ::-webkit-scrollbar { display: none; }
     * { -ms-overflow-style: none; scrollbar-width: none; }
@@ -115,13 +132,13 @@ const ogImageURL = new URL(ogImage, siteOrigin).href;
       line-height: 1.2;
     }
     .logo-title {
-      font-size: 1.1rem;
+      font-size: var(--fs-7);
       font-weight: bold;
       letter-spacing: 0.05em;
       color: #000;
     }
     .logo-sub {
-      font-size: 0.55rem;
+      font-size: var(--fs-1);
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: #888;
@@ -135,14 +152,14 @@ const ogImageURL = new URL(ogImage, siteOrigin).href;
       max-height: 40px;
     }
     .nav-menu a, .nav-menu .nav-lab-link { 
-      font-size: 0.85rem; letter-spacing: 0.1em; font-weight: 600; color: #888; 
+      font-size: var(--fs-3); letter-spacing: 0.1em; font-weight: 600; color: #888; 
       display: flex; align-items: center; line-height: 1; 
     }
     .nav-menu span.nav-lab-link {
       cursor: default;
     }
     .nav-menu a:hover, .nav-menu a.active, .nav-menu .nav-lab-link:hover, .nav-menu .nav-lab-link.active { color: #000; }
-    .nav-right { font-size: 0.7rem; color: #ccc; letter-spacing: 0.1em; line-height: 1; display: flex; align-items: center; }
+    .nav-right { font-size: var(--fs-2); color: #ccc; letter-spacing: 0.1em; line-height: 1; display: flex; align-items: center; }
 
     /* LNB Hover dropdown */
     .nav-item-wrapper {
@@ -180,7 +197,7 @@ const ogImageURL = new URL(ogImage, siteOrigin).href;
       transform: translateX(-50%) translateY(0);
     }
     .lnb-hover-item {
-      font-size: 0.7rem;
+      font-size: var(--fs-2);
       letter-spacing: 0.1em;
       font-weight: 600;
       color: #888 !important;
@@ -194,7 +211,7 @@ const ogImageURL = new URL(ogImage, siteOrigin).href;
 
     /* Small English tag trailing a Korean heading (decorative) */
     .label-en {
-      font-size: 0.7rem;
+      font-size: var(--fs-2);
       font-weight: 600;
       letter-spacing: 0.15em;
       text-transform: uppercase;
@@ -215,7 +232,7 @@ const ogImageURL = new URL(ogImage, siteOrigin).href;
     }
     .lab-tab-nav { max-width: 1400px; margin: 0 auto; padding: 1.2rem 3rem; display: flex; gap: 3rem; }
     .lab-tab-link {
-      font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em;
+      font-size: var(--fs-2); font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em;
       color: #888; position: relative; padding-bottom: 0.5rem; transition: color 0.4s ease;
     }
     .lab-tab-link:hover, .lab-tab-link.active { color: #000; }
@@ -257,7 +274,7 @@ const ogImageURL = new URL(ogImage, siteOrigin).href;
       text-align: left;
     }
     .footer-address-block {
-      font-size: 9px;
+      font-size: var(--fs-1);
       color: #aaa;
       line-height: 1.6;
       letter-spacing: 0.02em;
@@ -272,7 +289,7 @@ const ogImageURL = new URL(ogImage, siteOrigin).href;
       justify-content: space-between;
     }
     .footer-contact-title {
-      font-size: 0.75rem;
+      font-size: var(--fs-2);
       letter-spacing: 0.15em;
       color: #8c8a85;
       font-weight: 600;
@@ -280,7 +297,7 @@ const ogImageURL = new URL(ogImage, siteOrigin).href;
       line-height: 1.3;
     }
     .footer-links-container {
-      font-size: 0.9rem;
+      font-size: var(--fs-4);
       font-weight: 400;
       line-height: 1.5;
       display: flex;
@@ -296,7 +313,7 @@ const ogImageURL = new URL(ogImage, siteOrigin).href;
       text-decoration: none;
     }
     .footer-copyright-block {
-      font-size: 9px;
+      font-size: var(--fs-1);
       color: #888;
       letter-spacing: 0.02em;
       line-height: 1.6;
@@ -330,7 +347,7 @@ const ogImageURL = new URL(ogImage, siteOrigin).href;
         padding-bottom: 1.5rem;
       }
       .logo { order: 1; }
-      .nav-right { order: 2; font-size: 0.65rem; }
+      .nav-right { order: 2; font-size: var(--fs-1); }
       .nav-menu {
         order: 3; width: 100%; position: static; transform: none;
         margin-top: 1.2rem; justify-content: center; gap: 1.8rem;
@@ -386,13 +403,13 @@ const ogImageURL = new URL(ogImage, siteOrigin).href;
   <!-- Global Footer (Only rendered if footer is not visually hidden by page styles) -->
   <footer class="mmo-footer">
     <div class="footer-top-row">
-      <h4 style="font-size: 1.1rem; font-weight: bold; letter-spacing: 0.05em; margin: 0; line-height: 1;">MMO ARCHITECTS</h4>
+      <h4 style="font-size: var(--fs-7); font-weight: bold; letter-spacing: 0.05em; margin: 0; line-height: 1;">MMO ARCHITECTS</h4>
     </div>
     
     <div class="footer-columns-grid">
       <!-- Left Column (60% width) -->
       <div class="footer-col-left">
-        <p style="font-size: 0.9rem; color: #555; max-width: 480px; line-height: 1.7; word-break: keep-all; margin: 0;">
+        <p style="font-size: var(--fs-4); color: #555; max-width: 480px; line-height: 1.7; word-break: keep-all; margin: 0;">
           엠엠오건축사사무소는 물질(Matter)과 방법론(Method)의 심도 있는 결합을 통해 공간의 최종적인 예술 질서(Order)를 확립합니다.
         </p>
         <div class="footer-address-block">

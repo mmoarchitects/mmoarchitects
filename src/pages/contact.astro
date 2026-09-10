@@ -44,7 +44,7 @@ import Layout from '../layouts/Layout.astro';
           
           <div class="free-discourse-area">
             <label>+ 못다 한 이야기</label>
-            <p style="font-size: 0.88rem; color: #666; margin: 0; line-height: 1.5; word-break: keep-all; margin-bottom: 0.8rem;">이 공간에 담고 싶은 당신만의 이야기나, 좋아하는 공간의 분위기, 규정되지 않은 자유로운 이야기가 있다면 편하게 남겨주셔도 좋습니다.</p>
+            <p style="font-size: var(--fs-3); color: #666; margin: 0; line-height: 1.5; word-break: keep-all; margin-bottom: 0.8rem;">이 공간에 담고 싶은 당신만의 이야기나, 좋아하는 공간의 분위기, 규정되지 않은 자유로운 이야기가 있다면 편하게 남겨주셔도 좋습니다.</p>
             <div contenteditable="true" class="free-textarea" id="formMessage" data-placeholder='예: "다락방에 만화책 1,000권을 쌓아두고 싶어요" 같은 엉뚱한 로망이나 "비 오는 날 빗소리가 유독 잘 들렸으면 좋겠습니다" 같은 감각적인 상상, 혹은 "대수선 및 용도변경 밸류업을 위한 건물을 매입할 계획인데 기획부터 설계, 인허가 검토와 예산 분석까지 함께 진행할 수 있을까요?" 같은 현실적인 고민까지 어떤 이야기든 환영합니다.'></div>
           </div>
 
@@ -55,7 +55,7 @@ import Layout from '../layouts/Layout.astro';
                 <span class="chamber-box"></span>
                 에세이 형태로 정돈된 기획 데이터 송신에 동의합니다.
               </label>
-              <div id="contactConfirmation" class="contact-confirm-text" style="display: none; margin-top: 0.8rem; font-size: 0.85rem; color: #2e7d32; font-weight: 500; letter-spacing: -0.01em;">
+              <div id="contactConfirmation" class="contact-confirm-text" style="display: none; margin-top: 0.8rem; font-size: var(--fs-3); color: #2e7d32; font-weight: 500; letter-spacing: -0.01em;">
                 연락처가 <span id="confirmedContactVal" style="text-decoration: underline; font-weight: 600; color: #000;"></span>(이)가 맞는지 확인해 주세요.
               </div>
             </div>
@@ -192,7 +192,7 @@ import Layout from '../layouts/Layout.astro';
   #contact-page-content { padding: 12rem 3rem 4rem 3rem; max-width: 1400px; margin: 0 auto; min-height: 80vh; }
   
   .section-label { 
-    font-size: 1.6rem; 
+    font-size: var(--fs-10); 
     font-weight: 700; 
     text-transform: uppercase; 
     letter-spacing: -0.01em; 
@@ -203,17 +203,17 @@ import Layout from '../layouts/Layout.astro';
 
   /* CONTACT & INQUIRY (POETIC NARRATIVE FORM) */
   .contact-flow { display: grid; grid-template-columns: 1fr 1.5fr; gap: 6rem; }
-  .contact-meta h3 { font-size: 1.8rem; font-weight: 500; line-height: 1.4; margin-bottom: 2rem; }
-  .contact-meta .experience-text { font-size: 0.95rem; color: #555; line-height: 1.7; margin-bottom: 2rem; }
-  .contact-plain-note { font-size: 0.95rem; color: #666; line-height: 1.7; margin-bottom: 2.5rem; word-break: keep-all; }
-  .contact-channels { font-size: 0.9rem; line-height: 2; }
+  .contact-meta h3 { font-size: var(--fs-11); font-weight: 500; line-height: 1.4; margin-bottom: 2rem; }
+  .contact-meta .experience-text { font-size: var(--fs-5); color: #555; line-height: 1.7; margin-bottom: 2rem; }
+  .contact-plain-note { font-size: var(--fs-5); color: #666; line-height: 1.7; margin-bottom: 2.5rem; word-break: keep-all; }
+  .contact-channels { font-size: var(--fs-4); line-height: 2; }
   .contact-channels strong { display: inline-block; width: 80px; color: #888; font-weight: 400; }
   .contact-channels a { border-bottom: 1px solid #ccc; transition: all 0.4s; }
   .contact-channels a:hover { color: #888; border-bottom-color: #888; }
   .narrative-box { background: transparent; }
-  .inquiry-welcome-desc { font-size: 1.05rem; color: #555; line-height: 1.8; margin-bottom: 3rem; font-weight: 400; }
+  .inquiry-welcome-desc { font-size: var(--fs-6); color: #555; line-height: 1.8; margin-bottom: 3rem; font-weight: 400; }
   .narrative-paragraph { 
-    font-size: 1.05rem; 
+    font-size: var(--fs-6); 
     line-height: 2.4; 
     color: #111; 
     text-align: justify; 
@@ -228,7 +228,7 @@ import Layout from '../layouts/Layout.astro';
     display: inline;
     border: none; 
     border-bottom: 1px solid #999;
-    font-size: 1.05rem; 
+    font-size: var(--fs-6); 
     font-weight: 500; 
     color: #000; 
     padding: 0 0.15rem; 
@@ -250,12 +250,12 @@ import Layout from '../layouts/Layout.astro';
   }
   
   .free-discourse-area { margin-top: 4rem; display: flex; flex-direction: column; gap: 1.2rem; }
-  .free-discourse-area label { font-size: 0.95rem; color: #444; font-weight: 500; letter-spacing: -0.015em; }
+  .free-discourse-area label { font-size: var(--fs-5); color: #444; font-weight: 500; letter-spacing: -0.015em; }
   .free-textarea { 
     width: 100%; 
     border: none; 
     border-bottom: 1px solid #ccc; 
-    font-size: 1.05rem; 
+    font-size: var(--fs-6); 
     padding: 0.8rem 0; 
     outline: none; 
     background: transparent; 
@@ -273,7 +273,7 @@ import Layout from '../layouts/Layout.astro';
   .free-textarea:empty::before {
     content: attr(data-placeholder);
     color: #bbb;
-    font-size: 0.95rem;
+    font-size: var(--fs-5);
     font-style: italic;
     font-weight: 400;
     white-space: pre-wrap;
@@ -289,15 +289,15 @@ import Layout from '../layouts/Layout.astro';
     border-top: 1px solid #e5e4e0;
     padding-top: 2rem;
   }
-  .chamber-label { display: inline-flex; align-items: center; cursor: pointer; font-size: 0.9rem; color: #666; letter-spacing: -0.01em; }
+  .chamber-label { display: inline-flex; align-items: center; cursor: pointer; font-size: var(--fs-4); color: #666; letter-spacing: -0.01em; }
   .chamber-checkbox { display: none; }
   .chamber-box { width: 14px; height: 14px; border: 1px solid #000; margin-right: 0.8rem; display: inline-block; position: relative; background: #fff; transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1); }
   .chamber-checkbox:checked + .chamber-box { background: #000; transform: rotate(90deg); }
   
-  .submit-text-link { background: transparent; border: none; color: #000; font-size: 1rem; font-weight: 600; cursor: pointer; letter-spacing: 0.05em; padding: 0 0 0.4rem 0; border-bottom: 1px solid #000; transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1); }
+  .submit-text-link { background: transparent; border: none; color: #000; font-size: var(--fs-6); font-weight: 600; cursor: pointer; letter-spacing: 0.05em; padding: 0 0 0.4rem 0; border-bottom: 1px solid #000; transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1); }
   .submit-text-link:hover { color: #666; border-bottom: 1px solid #666; padding-right: 0.5rem; }
-  #formFeedback { margin-top: 2rem; font-size: 1rem; font-weight: 600; display: none; text-align: right; }
-  #formFeedback.is-confirm { text-align: left; font-weight: 400; font-size: 0.92rem; line-height: 1.8; color: #1a1a1a; }
+  #formFeedback { margin-top: 2rem; font-size: var(--fs-6); font-weight: 600; display: none; text-align: right; }
+  #formFeedback.is-confirm { text-align: left; font-weight: 400; font-size: var(--fs-4); line-height: 1.8; color: #1a1a1a; }
   #formFeedback.is-confirm a { border-bottom: 1px solid #ccc; transition: border-color 0.3s; }
   #formFeedback.is-confirm a:hover { border-bottom-color: #1a1a1a; }
 
