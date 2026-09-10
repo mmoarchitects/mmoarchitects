@@ -59,8 +59,9 @@ const ogImageURL = new URL(ogImage, siteOrigin).href;
 
   <meta name="msvalidate.01" content="0292E780AD9FBDCDBDF6B974F4619B25" />
 
-  <!-- Pretendard WebFont -->
-  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <!-- Pretendard WebFont — variable + dynamic subset: only the glyph ranges on the page load (~150KB total vs ~5MB for the full static set) -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 
   <ViewTransitions />
 
@@ -68,7 +69,19 @@ const ogImageURL = new URL(ogImage, siteOrigin).href;
     /* 1. Global Reset & Scrollbars */
     ::-webkit-scrollbar { display: none; }
     * { -ms-overflow-style: none; scrollbar-width: none; }
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Pretendard', sans-serif; }
+    /* Fallback tuned to sit close to Pretendard's metrics so the webfont swap doesn't reflow text */
+    @font-face {
+      font-family: 'Pretendard-fallback';
+      size-adjust: 100%;
+      ascent-override: 88%;
+      descent-override: 22%;
+      line-gap-override: 0%;
+      src: local('Apple SD Gothic Neo'), local('Malgun Gothic'), local('맑은 고딕'), local('Noto Sans KR'), local('Roboto'), local('Arial');
+    }
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Pretendard Variable', 'Pretendard-fallback', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+    }
     
     body {
       background-color: #F5F4F0; color: #1a1a1a;
