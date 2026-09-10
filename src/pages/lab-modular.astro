@@ -9,7 +9,7 @@ import Layout from '../layouts/Layout.astro';
   subTab="modular"
 >
   <section id="lab-modular">
-    <span class="section-label">LAB — Modular</span>
+    <span class="section-label"><span class="lab-ns">LAB:</span>Modular</span>
     <div class="positioning-statement" style="margin-bottom: 6rem;">
       <h2>같은 유닛도, 어떻게 배치하느냐에 따라 다른 집이 됩니다.</h2>
       <p>모듈러 유닛의 크기와 구조는 운송과 제작 조건 안에서 정해집니다. 그다음은 설계의 몫입니다. 어느 방향으로 열지, 땅에 어떻게 앉힐지, 무엇을 덧붙일지 — 그 과정과 판단이 규격화된 유닛을 그 땅에 맞는 집으로 바꿉니다. MMO의 <strong>MODULAR EDITIONS</strong>는 설계와 디자인, 인허가 과정을 건축사사무소가 처음부터 맡고, 검증된 협력사와 함께 모듈러를 제작·진행하는 에디션입니다.</p>
@@ -141,16 +141,23 @@ import Layout from '../layouts/Layout.astro';
 <style>
   /* Page specific styles */
   section { padding: 12rem 3rem 6rem 3rem; max-width: 1400px; margin: 0 auto; }
-  .section-label { 
-    font-size: 1.6rem; 
-    font-weight: 700; 
-    text-transform: uppercase; 
-    letter-spacing: -0.01em; 
-    color: #1a1a1a; 
-    margin-bottom: 4rem; 
-    display: block; 
-    border-bottom: 1px solid #1a1a1a; 
-    padding-bottom: 1rem; 
+  .section-label {
+    font-size: 1.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    color: #1a1a1a;
+    margin-bottom: 4rem;
+    display: block;
+    border-bottom: 1px solid #1a1a1a;
+    padding-bottom: 1rem;
+  }
+  .section-label .lab-ns {
+    font-size: 0.44em;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: #8c8a85;
+    margin-right: 0.35rem;
   }
   .positioning-statement { max-width: 950px; margin-bottom: 6rem; }
   .positioning-statement h2 { font-size: 2.2rem; font-weight: 400; line-height: 1.45; margin-bottom: 1.5rem; word-break: keep-all; }
@@ -163,10 +170,11 @@ import Layout from '../layouts/Layout.astro';
   .strip-item { display: flex; flex-direction: column; }
   .strip-num { font-family: serif; font-style: italic; font-size: 1.2rem; color: #222; margin-bottom: 1.2rem; }
   .strip-id { font-size: 0.85rem; font-weight: 700; color: #000; margin-bottom: 1.2rem; letter-spacing: 0.05em; display: block; }
-  .strip-title { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.8rem; }
-  .strip-desc { font-size: 0.9rem; color: #666; text-align: justify; line-height: 1.6; }
+  .strip-title { font-size: 1.25rem; font-weight: 600; line-height: 1.4; margin-bottom: 0.8rem; word-break: keep-all; }
+  .grid-4 .strip-title { min-height: 2.8em; }
+  .strip-desc { font-size: 0.9rem; color: #666; text-align: justify; line-height: 1.6; word-break: keep-all; }
 
-  .sub-section-title { font-size: 1.1rem; font-weight: 500; letter-spacing: 0.05em; color: #666; margin-bottom: 3rem; word-break: keep-all; }
+  .sub-section-title { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.02em; color: #1a1a1a; margin-bottom: 3rem; word-break: keep-all; }
 
   .spec-table-container { margin-bottom: 6rem; padding-left: 1rem; }
   .spec-table { width: 100%; border-collapse: collapse; text-align: left; }
