@@ -59,15 +59,20 @@ const ogImageURL = new URL(ogImage, siteOrigin).href;
 
   <meta name="msvalidate.01" content="0292E780AD9FBDCDBDF6B974F4619B25" />
 
-  <!-- Pretendard WebFont — variable + dynamic subset: only the glyph ranges on the page load (~150KB total vs ~5MB for the full static set) -->
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <!-- Pretendard — self-hosted single variable woff2. One request, one font swap
+       (the dynamic-subset CDN build streamed ~90 chunks, each `font-display: swap`,
+       so Korean text reflowed repeatedly as they arrived). Preloaded so it usually
+       lands before first paint; the metric-matched fallback below covers the rest. -->
+  <link rel="preload" href="/fonts/PretendardVariable.woff2" as="font" type="font/woff2" crossorigin />
 
   <ViewTransitions />
 
   <style is:global>
-    /* Type scale — √φ-informed, 12 steps + a golden-ratio hero (--fs-13 = --fs-12 × φ) */
+    /* ============================================================
+       DESIGN TOKENS  —  single source of truth for the whole site
+       ============================================================ */
     :root {
+      /* Type scale — √φ-informed, 12 steps + a golden-ratio hero (--fs-13 = --fs-12 × φ) */
       --fs-1: 0.62rem;
       --fs-2: 0.72rem;
       --fs-3: 0.85rem;
@@ -81,17 +86,72 @@ const ogImageURL = new URL(ogImage, siteOrigin).href;
       --fs-11: 1.8rem;
       --fs-12: 2.2rem;
       --fs-13: calc(var(--fs-12) * 1.618);
+
+      /* Line-height scale — φ-derived: step n ≈ 1 + φ⁻ⁿ
+         (tight display headings → relaxed Korean prose) */
+      --lh-1: 1.15;    /* hero / display        (1 + φ⁻⁴ ≈ 1.15) */
+      --lh-2: 1.25;    /* large headings        (1 + φ⁻³ ≈ 1.24) */
+      --lh-3: 1.4;     /* subheads, card titles (1 + φ⁻² ≈ 1.38) */
+      --lh-4: 1.6;     /* UI default            (1 + φ⁻¹ ≈ 1.62) */
+      --lh-5: 1.8;     /* Korean body prose     (1 + φ⁻⁰·⁵ ≈ 1.79) */
+      --lh-loose: 2;   /* deliberately airy statement blocks */
+
+      /* Letter-spacing scale */
+      --ls-tight: -0.02em;   /* large display headings */
+      --ls-snug: -0.01em;    /* mid headings, dense Korean */
+      --ls-normal: 0;
+      --ls-wide: 0.05em;     /* buttons, small emphasis */
+      --ls-label: 0.15em;    /* uppercase English labels */
+
+      /* Ink — text colour ramp */
+      --ink-strong: #000;
+      --ink-1: #1a1a1a;      /* titles, primary text */
+      --ink-2: #444;         /* strong body / lead sentence */
+      --ink-3: #666;         /* body */
+      --ink-4: #888;         /* muted, captions, labels */
+      --ink-5: #aaa;         /* faintest — codes, placeholders */
+      --ok: #2e7d32;         /* success message */
+
+      /* Lines / borders */
+      --line-1: #e5e4e0;     /* tone-on-tone hairline */
+      --line-2: #c9c7c1;     /* stronger divider */
+
+      /* Surfaces */
+      --paper: #f5f4f0;      /* page background */
+      --surface-1: #f7f6f2;  /* inset card / pill */
+      --surface-2: #e6e5df;  /* deeper tint block */
+      --surface-ink: #1a1a1a;/* inverted section */
+      --white: #fff;
+
+      /* Motion */
+      --ease: cubic-bezier(0.25, 1, 0.5, 1);
+      --dur-fast: 0.3s;
+      --dur-base: 0.55s;
+      --dur-slow: 0.9s;
+
+      /* Radius */
+      --radius: 2px;
+      --radius-full: 50%;
     }
 
     /* 1. Global Reset & Scrollbars */
     ::-webkit-scrollbar { display: none; }
     * { -ms-overflow-style: none; scrollbar-width: none; }
-    /* Fallback tuned to sit close to Pretendard's metrics so the webfont swap doesn't reflow text */
+
+    /* Pretendard — self-hosted variable font */
+    @font-face {
+      font-family: 'Pretendard Variable';
+      font-weight: 45 920;
+      font-style: normal;
+      font-display: swap;
+      src: url('/fonts/PretendardVariable.woff2') format('woff2-variations');
+    }
+    /* Fallback tuned to Pretendard's own metrics so the swap doesn't reflow text */
     @font-face {
       font-family: 'Pretendard-fallback';
       size-adjust: 100%;
-      ascent-override: 88%;
-      descent-override: 22%;
+      ascent-override: 92%;
+      descent-override: 28%;
       line-gap-override: 0%;
       src: local('Apple SD Gothic Neo'), local('Malgun Gothic'), local('맑은 고딕'), local('Noto Sans KR'), local('Roboto'), local('Arial');
     }
@@ -101,7 +161,7 @@ const ogImageURL = new URL(ogImage, siteOrigin).href;
     }
     
     body {
-      background-color: #F5F4F0; color: #1a1a1a;
+      background-color: var(--paper); color: var(--ink-1);
       overflow-x: hidden; min-height: 100vh;
       -webkit-font-smoothing: antialiased;
     }
@@ -115,7 +175,7 @@ const ogImageURL = new URL(ogImage, siteOrigin).href;
         scroll-behavior: auto !important;
       }
     }
-    a { color: #000; text-decoration: none; }
+    a { color: var(--ink-strong); text-decoration: none; }
     body.modal-open { overflow: hidden; }
 
     /* 2. Common GNB Styles */
@@ -129,19 +189,19 @@ const ogImageURL = new URL(ogImage, siteOrigin).href;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      line-height: 1.2;
+      line-height: var(--lh-2);
     }
     .logo-title {
       font-size: var(--fs-7);
-      font-weight: bold;
-      letter-spacing: 0.05em;
-      color: #000;
+      font-weight: 700;
+      letter-spacing: var(--ls-wide);
+      color: var(--ink-strong);
     }
     .logo-sub {
       font-size: var(--fs-1);
-      letter-spacing: 0.08em;
+      letter-spacing: var(--ls-wide);
       text-transform: uppercase;
-      color: #888;
+      color: var(--ink-4);
       font-weight: 500;
       margin-top: 0.15rem;
     }
@@ -152,14 +212,14 @@ const ogImageURL = new URL(ogImage, siteOrigin).href;
       max-height: 40px;
     }
     .nav-menu a, .nav-menu .nav-lab-link { 
-      font-size: var(--fs-3); letter-spacing: 0.1em; font-weight: 600; color: #888; 
+      font-size: var(--fs-3); letter-spacing: var(--ls-label); font-weight: 600; color: var(--ink-4); 
       display: flex; align-items: center; line-height: 1; 
     }
     .nav-menu span.nav-lab-link {
       cursor: default;
     }
-    .nav-menu a:hover, .nav-menu a.active, .nav-menu .nav-lab-link:hover, .nav-menu .nav-lab-link.active { color: #000; }
-    .nav-right { font-size: var(--fs-2); color: #ccc; letter-spacing: 0.1em; line-height: 1; display: flex; align-items: center; }
+    .nav-menu a:hover, .nav-menu a.active, .nav-menu .nav-lab-link:hover, .nav-menu .nav-lab-link.active { color: var(--ink-strong); }
+    .nav-right { font-size: var(--fs-2); color: var(--ink-5); letter-spacing: var(--ls-label); line-height: 1; display: flex; align-items: center; }
 
     /* LNB Hover dropdown */
     .nav-item-wrapper {
@@ -181,7 +241,7 @@ const ogImageURL = new URL(ogImage, siteOrigin).href;
       gap: 1.5rem;
       opacity: 0;
       visibility: hidden;
-      transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      transition: all 0.4s var(--ease);
       white-space: nowrap;
       padding-top: 1rem;
       z-index: 1010;
@@ -198,24 +258,24 @@ const ogImageURL = new URL(ogImage, siteOrigin).href;
     }
     .lnb-hover-item {
       font-size: var(--fs-2);
-      letter-spacing: 0.1em;
+      letter-spacing: var(--ls-label);
       font-weight: 600;
-      color: #888 !important;
+      color: var(--ink-4) !important;
       display: flex;
       align-items: center;
       line-height: 1;
     }
     .lnb-hover-item.active, .lnb-hover-item:hover {
-      color: #000 !important;
+      color: var(--ink-strong) !important;
     }
 
     /* Small English tag trailing a Korean heading (decorative) */
     .label-en {
       font-size: var(--fs-2);
       font-weight: 600;
-      letter-spacing: 0.15em;
+      letter-spacing: var(--ls-label);
       text-transform: uppercase;
-      color: #b5b4ad;
+      color: var(--ink-5);
       margin-left: 0.55rem;
       white-space: nowrap;
     }
@@ -228,18 +288,18 @@ const ogImageURL = new URL(ogImage, siteOrigin).href;
       position: sticky; top: 6.1rem;
       background: rgba(245, 244, 240, 0.95);
       backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-      z-index: 99; border-bottom: 1px solid #e5e4e0; width: 100%;
+      z-index: 99; border-bottom: 1px solid var(--line-1); width: 100%;
     }
     .lab-tab-nav { max-width: 1400px; margin: 0 auto; padding: 1.2rem 3rem; display: flex; gap: 3rem; }
     .lab-tab-link {
-      font-size: var(--fs-2); font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em;
-      color: #888; position: relative; padding-bottom: 0.5rem; transition: color 0.4s ease;
+      font-size: var(--fs-2); font-weight: 600; text-transform: uppercase; letter-spacing: var(--ls-label);
+      color: var(--ink-4); position: relative; padding-bottom: 0.5rem; transition: color 0.4s ease;
     }
-    .lab-tab-link:hover, .lab-tab-link.active { color: #000; }
+    .lab-tab-link:hover, .lab-tab-link.active { color: var(--ink-strong); }
     .lab-tab-link::after {
       content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 1px;
-      background: #000; transform: scaleX(0); transform-origin: right;
-      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      background: var(--surface-ink); transform: scaleX(0); transform-origin: right;
+      transition: transform 0.4s var(--ease);
     }
     .lab-tab-link.active::after { transform: scaleX(1); transform-origin: left; }
     @media (max-width: 768px) {
@@ -249,11 +309,11 @@ const ogImageURL = new URL(ogImage, siteOrigin).href;
 
     /* 3. Common Footer Styles */
     .mmo-footer {
-      background-color: #F5F4F0;
+      background-color: var(--paper);
       padding: 10rem 4% 4rem 4%;
       max-width: 1900px;
       margin: 0 auto;
-      border-top: 1px solid #e5e4e0;
+      border-top: 1px solid var(--line-1);
       display: flex;
       flex-direction: column;
       gap: 1.5rem;
@@ -275,9 +335,9 @@ const ogImageURL = new URL(ogImage, siteOrigin).href;
     }
     .footer-address-block {
       font-size: var(--fs-1);
-      color: #aaa;
-      line-height: 1.6;
-      letter-spacing: 0.02em;
+      color: var(--ink-5);
+      line-height: var(--lh-4);
+      letter-spacing: var(--ls-normal);
       font-weight: 400;
       margin-top: 2rem;
     }
@@ -290,16 +350,16 @@ const ogImageURL = new URL(ogImage, siteOrigin).href;
     }
     .footer-contact-title {
       font-size: var(--fs-2);
-      letter-spacing: 0.15em;
-      color: #8c8a85;
+      letter-spacing: var(--ls-label);
+      color: var(--ink-4);
       font-weight: 600;
       text-transform: uppercase;
-      line-height: 1.3;
+      line-height: var(--lh-2);
     }
     .footer-links-container {
       font-size: var(--fs-4);
       font-weight: 400;
-      line-height: 1.5;
+      line-height: var(--lh-4);
       display: flex;
       flex-direction: column;
       gap: 0.15rem;
@@ -309,14 +369,14 @@ const ogImageURL = new URL(ogImage, siteOrigin).href;
     }
     .footer-email-link, .footer-insta-link {
       transition: color 0.4s;
-      color: #1a1a1a;
+      color: var(--ink-1);
       text-decoration: none;
     }
     .footer-copyright-block {
       font-size: var(--fs-1);
-      color: #888;
-      letter-spacing: 0.02em;
-      line-height: 1.6;
+      color: var(--ink-4);
+      letter-spacing: var(--ls-normal);
+      line-height: var(--lh-4);
       margin-top: 1rem;
     }
     
@@ -403,13 +463,13 @@ const ogImageURL = new URL(ogImage, siteOrigin).href;
   <!-- Global Footer (Only rendered if footer is not visually hidden by page styles) -->
   <footer class="mmo-footer">
     <div class="footer-top-row">
-      <h4 style="font-size: var(--fs-7); font-weight: bold; letter-spacing: 0.05em; margin: 0; line-height: 1;">MMO ARCHITECTS</h4>
+      <h4 style="font-size: var(--fs-7); font-weight: 700; letter-spacing: var(--ls-wide); margin: 0; line-height: 1;">MMO ARCHITECTS</h4>
     </div>
     
     <div class="footer-columns-grid">
       <!-- Left Column (60% width) -->
       <div class="footer-col-left">
-        <p style="font-size: var(--fs-4); color: #555; max-width: 480px; line-height: 1.7; word-break: keep-all; margin: 0;">
+        <p style="font-size: var(--fs-4); color: var(--ink-3); max-width: 480px; line-height: var(--lh-5); word-break: keep-all; margin: 0;">
           엠엠오건축사사무소는 물질(Matter)과 방법론(Method)의 심도 있는 결합을 통해 공간의 최종적인 예술 질서(Order)를 확립합니다.
         </p>
         <div class="footer-address-block">
@@ -422,8 +482,8 @@ const ogImageURL = new URL(ogImage, siteOrigin).href;
       <div class="footer-col-right">
         <div class="footer-contact-title">Direct Contact</div>
         <div class="footer-links-container">
-          <a href="mailto:official@mmoarchitects.com" class="footer-email-link" onmouseover="this.style.color='#8c8a85'" onmouseout="this.style.color='#1a1a1a'">official@mmoarchitects.com</a>
-          <a href="https://instagram.com/mmoarchitects" target="_blank" class="footer-insta-link" onmouseover="this.style.color='#8c8a85'" onmouseout="this.style.color='#1a1a1a'">@mmoarchitects</a>
+          <a href="mailto:official@mmoarchitects.com" class="footer-email-link" onmouseover="this.style.color='var(--ink-4)'" onmouseout="this.style.color='var(--ink-1)'">official@mmoarchitects.com</a>
+          <a href="https://instagram.com/mmoarchitects" target="_blank" class="footer-insta-link" onmouseover="this.style.color='var(--ink-4)'" onmouseout="this.style.color='var(--ink-1)'">@mmoarchitects</a>
         </div>
         <div class="footer-copyright-block">
           © 2026 MMO Architects. All rights reserved.

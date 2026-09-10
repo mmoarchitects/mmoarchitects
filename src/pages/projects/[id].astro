@@ -127,8 +127,7 @@ const cleanDescription = rawDescription.replace(/\s+/g, ' ').trim().slice(0, 160
           <div class="croquis-tags-inline">{(project.subCategory || "").toUpperCase()}</div>
         </div>
         <h2 class="croquis-main-title">{project.title}</h2>
-        <div class="croquis-divider-thin"></div>
-        
+
         <div class="croquis-spec-panel">
           {activeSpecs.map((spec, idx) => {
             const isLast = idx === activeSpecs.length - 1;
@@ -146,7 +145,7 @@ const cleanDescription = rawDescription.replace(/\s+/g, ' ').trim().slice(0, 160
       
       <div class="detail-left-footer">
         {project.annotation && (
-          <div id="detailAnnotation" style="font-size: var(--fs-1); color: #a3a19b; margin-bottom: 1.5rem; line-height: 1.6; word-break: keep-all; white-space: pre-line;">
+          <div id="detailAnnotation" style="font-size: var(--fs-1); color: var(--ink-4); margin-bottom: 1.5rem; line-height: var(--lh-4); word-break: keep-all; white-space: pre-line;">
             {project.annotation}
           </div>
         )}
@@ -184,7 +183,7 @@ const cleanDescription = rawDescription.replace(/\s+/g, ' ').trim().slice(0, 160
 
         {project.vimeo && (
           <div class="croquis-media-block">
-            <div class="croquis-image-frame" style="aspect-ratio: 16/9; background-color: #000; position: relative;">
+            <div class="croquis-image-frame" style="aspect-ratio: 16/9; background-color: var(--surface-ink); position: relative;">
               <iframe 
                 src={getVimeoEmbedUrl(project.vimeo)} 
                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" 
@@ -358,9 +357,9 @@ const cleanDescription = rawDescription.replace(/\s+/g, ' ').trim().slice(0, 160
 <style>
   /* Page specific styles */
   .project-detail-layer { 
-    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #f5f4f0; 
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: var(--paper); 
     z-index: 2000; display: flex; opacity: 0; visibility: hidden; transform: translateY(30px); 
-    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.8s; 
+    transition: opacity 0.8s var(--ease), transform 0.8s var(--ease), visibility 0.8s; 
   }
   .project-detail-layer.is-active { opacity: 1; visibility: visible; transform: translateY(0); }
   
@@ -368,47 +367,46 @@ const cleanDescription = rawDescription.replace(/\s+/g, ' ').trim().slice(0, 160
     width: 35%; height: 100vh; padding: 6rem 4% 4rem 4vw; box-sizing: border-box; 
     display: flex; flex-direction: column; justify-content: space-between; overflow-y: auto; 
   }
-  .croquis-back-btn { 
-    background: none; border: none; font-size: var(--fs-1); letter-spacing: 0.15em; color: #1a1a1a; 
+  .croquis-back-btn {
+    background: none; border: none; font-size: var(--fs-2); letter-spacing: var(--ls-label); color: var(--ink-1);
     font-weight: 600; cursor: pointer; text-align: left; padding: 0; width: fit-content;
   }
-  .croquis-back-btn:hover { color: #8c8a85; }
+  .croquis-back-btn:hover { color: var(--ink-4); }
   .detail-meta-wrapper { max-width: 360px; margin-top: 2rem; margin-bottom: auto; text-align: left; }
-  .croquis-meta-top { display: flex; align-items: center; gap: 10px; font-size: var(--fs-1); font-weight: 600; color: #8c8a85; margin-bottom: 1.5rem; letter-spacing: 0.05em; }
-  .croquis-separator { font-weight: 300; color: #d1d0ca; }
+  .croquis-meta-top { display: flex; align-items: center; gap: 10px; font-size: var(--fs-2); font-weight: 600; color: var(--ink-4); margin-bottom: 1.5rem; letter-spacing: var(--ls-wide); }
+  .croquis-separator { font-weight: 300; color: var(--line-2); }
   .croquis-tags-inline { text-transform: uppercase; }
-  .croquis-main-title { font-size: var(--fs-12); font-weight: 300; letter-spacing: -0.02em; line-height: 1.35; margin-bottom: 2.5rem; }
-  .croquis-divider-thin { width: 40px; height: 1px; background-color: #1a1a1a; margin-bottom: 2.5rem; }
-  .croquis-lead-paragraph { font-size: var(--fs-5); line-height: 1.75; color: #1a1a1a; text-align: justify; font-weight: 400; margin-bottom: 2rem; white-space: pre-line; }
+  .croquis-main-title { font-size: var(--fs-10); font-weight: 400; letter-spacing: var(--ls-tight); line-height: var(--lh-3); margin-bottom: 1.6rem; }
+  .croquis-lead-paragraph { font-size: var(--fs-5); line-height: var(--lh-5); color: var(--ink-1); text-align: justify; font-weight: 400; margin-bottom: 2rem; white-space: pre-line; }
   
   .detail-right-scroll { width: 65%; height: 100vh; overflow-y: auto; padding: 6rem 6.5% 12rem 0; box-sizing: border-box; }
   .croquis-gallery-stream { display: flex; flex-direction: column; gap: 140px; width: 100%; }
   .croquis-media-block { width: 100%; display: flex; flex-direction: column; }
-  .croquis-image-frame { width: 100%; overflow: hidden; background-color: #e6e5df; }
+  .croquis-image-frame { width: 100%; overflow: hidden; background-color: var(--surface-2); }
   .croquis-image-frame img { width: 100%; height: auto; display: block; }
   
   .croquis-caption { 
-    font-size: var(--fs-1); color: #8c8a85; letter-spacing: 0.02em; margin-top: 14px; 
-    font-weight: 500; line-height: 1.5; text-align: left;
+    font-size: var(--fs-1); color: var(--ink-4); letter-spacing: var(--ls-normal); margin-top: 14px; 
+    font-weight: 500; line-height: var(--lh-4); text-align: left;
   }
-  .croquis-media-block.blueprint-style .croquis-image-frame { background-color: #f5f4f0; mix-blend-mode: multiply; }
-  .croquis-media-block.blueprint-style .croquis-image-frame img { opacity: 0.85; border: 1px dashed #c4c2ba; padding: 30px; }
+  .croquis-media-block.blueprint-style .croquis-image-frame { background-color: var(--paper); mix-blend-mode: multiply; }
+  .croquis-media-block.blueprint-style .croquis-image-frame img { opacity: 0.85; border: 1px dashed var(--line-2); padding: 30px; }
   .croquis-media-block.narrow-focus { max-width: 80%; margin-left: auto; }
 
   /* Left panel footer */
   .detail-left-footer { margin-top: auto; }
-  .croquis-issue-number { font-size: var(--fs-1); letter-spacing: 0.2em; color: #aaa; font-weight: 500; text-transform: uppercase; text-align: left; margin-bottom: 0.4rem; }
-  .croquis-copyright { font-size: var(--fs-1); color: #aaa; letter-spacing: 0.02em; line-height: 1.2; text-align: left; }
+  .croquis-issue-number { font-size: var(--fs-1); letter-spacing: 0.2em; color: var(--ink-5); font-weight: 500; text-transform: uppercase; text-align: left; margin-bottom: 0.4rem; }
+  .croquis-copyright { font-size: var(--fs-1); color: var(--ink-5); letter-spacing: var(--ls-normal); line-height: var(--lh-2); text-align: left; }
 
   /* Spec panel */
-  .croquis-spec-panel { margin-top: 2rem; display: flex; flex-direction: column; gap: 10px; border-top: 1px solid #e5e4e0; padding-top: 1.5rem; font-size: var(--fs-1); color: #666; }
-  .spec-row { display: flex; justify-content: space-between; border-bottom: 1px dashed #e6e5df; padding-bottom: 5px; }
-  .spec-label { font-weight: 600; color: #8c8a85; letter-spacing: 0.05em; }
-  .spec-value { color: #1a1a1a; text-align: right; font-weight: 400; }
+  .croquis-spec-panel { margin-top: 0; display: flex; flex-direction: column; gap: 10px; border-top: 1px solid var(--line-1); padding-top: 1.5rem; font-size: var(--fs-3); color: var(--ink-4); }
+  .spec-row { display: flex; justify-content: space-between; border-bottom: 1px dashed var(--line-1); padding-bottom: 5px; }
+  .spec-label { font-weight: 500; color: var(--ink-5); letter-spacing: var(--ls-wide); }
+  .spec-value { color: var(--ink-2); text-align: right; font-weight: 400; }
 
   /* Project switching transitions */
   .detail-left-fixed, .detail-right-scroll {
-    transition: opacity 0.55s cubic-bezier(0.25, 1, 0.5, 1), transform 0.55s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: opacity 0.55s var(--ease), transform 0.55s var(--ease);
   }
   .project-detail-layer.switching-project .detail-left-fixed { opacity: 0; transform: translateY(15px); }
   .project-detail-layer.switching-project .detail-right-scroll { opacity: 0; transform: translateY(30px); }
@@ -425,7 +423,7 @@ const cleanDescription = rawDescription.replace(/\s+/g, ' ').trim().slice(0, 160
     .croquis-back-btn {
       position: fixed; top: 1.5rem; left: 1.5rem; z-index: 2100;
       background-color: rgba(245, 244, 240, 0.85); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
-      padding: 0.8rem 1.2rem; border: 1px solid #e5e4e0; border-radius: 2px;
+      padding: 0.8rem 1.2rem; border: 1px solid var(--line-1); border-radius: var(--radius);
     }
     .croquis-gallery-stream { gap: 60px; }
   }
