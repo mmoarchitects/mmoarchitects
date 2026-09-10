@@ -179,6 +179,20 @@ const ogImageURL = new URL(ogImage, siteOrigin).href;
       color: #000 !important;
     }
 
+    /* Small English tag trailing a Korean heading (decorative) */
+    .label-en {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #b5b4ad;
+      margin-left: 0.55rem;
+      white-space: nowrap;
+    }
+    @media (max-width: 600px) {
+      .label-en { display: block; margin-left: 0; margin-top: 0.3rem; }
+    }
+
     /* Lab sub-navigation — mirrors the About tab nav (same position + treatment) */
     .lab-tab-nav-wrapper {
       position: sticky; top: 6.1rem;

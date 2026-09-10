@@ -4,7 +4,7 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout 
   title="ADMINISTRATIVE SOLUTIONS — MMO ARCHITECTS" 
-  description="대수선, 용도변경, 부동산 밸류업을 위한 사전 검토부터 개발 기획, 법률 분석까지 공간의 잠재 가치를 정밀하게 분석하고 한계를 뛰어넘는 MMO ARCHITECTS의 검토 및 밸류업 솔루션."
+  description="건물의 용도를 바꾸는 용도변경·기재변경부터, 설계와 시공으로 임대 가치를 높이는 Value-up까지. 시작 전 사전 검토로 무엇이 가능한지 먼저 확인합니다."
   activeTab="lab" 
   subTab="solution"
 >
@@ -25,38 +25,35 @@ import Layout from '../layouts/Layout.astro';
       <div class="sub-section-title">기본 업무 — 서류와 용도를 법에 맞게 정리합니다</div>
       <div class="service-structure-single" style="margin-bottom: 6rem;">
         <div class="service-structure-card">
-          <span class="service-type-label">Base Service</span>
           <h3 class="service-card-title">용도변경 · 기재변경</h3>
           <p class="service-card-desc">건축물대장 기재변경, 용도변경 신고·허가 등 필요한 행정 절차를 대신 진행합니다. 무엇이 걸리고 무엇이 가능한지 먼저 확인한 뒤 시작합니다.</p>
         </div>
       </div>
 
       <!-- 3) Classification Indicator -->
-      <div class="sub-section-title" style="margin-bottom: 1rem;">
-        Classification Indicator — 건축법 제19조의 9개 시설군
-      </div>
-      <p style="font-size: 0.95rem; color: #666; margin-bottom: 3rem; font-weight: 400;">
-        지금 용도에서 어느 방향으로 바꿀 수 있는지, 시작 전에 미리 확인할 수 있습니다.
+      <div class="sub-section-title" style="margin-bottom: 1rem;">건축법 제19조의 9개 시설군 <span class="label-en">Classification</span></div>
+      <p style="font-size: 0.95rem; color: #666; margin-bottom: 3rem; font-weight: 400; word-break: keep-all;">
+        지금 용도에서 어느 방향으로 바꿀 수 있는지 미리 확인할 수 있습니다. 아래는 개념적 참고이며, 실제 허가·신고와 검토 범위는 기존 용도·규모·대지 조건에 따라 달라집니다.
       </p>
 
       <div class="solutions-split-container" style="margin-bottom: 6rem;">
         <div class="solutions-left-index">
-          <div class="law-item active" data-uses="주차장, 세차장, 폐차장, 검사장, 매매장" data-title="01 자동차 관련 시설군" data-desc="시설군 체계상 최상위에 속합니다. 차량 동선과 주차장 확보는 물론, 지자체별 입지 제한, 환경·오염물질 배출 규제까지 폭넓게 검토가 필요합니다. 특히 휘발유·엔진오일 등을 취급하는 시설은 위험물안전관리법에 따른 저장·취급소 요건까지 함께 고려해야 합니다.">01 자동차 관련 시설군</div>
-          <div class="law-item" data-uses="공장, 창고시설, 위험물저장·처리시설(주유소, LPG충전소 등)" data-title="02 산업 등의 시설군" data-desc="산업 등의 시설군으로의 변경은, 소방시설법에 따른 방화구획·피난 설비 기준, 대기환경보전법·물환경보전법상 배출시설 신고 대상 여부, 그리고 주변 민원 발생 가능성까지 폭넓게 고려해야 합니다.">02 산업 등의 시설군</div>
-          <div class="law-item" data-uses="방송통신시설(방송국, 전신전화국 등), 발전시설(발전소, 변전소)" data-title="03 전기통신시설군" data-desc="고전력 인프라와 대용량 냉각 설비가 수반되는 경우가 많아, 전기설비기술기준에 따라 구조 안전성에 따른 하중·내진 검토가 필요할 수 있습니다. 설비의 반입 동선과 소음·진동 기준까지 함께 고려해야 합니다.">03 전기통신시설군</div>
-          <div class="law-item" data-uses="공연장·미술관·동물원, 종교시설, 위락시설(유흥주점, 카지노 등)" data-title="04 문화 및 집회시설군" data-desc="불특정 다수가 이용하는 만큼, 소방시설법상 피난계단·비상구 기준과 수용 인원에 따른 복도·통로 폭 기준이 적용되어, 건축물의 형태 변경과 규모, 균형까지 함께 고려해야 합니다.">04 문화 및 집회시설군</div>
-          <div class="law-item" data-uses="판매시설(대형마트, 백화점), 숙박시설, 운동시설" data-title="05 영업시설군" data-desc="업종에 따라 부설주차장 설치 기준이 크게 달라집니다. 완화되거나 강화되는 구간을 정밀하게 계산해야 하며, 세부 업종 분류까지 함께 고려해야 합니다.">05 영업시설군</div>
-          <div class="law-item" data-uses="의료시설(병원 등), 교육연구시설(학교, 학원 등), 노유자시설" data-title="06 교육 및 복지시설군" data-desc="장애인·노인·임산부 등의 편의증진 보장에 관한 법률에 따른 편의시설 기준과, 직통계단 확보 등 엄격한 피난 기준까지 함께 고려해야 합니다.">06 교육 및 복지시설군</div>
-          <div class="law-item" data-uses="제1종(편의점, 미용실, 의원), 제2종(음식점, 카페, 노래연습장)" data-title="07 근린생활시설군" data-desc="카페·음식점, 학원, 병의원, 미용실 등 영업 목적의 용도변경이 가장 흔하게 이루어지는 시설군입니다. 용도변경 시 발생하는 방화창, 주차장, 정화조 등 다양한 요소를 함께 고려해야 합니다.">07 근린생활시설군</div>
-          <div class="law-item" data-uses="단독·공동주택, 업무시설(오피스텔, 사무실, 관공서)" data-title="08 주거업무시설군" data-desc="주택이나 기존 자산을 상가로 전환할 때 기준이 되는 자산의 출발선으로, 용도지역별 허용 여부와 주차 대수 재산정까지 먼저 고려해야 합니다.">08 주거업무시설군</div>
-          <div class="law-item" data-uses="동물 및 식물 관련 시설(축사, 가축시장, 도축장, 온실)" data-title="09 그 밖의 시설군" data-desc="도심지의 상업적 가치로 전환하기 위한 상위 인허가 승인 절차와, 지자체별로 달라지는 조례 기준까지 함께 고려해야 합니다.">09 그 밖의 시설군</div>
+          <div class="law-item active" data-uses="주차장, 세차장, 폐차장, 검사장, 매매장" data-title="01 자동차 관련 시설군" data-desc="시설군 체계에서 가장 위에 있습니다. 차량 동선과 주차장 확보가 기본이고, 지자체별 입지 제한이 함께 걸립니다. 정비·세차가 포함되면 오염물질 배출 규제, 휘발유·엔진오일을 다루면 위험물안전관리법상 저장·취급소 기준까지 봐야 합니다.">01 자동차 관련 시설군</div>
+          <div class="law-item" data-uses="공장, 창고시설, 위험물저장·처리시설(주유소, LPG충전소 등)" data-title="02 산업 등의 시설군" data-desc="공장·창고, 주유소 같은 위험물 시설이 여기 속합니다. 소방시설법상 방화구획과 피난 설비, 대기환경보전법·물환경보전법상 배출시설 신고 대상 여부, 주변 민원 가능성을 확인합니다.">02 산업 등의 시설군</div>
+          <div class="law-item" data-uses="방송통신시설(방송국, 전신전화국 등), 발전시설(발전소, 변전소)" data-title="03 전기통신시설군" data-desc="방송통신시설과 발전시설이 여기 속합니다. 데이터센터·발전설비처럼 하중이 큰 장비가 들어가면 구조·내진 검토가 필요하고, 장비 반입 동선과 소음·진동 기준도 확인합니다.">03 전기통신시설군</div>
+          <div class="law-item" data-uses="공연장·미술관·동물원, 종교시설, 위락시설(유흥주점, 카지노 등)" data-title="04 문화 및 집회시설군" data-desc="공연장·전시장·종교시설·위락시설처럼 불특정 다수가 모이는 용도입니다. 수용 인원에 맞춘 피난계단·비상구와 복도·통로 폭 기준이 적용되어, 건물의 형태나 규모를 조정해야 하는 경우가 생깁니다.">04 문화 및 집회시설군</div>
+          <div class="law-item" data-uses="판매시설(대형마트, 백화점), 숙박시설, 운동시설" data-title="05 영업시설군" data-desc="판매시설·숙박시설·운동시설이 여기 속합니다. 업종에 따라 부설주차장 설치 기준이 크게 달라지므로, 세부 업종 분류에 따라 필요한 주차 대수를 다시 계산합니다.">05 영업시설군</div>
+          <div class="law-item" data-uses="의료시설(병원 등), 교육연구시설(학교, 학원 등), 노유자시설" data-title="06 교육 및 복지시설군" data-desc="의료시설·교육연구시설·노유자시설이 여기 속합니다. 장애인등편의법상 편의시설 기준과 직통계단 확보 같은 피난 기준이 다른 시설군보다 엄격하게 적용됩니다.">06 교육 및 복지시설군</div>
+          <div class="law-item" data-uses="제1종(편의점, 미용실, 의원), 제2종(음식점, 카페, 노래연습장)" data-title="07 근린생활시설군" data-desc="카페·음식점·의원·미용실·소규모 학원처럼 영업 용도로 바꿀 때 가장 많이 거치는 시설군입니다. 주로 방화창, 주차 대수, 정화조 용량이 걸립니다.">07 근린생활시설군</div>
+          <div class="law-item" data-uses="단독·공동주택, 업무시설(오피스텔, 사무실, 관공서)" data-title="08 주거업무시설군" data-desc="주택·업무시설이 여기 속합니다. 주택이나 사무실을 다른 용도로 바꿀 때의 출발점으로, 먼저 용도지역에서 허용되는지, 주차 대수를 다시 계산하면 얼마가 되는지 확인합니다.">08 주거업무시설군</div>
+          <div class="law-item" data-uses="동물 및 식물 관련 시설(축사, 가축시장, 도축장, 온실)" data-title="09 그 밖의 시설군" data-desc="축사·온실 등 동물·식물 관련 시설입니다. 시설군 체계의 가장 아래에 있어 다른 용도로 바꾸려면 대부분 상위군 허가 절차를 밟아야 하고, 그 기준은 지자체 조례마다 다릅니다.">09 그 밖의 시설군</div>
         </div>
         
         <div class="solutions-right-panel" id="interactive-panel">
           <div id="panel-text-content">
             <div class="panel-direction" id="panel-uses">REPRESENTATIVE USES<br><span class="panel-uses-detail">— 주차장, 세차장, 폐차장, 검사장, 매매장</span></div>
             <h3 class="panel-title" id="panel-title">01 자동차 관련 시설군</h3>
-            <p class="panel-desc" id="panel-desc">시설군 체계상 최상위에 속합니다. 차량 동선과 주차장 확보는 물론, 지자체별 입지 제한, 환경·오염물질 배출 규제까지 폭넓게 검토가 필요합니다. 특히 휘발유·엔진오일 등을 취급하는 시설은 위험물안전관리법에 따른 저장·취급소 요건까지 함께 고려해야 합니다.</p>
+            <p class="panel-desc" id="panel-desc">시설군 체계에서 가장 위에 있습니다. 차량 동선과 주차장 확보가 기본이고, 지자체별 입지 제한이 함께 걸립니다. 정비·세차가 포함되면 오염물질 배출 규제, 휘발유·엔진오일을 다루면 위험물안전관리법상 저장·취급소 기준까지 봐야 합니다.</p>
           </div>
           <div class="panel-footnote">
             * 번호가 낮을수록 상위 시설군, 높을수록 하위 시설군입니다. 실제 허가·신고 여부는 기존 용도를 기준으로 한 상대적 위치에 따라 달라집니다.
@@ -65,7 +62,7 @@ import Layout from '../layouts/Layout.astro';
       </div>
 
       <!-- 4) PRE-REVIEW FACTORS -->
-      <div class="sub-section-title">PRE-REVIEW FACTORS — 사전 검토 항목</div>
+      <div class="sub-section-title">사전 검토 항목 <span class="label-en">Pre-review</span></div>
       <div class="mmo-strip-grid grid-4" style="margin-bottom: 3rem;">
         <div class="strip-item">
           <span class="strip-id">[01] 방화유리창 검토</span>
@@ -98,23 +95,22 @@ import Layout from '../layouts/Layout.astro';
     <div class="flow-group">
       <div class="flow-phase-badge">PHASE 02 · 밸류업</div>
 
-      <!-- 5) SERVICE STRUCTURE — PREMIUM CONSULTING -->
-      <div class="sub-section-title">밸류업 — 공간을 실제로 손봐서 가치를 올립니다</div>
+      <!-- 5) SERVICE STRUCTURE — VALUE-UP -->
+      <div class="sub-section-title">밸류업 — 공간을 손봐서 가치를 올립니다</div>
       <div class="service-structure-single" style="margin-bottom: 6rem;">
         <div class="service-structure-card">
-          <span class="service-type-label">Premium Consulting</span>
-          <h3 class="service-card-title">Value-up — 자산 가치향상 프로젝트</h3>
-          <p class="service-card-desc">용도변경과 함께 진행할 수 있는, 설계와 시공이 따르는 프로젝트입니다. 공간을 실제로 손봐서 임대 가치와 장기 수익을 끌어올립니다.</p>
+          <h3 class="service-card-title">Value-up</h3>
+          <p class="service-card-desc">용도변경과 함께 진행할 수 있는, 설계와 시공이 따르는 프로젝트입니다. 공간을 실제로 손봐서 임대 가치와 장기 수익을 높입니다.</p>
         </div>
       </div>
 
-      <!-- 6) VALUE-UP PREMIUM -->
-      <div class="sub-section-title">Value-up — 공간을 손보는 세 가지 방식</div>
+      <!-- 6) VALUE-UP METHODS -->
+      <div class="sub-section-title">세 가지 방식</div>
       <div class="mmo-strip-grid grid-3" style="margin-bottom: 3rem;">
         <div class="strip-item">
           <span class="strip-id">02-A</span>
           <h3 class="strip-title">외장·구조 개선</h3>
-          <p class="strip-desc" style="margin-bottom: 1.2rem;">외장 대수선, 구조 보강, 단열 수준 보완 등을 결합한 설계·시공 프로젝트입니다. 건축물의 첫인상과 안전성을 함께 끌어올립니다.</p>
+          <p class="strip-desc" style="margin-bottom: 1.2rem;">외장 대수선, 구조 보강, 단열 보완을 함께 진행합니다. 건물의 겉모습과 안전을 같이 손봅니다.</p>
           <div class="tag-row">
             <span class="premium-tag">단열보강</span>
             <span class="premium-tag">그린리모델링</span>
@@ -124,7 +120,7 @@ import Layout from '../layouts/Layout.astro';
         <div class="strip-item">
           <span class="strip-id">02-B</span>
           <h3 class="strip-title">사용성 개선형</h3>
-          <p class="strip-desc" style="margin-bottom: 1.2rem;">엘리베이터 신설, 접근성·설비 개선을 아우르는 설계·시공 프로젝트입니다. 사용자 경험을 높여 임대 가능 범위를 넓힙니다.</p>
+          <p class="strip-desc" style="margin-bottom: 1.2rem;">엘리베이터를 새로 넣고, 드나드는 동선과 설비를 고칩니다. 건물을 이용하는 경험이 변화하고, 임차 가능 폭이 넓어집니다.</p>
           <div class="tag-row">
             <span class="premium-tag">BF인증(장애물 없는 생활환경)</span>
             <span class="premium-tag">스마트빌딩 시스템</span>
@@ -133,7 +129,7 @@ import Layout from '../layouts/Layout.astro';
         <div class="strip-item">
           <span class="strip-id">02-C</span>
           <h3 class="strip-title">목적 특화형</h3>
-          <p class="strip-desc" style="margin-bottom: 1.2rem;">특정 용도 전환과 공간 재구성을 함께 설계하는 프로젝트입니다. 유휴 공간과 층별 배치까지 재구성하여 수익 구조를 새로 설계합니다.</p>
+          <p class="strip-desc" style="margin-bottom: 1.2rem;">용도를 바꾸면서 공간 구성도 다시 설계합니다. 유휴 공간과 층별 배치를 재구성해 수익성을 개선합니다.</p>
           <div class="tag-row">
             <span class="premium-tag">유휴공간 활용(옥상 등)</span>
             <span class="premium-tag">층별 용도 재배치(Zoning)</span>
@@ -143,7 +139,7 @@ import Layout from '../layouts/Layout.astro';
       
       <div class="cta-banner" style="margin-bottom: 6rem;">
         <a href="/contact" class="poetic-cta-link" style="margin-bottom: 1.5rem; display: inline-block;">Value-up 프로젝트 상담하기 ➔</a>
-        <p class="cta-banner-text">프로젝트 규모와 범위에 따라 설계·시공 방향이 달라지므로, 상담을 통해 최적의 방향을 함께 설계해 드립니다.</p>
+        <p class="cta-banner-text">규모와 범위에 따라 방향이 달라집니다. 최적의 방향으로 함께 고민합니다.</p>
       </div>
     </div>
 
