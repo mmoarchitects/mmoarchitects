@@ -333,14 +333,7 @@ const projects = projectsData.map((proj, index) => {
       applyLayout();
     }
 
-    // 1. Sidebar Reveal
-    const sidebar = document.querySelector(".filter-sidebar");
-    if (sidebar) {
-      sidebar.classList.add("init-reveal");
-      setTimeout(() => {
-        sidebar.classList.remove("init-reveal");
-      }, 1000);
-    }
+    // 1. Sidebar stays collapsed on load — it opens only on hover (see CSS).
 
     // 2. Mobile Filter List Toggle
     const mobileHeader = document.getElementById("mobileFilterHeader");
@@ -461,32 +454,48 @@ const projects = projectsData.map((proj, index) => {
   }
   
   /* Filter Sidebar styling - PC version (width > 1100px) */
-  .filter-sidebar { 
-    width: 70px; 
-    height: 100vh; 
-    position: fixed; 
-    top: 0; 
-    left: 4%; 
-    z-index: 990; 
-    background: transparent; 
-    display: flex; 
-    align-items: flex-start; 
-    padding-top: 180px; 
-    box-sizing: border-box; 
-    transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1); 
+  .filter-sidebar {
+    width: 70px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 4%;
+    z-index: 990;
+    background: transparent;
+    display: flex;
+    align-items: flex-start;
+    padding-top: 180px;
+    box-sizing: border-box;
+    transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1);
   }
-  .filter-sticky { 
-    opacity: 0; 
-    visibility: hidden; 
-    width: 140px; 
-    transition: opacity 0.4s ease, visibility 0.4s; 
+  /* Collapsed-state hint: a quiet vertical label marking where the filter lives */
+  .filter-sidebar::before {
+    content: "CATEGORY";
+    position: absolute;
+    top: 182px;
+    left: 2px;
+    writing-mode: vertical-rl;
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #b5b4ad;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
   }
-  .filter-sidebar:hover, .filter-sidebar.init-reveal { 
-    width: 220px; 
+  .filter-sidebar:hover::before { opacity: 0; }
+  .filter-sticky {
+    opacity: 0;
+    visibility: hidden;
+    width: 140px;
+    transition: opacity 0.4s ease, visibility 0.4s;
   }
-  .filter-sidebar:hover .filter-sticky, .filter-sidebar.init-reveal .filter-sticky { 
-    opacity: 1; 
-    visibility: visible; 
+  .filter-sidebar:hover {
+    width: 220px;
+  }
+  .filter-sidebar:hover .filter-sticky {
+    opacity: 1;
+    visibility: visible;
   }
   
   .filter-list { list-style: none; display: flex; flex-direction: column; gap: 1.2rem; }
@@ -495,12 +504,19 @@ const projects = projectsData.map((proj, index) => {
     transition: color 0.4s, padding-left 0.4s; position: relative; padding-left: 0;
   }
   .filter-item:hover, .filter-item.active { color: #1a1a1a; }
-  .filter-item::before { 
-    content: ""; position: absolute; left: 0; top: 50%; width: 0; height: 1px; 
-    background-color: #1a1a1a; transform: translateY(-50%); transition: width 0.4s; 
+  /* Active marker: a dash that rotates into place when the selection moves */
+  .filter-item::before {
+    content: ""; position: absolute; left: 0; top: 50%;
+    width: 9px; height: 1px; background-color: #1a1a1a;
+    transform: translateY(-50%) rotate(-90deg) scaleX(0.25);
+    opacity: 0;
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.35s ease;
   }
-  .filter-item.active { padding-left: 14px; }
-  .filter-item.active::before { width: 8px; }
+  .filter-item.active { padding-left: 16px; }
+  .filter-item.active::before {
+    transform: translateY(-50%) rotate(0deg) scaleX(1);
+    opacity: 1;
+  }
 
   /* Infinite Scroll and Grid Track */
   .masonry-infinite-wrapper { 
@@ -509,9 +525,8 @@ const projects = projectsData.map((proj, index) => {
     transition: margin-left 0.6s cubic-bezier(0.25, 1, 0.5, 1); 
     position: relative; 
   }
-  .filter-sidebar:hover + .masonry-infinite-wrapper, 
-  .filter-sidebar.init-reveal + .masonry-infinite-wrapper { 
-    margin-left: 220px; 
+  .filter-sidebar:hover + .masonry-infinite-wrapper {
+    margin-left: 220px;
   }
   
   .grid-track { 
@@ -592,18 +607,19 @@ const projects = projectsData.map((proj, index) => {
       padding-top: 170px !important; 
       padding-left: 4% !important; 
     }
-    .filter-sidebar { 
-      width: 100% !important; 
-      position: relative !important; 
-      left: auto !important; 
-      top: auto !important; 
-      height: auto !important; 
-      padding-top: 0 !important; 
-      margin-bottom: 30px; 
+    .filter-sidebar {
+      width: 100% !important;
+      position: relative !important;
+      left: auto !important;
+      top: auto !important;
+      height: auto !important;
+      padding-top: 0 !important;
+      margin-bottom: 30px;
       transition: none !important;
       transform: none !important;
     }
-    .filter-sidebar:hover, .filter-sidebar.init-reveal {
+    .filter-sidebar::before { display: none; }
+    .filter-sidebar:hover {
       width: 100% !important;
     }
     .filter-sticky { 
@@ -614,7 +630,7 @@ const projects = projectsData.map((proj, index) => {
       top: auto !important; 
       transition: none !important;
     }
-    .filter-sidebar:hover .filter-sticky, .filter-sidebar.init-reveal .filter-sticky {
+    .filter-sidebar:hover .filter-sticky {
       opacity: 1 !important;
       visibility: visible !important;
     }
@@ -669,9 +685,8 @@ const projects = projectsData.map((proj, index) => {
       margin-left: 0 !important; 
       transition: none !important;
     }
-    .filter-sidebar:hover + .masonry-infinite-wrapper, 
-    .filter-sidebar.init-reveal + .masonry-infinite-wrapper { 
-      margin-left: 0 !important; 
+    .filter-sidebar:hover + .masonry-infinite-wrapper {
+      margin-left: 0 !important;
     }
     
     .grid-track { grid-template-columns: repeat(2, 1fr); row-gap: 120px; }

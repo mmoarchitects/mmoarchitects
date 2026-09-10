@@ -113,12 +113,6 @@ const styledCards = remainingProjs.map((card, index) => {
   title="MMO ARCHITECTS | 주식회사 엠엠오건축사사무소"
   description="MMO ARCHITECTS는 물질(Matter)과 방법론(Method)의 심도 있는 고민과 결합을 통해 정교한 건축과 공간을 창조하는 건축사사무소입니다. 건축 설계, 대수선, 리모델링, 공간 기획 및 부동산 밸류업 솔루션을 제공합니다."
 >
-  <section id="hero">
-    <h1>Architecture from<br>nothing to <span id="slogan-flow">nonfiction.</span></h1>
-    <p class="hero-sub-ko" id="hero-caption">무(無)의 상태에서 실존하는 질서로 나아가는 건축.</p>
-    <p class="hero-statement" id="hero-statement">재료와 제약을 질문으로 다루고, 그 질문을 정리하는 과정이 우리의 방법이 됩니다.</p>
-  </section>
-
   <script>
     function runSloganAnimation() {
       const flow = document.getElementById('slogan-flow');
@@ -126,7 +120,7 @@ const styledCards = remainingProjs.map((card, index) => {
       const statement = document.getElementById('hero-statement');
       if (!flow || !caption) return;
 
-      // Honour "reduce motion": show the resolved slogan + captions immediately, skip the sequence
+      // Honour "reduce motion": show the resolved slogan + caption immediately, skip the sequence
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         flow.textContent = 'nonfiction.';
         caption.classList.add('step-show');
@@ -145,6 +139,10 @@ const styledCards = remainingProjs.map((card, index) => {
       flow.className = 'slogan-word-flow';
       caption.classList.remove('step-show');
       statement?.classList.remove('step-show');
+
+      // the method statement eases up just after the slogan sequence starts — during the
+      // "fictio" blur clear, not with the panel entrance
+      setTimeout(() => statement?.classList.add('step-show'), 400);
 
       const fictio = flow.querySelector('.char-fictio');
       const typedChars = flow.querySelectorAll('.char-onfiction > span');
@@ -178,16 +176,11 @@ const styledCards = remainingProjs.map((card, index) => {
         caption.classList.add('step-show');
       }, typeDone + 200);
 
-      // Step 5: fade up the method statement, tied to the same sequence so it doesn't sit orphaned
-      setTimeout(() => {
-        statement?.classList.add('step-show');
-      }, typeDone + 850);
-
-      // Step 6: restore the plain sentence so the settled DOM matches the static HTML
+      // Step 5: restore the plain sentence so the settled DOM matches the static HTML
       // (indexing / screen-reader text = "Architecture from nothing to nonfiction.")
       setTimeout(() => {
         flow.textContent = 'nonfiction.';
-      }, typeDone + 1600);
+      }, typeDone + 1400);
     }
 
     function renderFeaturedProjects() {
@@ -366,10 +359,48 @@ const styledCards = remainingProjs.map((card, index) => {
       document.getElementById("entropyGrid")?.classList.add("is-ready");
     }
 
+    // Sections below Featured Work fade in as they are scrolled to.
+    function armScrollReveal() {
+      const targets = Array.from(document.querySelectorAll("[data-reveal]"));
+      if (targets.length === 0) return;
+
+      const fire = (el) => {
+        if (el.classList.contains("in-view")) return;
+        el.classList.add("in-view");
+        if (el.id === "hero") runSloganAnimation();
+      };
+
+      if (!("IntersectionObserver" in window)) { targets.forEach(fire); return; }
+
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { fire(e.target); io.unobserve(e.target); }
+        });
+      }, { threshold: 0, rootMargin: "0px 0px -12% 0px" });
+
+      targets.forEach(el => io.observe(el));
+      document.addEventListener("astro:before-swap", () => io.disconnect(), { once: true });
+    }
+
+    // Scroll cue: a chevron pinned to the bottom of the viewport that says "there is more
+    // below". It hides once the reader is near the end of the page.
+    function armScrollCue() {
+      const cue = document.getElementById("scrollCue");
+      if (!cue) return;
+      const onScroll = () => {
+        const nearBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 120;
+        cue.classList.toggle("is-hidden", nearBottom);
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+      document.addEventListener("astro:before-swap", () => window.removeEventListener("scroll", onScroll), { once: true });
+    }
+
     function initPage() {
       renderFeaturedProjects();
       revealGrids();
-      runSloganAnimation();
+      armScrollReveal();
+      armScrollCue();
     }
 
     // Run on Astro View Transitions load
@@ -377,7 +408,6 @@ const styledCards = remainingProjs.map((card, index) => {
   </script>
 
   <section id="featured-hero-work">
-    <span class="section-label">Featured Work</span>
     <div class="hero-work-track" id="heroWorkGrid">
       <article
         class="project-card"
@@ -403,7 +433,13 @@ const styledCards = remainingProjs.map((card, index) => {
     </div>
   </section>
 
-  <section id="philosophy">
+  <section id="hero" data-reveal>
+    <h1>Architecture from<br>nothing to <span id="slogan-flow">nonfiction.</span></h1>
+    <p class="hero-sub-ko" id="hero-caption">무(無)의 상태에서 실존하는 질서로 나아가는 건축.</p>
+    <p class="hero-statement" id="hero-statement">재료와 제약을 질문으로 다루고, 그 질문을 정리하는 과정이 우리의 방법이 됩니다.</p>
+  </section>
+
+  <section id="philosophy" data-reveal>
     <span class="section-label">Philosophy</span>
     <div class="philosophy-list">
       <div class="philosophy-row-item">
@@ -464,7 +500,9 @@ const styledCards = remainingProjs.map((card, index) => {
       ))}
     </div>
   </section>
-  <noscript><style>#heroWorkGrid,#entropyGrid,#hero-caption,#hero-statement{opacity:1 !important;transform:none !important}</style></noscript>
+
+  <div class="scroll-cue" id="scrollCue" aria-hidden="true"></div>
+  <noscript><style>#heroWorkGrid,#entropyGrid,[data-reveal],#hero-caption,#hero-statement{opacity:1 !important;transform:none !important}.scroll-cue{display:none}</style></noscript>
 </Layout>
 
 <style is:global>
@@ -491,8 +529,43 @@ const styledCards = remainingProjs.map((card, index) => {
   }
   .section-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.2em; color: #aaa; margin-bottom: 3rem; display: block; }
 
-  /* HERO SCREEN WITH ANIMATION */
-  #hero { min-height: 85vh; text-align: center; align-items: center; justify-content: center; padding-top: 4rem; }
+  /* Sections that fade in as they are scrolled to */
+  [data-reveal] {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.9s cubic-bezier(0.25, 1, 0.5, 1), transform 0.9s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  [data-reveal].in-view { opacity: 1; transform: translateY(0); }
+
+  /* FEATURED WORK — the opener: near full-bleed image, minimal chrome */
+  #featured-hero-work {
+    max-width: none;
+    padding: 6.5rem 0 4rem 0;
+    min-height: auto;
+  }
+
+  /* Scroll cue — a chevron pinned to the bottom of the viewport, "more below" */
+  .scroll-cue {
+    position: fixed; left: 50%; bottom: 2.2rem; z-index: 900;
+    width: 13px; height: 13px;
+    transform: translateX(-50%) rotate(45deg);
+    border-right: 1.5px solid #1a1a1a; border-bottom: 1.5px solid #1a1a1a;
+    opacity: 0.32; pointer-events: none;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    animation: cueBob 2.6s ease-in-out infinite;
+  }
+  .scroll-cue.is-hidden {
+    opacity: 0;
+    transform: translateX(-50%) rotate(45deg) translateY(6px);
+  }
+  @keyframes cueBob {
+    0%, 100% { margin-top: 0; }
+    50%      { margin-top: 5px; }
+  }
+
+  /* HERO SCREEN WITH ANIMATION — revealed on scroll, below Featured Work */
+  #hero {
+    min-height: 92vh; text-align: center; align-items: center; justify-content: center; padding-top: 4rem;
+  }
   #hero h1 { font-size: 3.8rem; font-weight: 400; letter-spacing: -0.02em; line-height: 1.3; margin-bottom: 1.4rem; }
   
   .slogan-word-flow {
@@ -575,11 +648,11 @@ const styledCards = remainingProjs.map((card, index) => {
     word-break: keep-all;
     letter-spacing: -0.01em;
 
-    /* Animation base — revealed as the closing step of the slogan sequence */
+    /* fades up together with the panel as it scrolls into view */
     opacity: 0;
     transform: translateY(15px);
-    transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1),
-                transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1),
+                transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
   }
   .hero-statement.step-show {
     opacity: 1;
@@ -592,41 +665,36 @@ const styledCards = remainingProjs.map((card, index) => {
   .poetic-scroll-link:hover { color: #666; border-bottom: 1px solid #666; padding-right: 0.5rem; }
   
   /* STANDALONE SHOWCASE WORK */
-  #featured-hero-work {
-    min-height: auto;
-    padding-bottom: 6rem;
-  }
   .hero-work-track {
     width: 100%;
   }
   /* Grids start hidden and fade in once JS has shuffled + laid them out (prevents the reflow flash) */
   #heroWorkGrid, #entropyGrid { opacity: 0; transition: opacity 0.35s ease; }
   #heroWorkGrid.is-ready, #entropyGrid.is-ready { opacity: 1; }
-  .hero-work-track .project-card {
-    width: 100%;
-  }
+  .hero-work-track .project-card { width: 100%; }
+  .hero-work-track .project-card > a { display: block; width: 100%; }
+  /* the opener showcase shows title + meta only (summary stays in the data for grid rotation) */
+  #heroWorkGrid .project-summary { display: none; }
   .hero-work-track .card-image-slot {
-    aspect-ratio: 21/9;
+    aspect-ratio: 2 / 1;
+    max-height: 86vh;
+    margin-bottom: 0;
+  }
+  /* title + meta share one centred, padded measure regardless of the image ratio */
+  .hero-work-track .project-card .project-title,
+  .hero-work-track .project-card .meta-row {
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 3rem;
   }
   .hero-work-track .project-card .project-title {
     font-size: 1.8rem;
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
-  }
-  .hero-work-track .project-card .project-summary {
-    max-width: 800px;
-    font-size: 1.0rem;
-    line-height: 1.7;
-    color: #444;
-    margin-top: 0.8rem;
-    word-break: keep-all;
-    text-align: justify;
-    display: block;
-    -webkit-line-clamp: unset;
-    overflow: visible;
+    margin-top: 1.6rem;
+    margin-bottom: 0.6rem;
   }
   .hero-work-track .project-card .meta-row {
-    margin-top: 15px;
+    margin-top: 0;
     margin-bottom: 0;
   }
   .status-suffix {
@@ -803,9 +871,13 @@ const styledCards = remainingProjs.map((card, index) => {
     .space-tight, .space-medium, .space-wide { margin-top: 0; }
     .project-card.colspan-2, .project-card.colspan-3 { grid-column: span 1 !important; }
     .grid-footer { grid-column: 1; justify-content: center; align-self: center; margin-top: 40px; }
-    .hero-work-track .card-image-slot { aspect-ratio: 16/10; }
+    #featured-hero-work { padding: 5.5rem 0 3rem 0; }
+    .hero-work-track .card-image-slot { aspect-ratio: 4 / 3; max-height: 78vh; }
+    .hero-work-track .project-card .project-title,
+    .hero-work-track .project-card .meta-row { padding: 0 1.5rem; }
     .hero-sub-ko { font-size: 0.95rem; margin-bottom: 2.7rem; line-height: 1.9; }
     .hero-statement { font-size: 0.95rem; line-height: 1.9; margin-bottom: 0; }
+    #hero { min-height: 90vh; }
     #hero h1 { font-size: 2.5rem; margin-bottom: 1rem; }
   }
 </style>
