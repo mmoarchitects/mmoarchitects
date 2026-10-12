@@ -56,7 +56,16 @@ export async function GET() {
       : '';
 
     // 3. Representative Image for Pinterest Pin
-    const firstPhoto = (project.gallery || []).find(img => !img.toLowerCase().includes('drawing') && !img.toLowerCase().includes('blueprint')) || project.gallery?.[0] || '';
+    const photosOnly = (project.gallery || []).filter(img => 
+      !img.toLowerCase().includes('drawing') && 
+      !img.toLowerCase().includes('blueprint')
+    );
+    // Prioritize main architecture photograph (e.g. starting with Fig 1)
+    const fig1Photo = photosOnly.find(img => {
+      const norm = img.normalize('NFC');
+      return norm.startsWith('Fig 1.') || norm.startsWith('Fig 1-') || norm.startsWith('Fig 1..') || norm.startsWith('Fig 1 ');
+    });
+    const firstPhoto = fig1Photo || photosOnly.find(img => img.normalize('NFC').startsWith('Fig ')) || photosOnly[0] || project.gallery?.[0] || '';
     const imageUrl = getFullImageUrl(projId, firstPhoto);
     const imageMime = getImageMime(firstPhoto);
 
@@ -69,9 +78,10 @@ export async function GET() {
     if (photoCreditText) specLines.push(`• ${photoCreditText}`);
 
     const descParts = [];
+    let summaryText = '';
     if (project.maintext) {
       // First 2-3 sentences of project story
-      const summaryText = project.maintext.split('\n\n')[0].replace(/\n/g, ' ').trim();
+      summaryText = project.maintext.split('\n\n')[0].replace(/\n/g, ' ').trim();
       descParts.push(summaryText);
     }
     
@@ -84,6 +94,13 @@ export async function GET() {
     }
 
     const fullDescription = descParts.join('\n\n');
+
+    // Rich HTML representation with <img> tag for RSS readers/scrapers
+    const contentHtml = `<p><img src="${escapeXml(imageUrl)}" alt="${escapeXml(project.title)}" /></p>
+<p>${escapeXml(summaryText)}</p>
+<p><strong>[건축 개요]</strong><br/>
+${specLines.map(line => escapeXml(line)).join('<br/>')}</p>
+${adoNotice ? `<p><em>* ${escapeXml(adoNotice)}</em></p>` : ''}`;
 
     // 5. PubDate (Format to standard RFC 822)
     // Projects have years (e.g. 2021). We assign deterministic dates based on year and index.
@@ -100,6 +117,7 @@ export async function GET() {
       <guid isPermaLink="true">${escapeXml(projectUrl)}</guid>
       <pubDate>${pubDate}</pubDate>
       <description><![CDATA[${fullDescription}]]></description>
+      <content:encoded><![CDATA[${contentHtml}]]></content:encoded>
       <enclosure url="${escapeXml(imageUrl)}" length="0" type="${imageMime}" />
       <media:content url="${escapeXml(imageUrl)}" medium="image" type="${imageMime}">
         <media:title>${escapeXml(project.title)}</media:title>
