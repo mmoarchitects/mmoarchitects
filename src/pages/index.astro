@@ -77,36 +77,87 @@ if (topProj.gallery && topProj.gallery.length > 0) {
   }
 }
 
+// Helper for generating balanced row partitions that sum to totalCards
+function getBalancedPartition(totalCards: number) {
+  if (totalCards <= 0) return [];
+  if (totalCards === 1) return [1];
+  if (totalCards === 2) return [2];
+  if (totalCards === 3) return [3];
+
+  const allPartitions: number[][] = [];
+  function search(rem: number, current: number[]) {
+    if (rem === 0) {
+      allPartitions.push([...current]);
+      return;
+    }
+    for (const opt of [3, 2, 1]) {
+      if (opt <= rem) {
+        current.push(opt);
+        search(rem - opt, current);
+        current.pop();
+      }
+    }
+  }
+  search(totalCards, []);
+
+  function scorePartition(p: number[]) {
+    let score = 100;
+    let onesCount = 0;
+    for (let i = 0; i < p.length; i++) {
+      if (p[i] === 1) onesCount++;
+      if (i > 0 && p[i] === 1 && p[i - 1] === 1) score -= 60;
+    }
+    if (onesCount > 2) score -= onesCount * 25;
+    if (p.includes(3) && p.includes(2)) score += 40;
+    return Math.max(score, 5);
+  }
+
+  const weighted = allPartitions.map(p => ({ p, weight: scorePartition(p) }));
+  const totalWeight = weighted.reduce((acc, item) => acc + item.weight, 0);
+  let rnd = Math.random() * totalWeight;
+  for (const item of weighted) {
+    if (rnd < item.weight) return item.p;
+    rnd -= item.weight;
+  }
+  return allPartitions[0];
+}
+
 // 3. Statically assign initial size and padding classes for Selected Works (grid) cards
-let currentColumnSpace = 0;
-const styledCards = remainingProjs.map((card, index) => {
-  let classes = ["project-card"];
-  
-  const randomSize = sizePresets[Math.floor(Math.random() * sizePresets.length)];
-  classes.push(randomSize);
+const ssrPartition = getBalancedPartition(remainingProjs.length);
+let ssrCardIdx = 0;
+const styledCards = [];
 
-  const randomSpace = spacePresets[Math.floor(Math.random() * spacePresets.length)];
-  classes.push(randomSpace);
+for (const rowCardsCount of ssrPartition) {
+  let spans = [1];
+  if (rowCardsCount === 3) spans = [1, 1, 1];
+  else if (rowCardsCount === 2) spans = Math.random() > 0.5 ? [1, 2] : [2, 1];
+  else if (rowCardsCount === 1) spans = [3];
 
-  // Prevent blank row spaces
-  if (currentColumnSpace === 0 && Math.random() > 0.45 && index < remainingProjs.length - 1) {
-    classes.push("colspan-2");
-    classes = classes.filter(c => c !== "size-tall" && c !== "size-standard");
-    classes.push("size-wide");
-    currentColumnSpace += 2;
-  } else {
-    currentColumnSpace += 1;
+  for (const span of spans) {
+    if (ssrCardIdx >= remainingProjs.length) break;
+    const card = remainingProjs[ssrCardIdx++];
+    let classes = ["project-card"];
+
+    const randomSize = sizePresets[Math.floor(Math.random() * sizePresets.length)];
+    const randomSpace = spacePresets[Math.floor(Math.random() * spacePresets.length)];
+    classes.push(randomSize, randomSpace);
+
+    if (span === 2) {
+      classes.push("colspan-2");
+      classes = classes.filter(c => c !== "size-tall" && c !== "size-standard");
+      classes.push("size-wide");
+    } else if (span === 3) {
+      classes.push("colspan-3");
+      classes = classes.filter(c => c !== "size-tall" && c !== "size-standard" && c !== "size-square");
+      classes.push("size-wide");
+    }
+
+    styledCards.push({
+      ...card,
+      className: classes.join(" ")
+    });
   }
-
-  if (currentColumnSpace >= 3) {
-    currentColumnSpace = 0;
-  }
-
-  return {
-    ...card,
-    className: classes.join(" ")
-  };
-});
+}
 ---
 
 <Layout 
@@ -183,18 +234,68 @@ const styledCards = remainingProjs.map((card, index) => {
       }, typeDone + 1400);
     }
 
+    // Helper for client-side balanced row partition
+    function getBalancedPartition(totalCards: number) {
+      if (totalCards <= 0) return [];
+      if (totalCards === 1) return [1];
+      if (totalCards === 2) return [2];
+      if (totalCards === 3) return [3];
+
+      const allPartitions: number[][] = [];
+      function search(rem: number, current: number[]) {
+        if (rem === 0) {
+          allPartitions.push([...current]);
+          return;
+        }
+        for (const opt of [3, 2, 1]) {
+          if (opt <= rem) {
+            current.push(opt);
+            search(rem - opt, current);
+            current.pop();
+          }
+        }
+      }
+      search(totalCards, []);
+
+      function scorePartition(p: number[]) {
+        let score = 100;
+        let onesCount = 0;
+        for (let i = 0; i < p.length; i++) {
+          if (p[i] === 1) onesCount++;
+          if (i > 0 && p[i] === 1 && p[i - 1] === 1) score -= 60;
+        }
+        if (onesCount > 2) score -= onesCount * 25;
+        if (p.includes(3) && p.includes(2)) score += 40;
+        return Math.max(score, 5);
+      }
+
+      const weighted = allPartitions.map(p => ({ p, weight: scorePartition(p) }));
+      const totalWeight = weighted.reduce((acc, item) => acc + item.weight, 0);
+      let rnd = Math.random() * totalWeight;
+      for (const item of weighted) {
+        if (rnd < item.weight) return item.p;
+        rnd -= item.weight;
+      }
+      return allPartitions[0];
+    }
+
     function renderFeaturedProjects() {
       const heroGrid = document.getElementById("heroWorkGrid");
       const entropyGrid = document.getElementById("entropyGrid");
       if (!heroGrid || !entropyGrid) return;
-      
-      // The showcase (opener) stays exactly as the server rendered it — stable, paints
-      // immediately, no flash. Only the Selected Works grid reshuffles per visit.
-      const gridCards = Array.from(entropyGrid.querySelectorAll(".project-card")) as HTMLElement[];
-      if (gridCards.length === 0) return;
 
-      gridCards.sort(() => Math.random() - 0.5);
-      const remainingCards = gridCards;
+      // Gather all project cards across top showcase and Selected Works grid
+      const heroCard = heroGrid.querySelector(".project-card") as HTMLElement | null;
+      const gridCards = Array.from(entropyGrid.querySelectorAll(".project-card")) as HTMLElement[];
+      const allCards = heroCard ? [heroCard, ...gridCards] : gridCards;
+      if (allCards.length === 0) return;
+
+      // Random shuffle all selected featured project cards
+      allCards.sort(() => Math.random() - 0.5);
+
+      // 1 card for Top Showcase, remaining cards for Selected Works Grid
+      const showcaseCard = allCards[0];
+      const remainingCards = allCards.slice(1);
 
       // Asset path helpers in client
       const getAssetPath = (path: string) => {
@@ -212,7 +313,35 @@ const styledCards = remainingProjs.map((card, index) => {
         }
         return path ? `${path}?v=2` : "";
       };
-      
+
+      // Helper to dynamically pick a real photograph from gallery (filtering out blueprints/drawings)
+      const pickRandomPhotoUrl = (card: HTMLElement) => {
+        const projId = card.getAttribute("data-id") || "";
+        const galleryAttr = card.getAttribute("data-gallery") || "[]";
+        let gallery: any[] = [];
+        try {
+          gallery = JSON.parse(galleryAttr);
+        } catch (e) {}
+
+        if (!gallery || gallery.length === 0) {
+          const blueprint = card.getAttribute("data-blueprint") || "";
+          return getProjectAssetPath(projId, blueprint);
+        }
+
+        // Prioritize actual photos over drawings and blueprints
+        const realPhotos = gallery.filter((item: any) => {
+          const filename = (typeof item === "object" ? item.src : item) || "";
+          const lower = filename.toLowerCase();
+          return !lower.includes("drawing") && !lower.includes("blueprint") && !lower.includes("plan");
+        });
+
+        const pool = realPhotos.length > 0 ? realPhotos : gallery;
+        const randomIndex = Math.floor(Math.random() * pool.length);
+        const selected = pool[randomIndex];
+        const selectedFileName = typeof selected === "object" ? selected.src : selected;
+        return getProjectAssetPath(projId, selectedFileName);
+      };
+
       // Layout classes to clean up
       const sizePresets = ["size-standard", "size-tall", "size-square", "size-wide"];
       const spacePresets = ["space-tight", "space-medium", "space-wide"];
@@ -221,32 +350,33 @@ const styledCards = remainingProjs.map((card, index) => {
         "space-tight", "space-medium", "space-wide",
         "colspan-2", "colspan-3"
       ];
-      
-      // Move remaining cards to entropyGrid (Selected Works grid) using 4 distinct row patterns: 1-1-1, 1-2, 2-1, 3
+
+      // 1. Setup Top Showcase Card
+      showcaseCard.classList.remove(...layoutClasses);
+      const showcaseThumbUrl = pickRandomPhotoUrl(showcaseCard);
+      const showcasePhotoLayer = showcaseCard.querySelector(".photo-layer") as HTMLElement | null;
+      if (showcasePhotoLayer) {
+        showcasePhotoLayer.style.backgroundImage = `url('${showcaseThumbUrl}')`;
+      }
+      heroGrid.innerHTML = "";
+      heroGrid.appendChild(showcaseCard);
+
+      // 2. Setup Selected Works Grid (Guaranteed 100% full-width rows with no trailing blank columns)
       const footer = document.getElementById("gridFooter");
       entropyGrid.innerHTML = "";
-      
-      const normalPatterns = [
-        { name: "1,1,1", spans: [1, 1, 1], cardsNeeded: 3 },
-        { name: "1,2", spans: [1, 2], cardsNeeded: 2 },
-        { name: "2,1", spans: [2, 1], cardsNeeded: 2 },
-        { name: "3", spans: [3], cardsNeeded: 1 }
-      ];
 
+      const partition = getBalancedPartition(remainingCards.length);
       let cardIndex = 0;
       const elementsToAppend: HTMLElement[] = [];
 
-      while (cardIndex < remainingCards.length) {
-        const cardsLeft = remainingCards.length - cardIndex;
-        const validNormals = normalPatterns.filter(p => p.cardsNeeded <= cardsLeft);
-        let chosenPattern;
-        if (validNormals.length > 0) {
-          chosenPattern = validNormals[Math.floor(Math.random() * validNormals.length)];
-        } else {
-          chosenPattern = { name: "fallback", spans: Array(cardsLeft).fill(1), cardsNeeded: cardsLeft };
-        }
+      for (const rowCardsCount of partition) {
+        let spans = [1];
+        if (rowCardsCount === 3) spans = [1, 1, 1];
+        else if (rowCardsCount === 2) spans = Math.random() > 0.5 ? [1, 2] : [2, 1];
+        else if (rowCardsCount === 1) spans = [3];
 
-        chosenPattern.spans.forEach((spanVal: number) => {
+        for (const spanVal of spans) {
+          if (cardIndex >= remainingCards.length) break;
           const card = remainingCards[cardIndex++];
           card.classList.remove(...layoutClasses);
 
@@ -265,40 +395,26 @@ const styledCards = remainingProjs.map((card, index) => {
             card.classList.add("size-wide");
           }
 
-          // Update summary text to short version
+          // Restore summary text for grid card
           const summaryTextShort = card.getAttribute("data-summary-short") || "";
           const summaryEl = card.querySelector(".project-summary");
           if (summaryEl) {
             summaryEl.textContent = summaryTextShort;
           }
-          
-          // Select a random thumbnail from the card's gallery
-          const cardProjId = card.getAttribute("data-id") || "";
-          const cardGalleryAttr = card.getAttribute("data-gallery") || "[]";
-          let cardGallery: any[] = [];
-          try {
-            cardGallery = JSON.parse(cardGalleryAttr);
-          } catch (e) {}
-          
-          let selectedThumb = "";
-          if (cardGallery && cardGallery.length > 0) {
-            const randomIndex = Math.floor(Math.random() * cardGallery.length);
-            const thumbObj = cardGallery[randomIndex];
-            selectedThumb = typeof thumbObj === "object" ? thumbObj.src : thumbObj;
-          }
-          const cardBlueprint = card.getAttribute("data-blueprint") || "";
-          const thumbUrl = getProjectAssetPath(cardProjId, selectedThumb || cardBlueprint);
-          const photoLayer = card.querySelector(".photo-layer") as HTMLElement;
+
+          // Dynamic photo selection for grid card
+          const thumbUrl = pickRandomPhotoUrl(card);
+          const photoLayer = card.querySelector(".photo-layer") as HTMLElement | null;
           if (photoLayer) {
             photoLayer.style.backgroundImage = `url('${thumbUrl}')`;
           }
 
           elementsToAppend.push(card);
-        });
+        }
       }
 
       elementsToAppend.forEach(card => entropyGrid.appendChild(card));
-      
+
       if (footer) {
         entropyGrid.appendChild(footer);
       }
